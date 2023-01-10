@@ -1,39 +1,21 @@
-# AirInterfacePowerSaver
-
-### Purpose
-- to be provided
-
-### ApplicationOwner
-- Pranay Mudgal
+Delete this link at the end of the specification process:  
 - [Roadmap to Specification](../../issues/1)
 
-### Services
-- to be provided
+# AirInterfacePowerSaver
 
-### Profiles
-- to be provided
+### Location
+The AirInterfacePowerSaver belongs to the NetworkApplications.
 
-### Forwardings
-- to be provided
+### Description
+The AirInterfacePowerSaver is supporting saving electricity by either reducing transmit power or turning off entire air interfaces (if several radio links are operating in parallel). The switching might be driven by time of day or measured data like number of transported frames or dropped packages.
 
-### Open API specification (Swagger)
-- to be provided
+### Relevance
+The AirInterfacePowerSaver fulfils an optimization task on the live network.
 
-### CONFIGfile
-- to be provided
-
-### Test Cases (Postman Export) and DATAfile
-- to be provided
-
-### Publication
-- No official publication planned
-
-### Classification
-- Live Network
-- Network Automation
-
-### Open Issue List
-- [AirInterfacePowerSaver/issues](../../issues)
+### Resources
+- [Specification](./spec/)
+- [TestSuite](./testing/)
+- [Implementation](./server/)
 
 ### Comments
-This application will be specified within framework of the workshop series for ApplicationOwners.
+This application will be specified during training for ApplicationOwner.
