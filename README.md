@@ -14,11 +14,58 @@ A cyclic operation separates AirLayer connections into master and slave category
 Exclusively AirLayer connections belonging to the slave category are subject to the switching into the power save mode.  
 The list of AirLayer connections belonging to the slave category is stored into a LOADfile.  
 
-In principle the application is separating the 24 hours period of a day into two segments.  
-During the power saving period it is addressing all AirLayer connections belonging to the slave category once for configuring the power save mode.  
-Links/Devices that could not be reached or configured get marked in the LOADfile (overwrites existing markings).  
+Another cyclic operation separates the 24 hours period of a day into two segments.  
+At the beginning of each of the segments, an own service (/v1/start-power-saving-period, /v1/start-normal-operation-period) gets called for starting the respective mode of operation.  
+The times when the two segments start are configurable and stored into two separate instances of StringProfile.  
+
+After calling /v1/start-power-saving-period  
+- /v1/stop-normal-operation-period gets automatically addressed  
+- the AirLayer connections belonging to the slave category get read from the LOADfile  
+- /v1/activate-power-saving-on-link gets sequentially called for all the loaded connections  
+- /v1/activate-power-saving-on-link is returning the status of the treated AirLayer connection  
+- the status gets stored into the LOADfile (overwrites existing markings)
+
+The /v1/activate-power-saving-on-link resolves the request for activating the power saving mode on an AirLayer _connection_ into multiple configuration steps on the affected _devices_ and returns the resulting status.  
+In its current release, it is implementing the following functions:  
+- reading the AirInterface Configuration classes at both ends of the AirLayer connection from MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration  
+- setting transmitter-is-on = false in the retrieved Configuration classes  
+- writing both the altered Configuration classes to MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration  
+- if both the writing requests return an http response code 204, /v1/activate-power-saving-on-link returns the status "power-saving"  
+- if at least one of the writing requests returns an http response code different from 204,  
+  - transmitter-is-on is set back on true in both Configuration classes  
+  - both the original Configuration classes are written into MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+  - and /v1/activate-power-saving-on-link returns the status "normal-operation"  
+
+After calling /v1/start-normal-operation-period
+- /v1/stop-power-saving-period gets automatically addressed  
+- the AirLayer connections belonging to the slave category get read from the LOADfile and filled into the workingList  
+- /v1/stop-power-saving-on-link gets sequentially called for all the connections on the workingList  
+- /v1/stop-power-saving-on-link is returning the status of the treated AirLayer connection  
+- if /v1/stop-power-saving-on-link returns the status "normal-operation", the AirLayer connection is removed from the workingList  
+- if /v1/stop-power-saving-on-link returns the status "incomplete", the AirLayer connection is kept on the workingList
+- after sequentially calling all the connections on the workingList, the process shall pause for a number of seconds that is configured and stored in an instance of IntegerProfile
+- after pausing the process resumes with sequentially calling /v1/stop-power-saving-on-link for the rest of AirLayer connections on the workingList
+
+The /v1/stop-power-saving-on-link resolves the request for restoring the original operation on an AirLayer _connection_ into multiple configuration steps on the affected _devices_ and returns the resulting status.  
+In its current release, it is implementing the following functions:  
+- reading the AirInterface Configuration classes at both ends of the AirLayer connection from MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+- if the AirInterface Configuration classes couldn't be read from both ends of the AirLayer connection, processing shall terminate and return status "incomplete"
+- setting transmitter-is-on = true in the retrieved Configuration classes  
+- writing both the altered Configuration classes to MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+- if both the writing requests return an http response code 204, /v1/stop-power-saving-on-link returns the status "normal-operation"  
+- if at least one of the writing requests returns an http response code different from 204,
+  - _[There is a risk that the already successfully switching on transmitter is increasing the interference level to such an extend that the remote site can no longer be reached by the management connection.]_
+  - transmitter-is-on is set back on false in both Configuration classes  
+  - both the original Configuration classes are written into MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+  - and /v1/stop-power-saving-on-link returns the status "incomplete"  
+
+
+
+
+
+
 During the normal operation period it is addressing all AirLayer connections belonging to the slave category until it could configure the original mode again on all devices.  
-The periodicity of the attempts is configurable and stored into an instance of IntegerProfile.
+The periodicity of the attempts is configurable and stored into an instance of IntegerProfile.  
 Only a limited number of attempts are made on Links/Devices that are marked as not being reachable or configurable in the LOADfile.
 
 Two operations start-power-saving and start-original-period
