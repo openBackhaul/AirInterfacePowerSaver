@@ -39,9 +39,24 @@ servers:
         - service-name: /v1/inform-about-release-history-in-generic-representation
           uuid: op-s-2004
       individual:
+
+
+out-dated list 
+
+
+
         - service-name: /v1/start-application-in-generic-representation
           uuid: op-s-3000
-        ## Services specific to this application
+        - service-name: /v1/start-cyclic-update-of-load-file
+          uuid: 
+        - service-name: /v1/start-power-saving-period
+          uuid: 
+        - service-name: /v1/stop-power-saving-period
+          uuid: 
+        - service-name: /v1/start-normal-operation-period
+          uuid: 
+        - service-name: /v1/stop-normal-operation-period
+          uuid: 
   http-server:
     own-application-name: ## OwnApplicationName
     own-release-number: ## OwnReleaseNumber (e.g. 1.0.0)
