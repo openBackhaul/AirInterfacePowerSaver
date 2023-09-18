@@ -1,0 +1,36 @@
+@startuml 071_BasicLinkAnalysis
+skinparam responseMessageBelowArrow true
+
+title
+BasicLinkAnalysis
+end title
+
+participant "NR://v1/embed-yourself" as NewRelease
+participant "OR://v1/bequeath-your-data-and-die" as OldRelease
+
+NewRelease -> OldRelease
+activate OldRelease
+
+note over OldRelease
+Transfer to the diagram:
+- Read the AirInterface configuration classes at both ends of the slave AirLayer connection from MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration  
+- If the AirInterface configuration classes couldn't be read from both ends of the slave AirLayer connection, processing is aborted and the status "no reading" is returned.  
+- Reading the rx-level from both ends of the master AirLayer connection from MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=rx-level  
+- If rx-level on any of the AirInterfaces of the master AirLayer connection would differ from the expected value, /v1/activate-power-saving-on-link will return the status "master-not-ready".  
+- Set transmitter-is-on = false in the retrieved configuration classes of the slave AirLayer connection.  
+- Write both changed configuration classes to MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration.  
+- If both write requests return http response code 204, /v1/activate-power-saving-on-link returns the state "power-saving".  
+- If at least one of the write requests returns an http response code other than 204,  
+  - transmitter-is-on is reset to true in both configuration classes.  
+  - The two original configuration classes are written to MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration.
+  - Re-reading the AirInterface Configuration classes at both ends of the AirLayer connection from MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration  
+  - If the AirInterface configuration classes couldn't be read from both ends of the AirLayer connection, processing stops and returns the status "no reading".  
+  - if transmitter-is-on == true in both configuration classes, /v1/activate-power-saving-on-link returns "normal-operation" state  
+  - If transmitter-is-on would have different values in the configuration classes, /v1/activate-power-saving-on-link returns the status "debugging required".  
+]_
+Check further need for this issue: [Issue #16](https://github.com/openBackhaul/AirInterfacePowerSaver/issues/16)]_.
+end note
+
+deactivate OldRelease
+
+@enduml

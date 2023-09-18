@@ -1,0 +1,33 @@
+@startuml 065_AllTransmittersOn
+skinparam responseMessageBelowArrow true
+
+title
+AllTransmittersOn
+end title
+
+participant "NR://v1/embed-yourself" as NewRelease
+participant "OR://v1/bequeath-your-data-and-die" as OldRelease
+
+NewRelease -> OldRelease
+activate OldRelease
+
+note over OldRelease
+Remember idempotency, if slave transmitter is already on, report success immediately]_.
+Calling /v1/stop-power-saving-on-link activates the RestorationModule.  
+It resolves the request to restore the original operation on an AirLayer _link_ into multiple configuration steps on the affected _devices_ and returns the resulting state.  
+In its current release, it implements the following functions  
+- read the AirInterface configuration classes at both ends of the AirLayer connection from MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+- If the AirInterface configuration classes couldn't be read from both ends of the AirLayer connection, processing will stop and return the status "incomplete".
+- Set transmitter-is-on = true in the retrieved configuration classes.  
+- Write both changed configuration classes to MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration.
+- If both write requests return http response code 204, /v1/stop-power-saving-on-link returns the status "normal-operation".  
+- If at least one of the write requests returns an http response code other than 204,
+  - There is a risk that the transmitter, which has already been successfully turned on, will increase the interference level to such an extent that the remote site can no longer be reached via the management connection.
+  - Transmitter-is-on is reset to false in both configuration classes.  
+  - Both the original configuration classes are written to MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+  - and /v1/stop-power-saving-on-link returns incomplete status. 
+end note
+
+deactivate OldRelease
+
+@enduml
