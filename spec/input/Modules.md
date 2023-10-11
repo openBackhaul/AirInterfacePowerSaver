@@ -75,11 +75,14 @@ Subscribing for alarm notifications is supported, too.
 This section describes the set function planned to be covered by AIPS 1.0.0.
 
 #### Automation management
-AIPS 1.0.0 does contain a simple module for automation management.
+AIPS 1.0.0 does contain two simple modules for automation management.
 The **StaticListAutomationManagement** module is reading a list of links from the file system and allows to assignment none, one or several kinds of automation to the individual link.
 Information about assigned kinds of automation can be retrieved for an individual link or all links can be filtered for being assigned to a specific automation.
 Links can be assigned to an automation individually or in groups.
 The resulting list is again saved to the file system.
+The **BlackListManagement** module allows adding and removing links to a list that will be stored on the file system.
+Links on the black list are categorically excluded from any power saving configuration.
+Assignments of automations in other files remain, but are ignored by all switching operation modules.
 
 #### Visualization of the automation management
 AIPS 1.0.0 does not contain this type of module.
@@ -93,6 +96,7 @@ The module allows defining multiple trigger times of trigger type StartPowerSavi
 The trigger times are individually defined and stored into instances of StringProfile.
 The trigger times can either individually or all together be deleted.
 Depending on the type of trigger reached, either the SimpleActivation or the PersistentDeactivation module will be activated.
+The TimeBasedPowerSaving module does not support defining diverse trigger profiles depending on weekdays or subgroups of links.
 
 #### Link related automation
 AIPS 1.0.0 does not contain this type of module.
@@ -140,6 +144,7 @@ This information is stored and provided either for the individual link or filter
 
 #### Power saving logging
 AIPS 1.0.0 does not include this type of module.
+Basic logging for debugging the inter module communication is provided by the ExecutionAndTraceLog.
 
 #### Power saving performance
 AIPS 1.0.0 does not include this type of module.
