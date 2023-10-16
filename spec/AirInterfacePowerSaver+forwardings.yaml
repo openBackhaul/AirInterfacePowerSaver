@@ -386,7 +386,7 @@ forwardings:
       - client-name: ALT://v1/delete-fc-port
         uuid: aips-0-0-5-op-c-bm-alt-2-0-1-005
 
-  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLink
+  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
     uuid: aips-0-0-5-op-fc-is-500
     forwarding-type: InvariantProcessSnippet
     management-requests:

@@ -18,7 +18,7 @@ activate rto
 rto --> requestor: {requestId}
 
 note over rto
-  <u>GetInfoAboutParallelLink</u>
+  <u>GetInfoAboutParallelLinks</u>
 end note
 rto -> provideStatus: {linkId}
 provideStatus --> rto: {list-of-((interfaceStatus, transmissionModeMax, transmissionModeCur)-sideA),\n           (interfaceStatus, transmissionModeMax, transmissionModeCur)-sideB)}
