@@ -6,7 +6,7 @@ RequestForListingPowerSavingStatusCausesStatusTableReading
 end title
 
 participant "external" as requestor
-participant "AIPS://v1/power-saving-status" as listStatus
+participant "AIPS://v1/list-power-saving-status" as listStatus
 participant "ElasticSearch" as es
 
 requestor -> listStatus:

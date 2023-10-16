@@ -305,6 +305,9 @@ clients:
       service:
         basic:
         individual:
+          ## get parallel links for given linkid
+          - operation-name: /v1/provide-list-of-parallel-links
+            uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-zzz
           ## MWDI translates the given (uuid=) linkId into 2 address triples (1 triple per link end): (mount-name, uuid [of airInterface], local-id [of ltp])
           - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
             uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-xxx

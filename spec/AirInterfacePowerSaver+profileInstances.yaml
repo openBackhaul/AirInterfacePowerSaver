@@ -27,33 +27,32 @@ profile-instances:
     configuration:
       request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/docs'
 
-  - profile-name: 'ActionProfile'
-    uuid: 'aips-0-0-5-action-p-10??' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+  - profile-name: 'FileProfile'
+    uuid: 'okm-2-0-1-file-p-000'
     capability:
-      operation-name: ## Generic representation operation that shall result in a new button and potentially new input fields
-      label: ## Label of the new button
-      input-value-list:
-        - field-name: ## Label of a field for providing input to the request that gets called by pushing the button
-          unit: ## Unit that shall be represented aside the input field
-        ## Potentially further input fields to be added
-      display-in-new-browser-window: ## to be set on true, if result of pushing the button has to be represented in a new browser window
+      file-identifier: 'LOADfile'
+      file-description: 'OperationMode'
     configuration:
-      request: ## URL that shall be addressed, as soon as button gets pushed
+      file-path: '../application-data/application-data.json'
+      user-name: 'OperationKeyManagement'
+      password: 'Operations to add password'
+      operation: 'write'
 
-  ## Potentially further instances of ActionProfile to be added
 
 
   - profile-name: 'IntegerProfile'
-    uuid: 'aips-0-0-5-integer-p-10??' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+    uuid: 'aips-0-0-5-integer-p-100'
     capability:
-      integer-name: ## Name of the Integer attribute
-      unit: ## Unit of the Integer attribute
-      minimum: ## Minimum value to be accepted, while configuration
-      maximum: ## Maximum value to be accepted, while configuration
+      integer-name: powerSavingStatusTableLinkDeletionPeriod
+      #description: 'Time period between the deletion of links in the powerSavingStatus table which are no longer in the staticList and are not in powerSaving mode'
+      unit: hours
+      minimum: 24
+      maximum: 48
     configuration:
       integer-value: ## Current value of the attribute
 
   ## Potentially further instances of IntegerProfile to be added
+
 
 
   - profile-name: 'StringProfile'
@@ -65,4 +64,3 @@ profile-instances:
     configuration:
       string-value: ## Current value of the attribute
 
-  ## Potentially further instances of StringProfile to be added
