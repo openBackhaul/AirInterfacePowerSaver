@@ -608,7 +608,7 @@ forwardings:
       - client-name: /v1/provide-transmitter-status-of-parallel-links
         uuid: aips-0-0-5-op-s-is-600
     consequent-requests:
-      - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid} 
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-xxx
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
@@ -653,7 +653,7 @@ forwardings:
       - client-name: /v1/record-power-saving-status
         uuid: aips-0-0-5-op-s-is-700
     consequent-requests:
-      - client-name: ElasticSearch 
+      - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
 
   - forwarding-name: RequestForListingPowerSavingStatusCausesStatusTableReading
@@ -668,7 +668,7 @@ forwardings:
       - client-name: /v1/list-power-saving-status
         uuid: aips-0-0-5-op-s-is-701
     consequent-requests:
-      - client-name: ElasticSearch 
+      - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
 
   - forwarding-name: RequestForPowerSavingStatusOfLinkCausesLinkStatusReading
@@ -683,7 +683,7 @@ forwardings:
       - client-name: /v1/provide-power-saving-status-of-link
         uuid: aips-0-0-5-op-s-is-701
     consequent-requests:
-      - client-name: ElasticSearch 
+      - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
 
   - forwarding-name: RequestForListingAffectedLinksCausesStatusTableFiltering
@@ -698,7 +698,7 @@ forwardings:
       - client-name: /v1/list-affected-links
         uuid: aips-0-0-5-op-s-is-703
     consequent-requests:
-      - client-name: ElasticSearch 
+      - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
 
   - forwarding-name: RequestForListingLinksToBeRestoredCausesStatusTableFiltering
@@ -713,7 +713,7 @@ forwardings:
       - client-name: /v1/list-to-be-restored-links
         uuid: aips-0-0-5-op-s-is-704
     consequent-requests:
-      - client-name: ElasticSearch 
+      - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
         
   - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.GetPowerSavingStatus
@@ -728,7 +728,7 @@ forwardings:
       - client-name: /v1/delete-link-from-power-saving-status-table
         uuid: aips-0-0-5-op-s-is-705
     consequent-requests: 
-      - client-name: ElasticSearch 
+      - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
 
   - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.DeleteLinksFromElasticSearch
@@ -743,5 +743,5 @@ forwardings:
       - client-name: /v1/delete-link-from-power-saving-status-table
         uuid: aips-0-0-5-op-s-is-705
     consequent-requests: 
-      - client-name: ElasticSearch 
+      - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
