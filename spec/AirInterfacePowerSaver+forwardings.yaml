@@ -715,7 +715,7 @@ forwardings:
     consequent-requests:
       - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
-        
+
   - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.GetPowerSavingStatus
     uuid: aips-0-0-5-op-fc-is-705
     forwarding-type: InvariantProcessSnippet
@@ -727,7 +727,7 @@ forwardings:
     initiating-requests:
       - client-name: /v1/delete-link-from-power-saving-status-table
         uuid: aips-0-0-5-op-s-is-705
-    consequent-requests: 
+    consequent-requests:
       - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
 
@@ -742,6 +742,6 @@ forwardings:
     initiating-requests:
       - client-name: /v1/delete-link-from-power-saving-status-table
         uuid: aips-0-0-5-op-s-is-705
-    consequent-requests: 
+    consequent-requests:
       - client-name: ElasticSearch
         uuid: aips-0-0-5-es-c-es-1-0-0-000
