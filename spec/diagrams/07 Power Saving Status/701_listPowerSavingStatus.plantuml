@@ -1,0 +1,22 @@
+@startuml 702_listPowerSavingStatus
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingPowerSavingStatusCausesStatusTableReading
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-power-saving-status" as listStatus
+participant "ElasticSearch" as es
+
+requestor -> listStatus:
+activate listStatus
+
+listStatus -> es
+es --> listStatus: {list-of-(linkId, list-of(deviationsFromOriginalState), list-of(modulesToRestoreOriginalState))}
+
+listStatus --> requestor: {list-of-(linkId, list-of(deviationsFromOriginalState), list-of(modulesToRestoreOriginalState))}
+
+deactivate listStatus 
+
+@enduml

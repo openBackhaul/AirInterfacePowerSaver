@@ -1,26 +1,26 @@
 forwardings:
 
   - forwarding-name: PromptForRegisteringCausesRegistrationRequest
-    uuid: op-fc-0000
+    uuid: aips-0-0-5-op-fc-bm-000
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/register-yourself
-          uuid: op-s-0000
+          uuid: aips-0-0-5-op-s-bm-000
       fc-port-update:
         - server-name: /v1/register-yourself
-          uuid: op-s-0000
+          uuid: aips-0-0-5-op-s-bm-000
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/register-yourself
-        uuid: op-s-0000
+        uuid: aips-0-0-5-op-s-bm-000
     consequent-requests:
-      - client-name: RegistryOffice://v1/register-application
-        uuid: op-c-0020
+      - client-name: RO://v1/register-application
+        uuid: aips-0-0-5-op-c-bm-ro-2-0-1-000
 
   - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
-    uuid: op-fc-0001
+    uuid: aips-0-0-5-op-fc-bm-001
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -29,376 +29,719 @@ forwardings:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/embed-yourself
-        uuid: op-s-0001
+        uuid: aips-0-0-5-op-s-bm-001
     consequent-requests:
-      - client-name: OldRelease://v1/bequeath-your-data-and-die
-        uuid: op-c-0000
+      - client-name: OR://v1/bequeath-your-data-and-die
+        uuid: aips-0-0-5-op-c-bm-or-1-0-0-000
 
   - forwarding-name: ServiceRequestCausesLoggingRequest
-    uuid: op-fc-0002
+    uuid: aips-0-0-5-op-fc-bm-002
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-service-request-information
-          uuid: op-s-0002
+          uuid: aips-0-0-5-op-s-bm-002
       fc-port-update:
         - server-name: /v1/redirect-service-request-information
-          uuid: op-s-0002
+          uuid: aips-0-0-5-op-s-bm-002
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/register-yourself
-        uuid: op-s-0000
+        uuid: aips-0-0-5-op-s-bm-000
       - server-name: /v1/embed-yourself
-        uuid: op-s-0001
+        uuid: aips-0-0-5-op-s-bm-001
       - server-name: /v1/redirect-service-request-information
-        uuid: op-s-0002
+        uuid: aips-0-0-5-op-s-bm-002
       - server-name: /v1/redirect-oam-request-information
-        uuid: op-s-0003
+        uuid: aips-0-0-5-op-s-bm-003
       - server-name: /v1/end-subscription
-        uuid: op-s-0004
+        uuid: aips-0-0-5-op-s-bm-004
       - server-name: /v1/inquire-oam-request-approvals
-        uuid: op-s-0005
+        uuid: aips-0-0-5-op-s-bm-005
       - server-name: /v1/update-client
-        uuid: op-s-0007
+        uuid: aips-0-0-5-op-s-bm-007
       - server-name: /v1/list-ltps-and-fcs
-        uuid: op-s-0008
+        uuid: aips-0-0-5-op-s-bm-008
       - server-name: /v1/redirect-topology-change-information
-        uuid: op-s-0009
+        uuid: aips-0-0-5-op-s-bm-009
       - server-name: /v1/update-operation-key
-        uuid: op-s-0010
+        uuid: aips-0-0-5-op-s-bm-010
       - server-name: /v1/update-operation-client
-        uuid: op-s-0011
+        uuid: aips-0-0-5-op-s-bm-011
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: op-s-1000
-      - server-name: /v1/inform-about-application
-        uuid: op-s-2001
-      - server-name: /v1/inform-about-application-in-generic-representation
-        uuid: op-s-2002
-      - server-name: /v1/inform-about-release-history
-        uuid: op-s-2003
-      - server-name: /v1/inform-about-release-history-in-generic-representation
-        uuid: op-s-2004
+        uuid: aips-0-0-5-op-s-im-000
       - server-name: /v1/start-application-in-generic-representation
-        uuid: op-s-3000
-      ## All service requests to be complemented
+        uuid: aips-0-0-5-op-s-bs-000
+      - server-name: /v1/inform-about-application
+        uuid: aips-0-0-5-op-s-bs-001
+      - server-name: /v1/inform-about-application-in-generic-representation
+        uuid: aips-0-0-5-op-s-bs-002
+      - server-name: /v1/inform-about-release-history
+        uuid: aips-0-0-5-op-s-bs-003
+      - server-name: /v1/inform-about-release-history-in-generic-representation
+        uuid: aips-0-0-5-op-s-bs-004
+      - server-name: /docs
+        uuid: aips-0-0-5-op-s-bs-005
+      - server-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-5-op-s-is-500
+      - server-name: /v1/reactivate-transmitters-of-link
+        uuid: aips-0-0-5-op-s-is-510
+      - server-name: /v1/provide-transmitter-status-of-parallel-links
+        uuid: aips-0-0-5-op-s-is-600
+      - server-name: /v1/record-power-saving-status
+        uuid: aips-0-0-5-op-s-is-700
+      - server-name: /v1/list-power-saving-status
+        uuid: aips-0-0-5-op-s-is-701
+      - server-name: /v1/provide-power-saving-status-of-link
+        uuid: aips-0-0-5-op-s-is-702
+      - server-name: /v1/list-affected-links
+        uuid: aips-0-0-5-op-s-is-703
+      - server-name: /v1/list-to-be-restored-links
+        uuid: aips-0-0-5-op-s-is-704
+      - server-name: /v1/delete-link-from-power-saving-table
+        uuid: aips-0-0-5-op-s-is-705
     consequent-requests:
-      - client-name: ExecutionAndTraceLog://v1/record-service-request
-        uuid: op-c-0040
+      - client-name: EATL://v1/record-service-request
+        uuid: aips-0-0-5-op-c-bs-eatl-2-0-1-000
 
   - forwarding-name: OamRequestCausesLoggingRequest
-    uuid: op-fc-0003
+    uuid: aips-0-0-5-op-fc-bm-003
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-oam-request-information
-          uuid: op-s-0003
+          uuid: aips-0-0-5-op-s-bm-003
       fc-port-update:
         - server-name: /v1/redirect-oam-request-information
-          uuid: op-s-0003
+          uuid: aips-0-0-5-op-s-bm-003
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: OamLog://v1/record-oam-request
-        uuid: op-c-0050
+      - client-name: OL://v1/record-oam-request
+        uuid: aips-0-0-5-op-c-bs-ol-2-0-1-000
 
   - forwarding-name: OamRequestCausesInquiryForAuthentication
-    uuid: op-fc-0004
+    uuid: aips-0-0-5-op-fc-bm-004
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/inquire-oam-request-approvals
-          uuid: op-s-0005
+          uuid: aips-0-0-5-op-s-bm-005
       fc-port-update:
         - server-name: /v1/inquire-oam-request-approvals
-          uuid: op-s-0005
+          uuid: aips-0-0-5-op-s-bm-005
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: AdministratorAdministration://v1/approve-oam-request
-        uuid: op-c-0060
-
-## Forwardings for configuring INDIVIDUAL subscriptions on NewRelease
-
-## Forwardings for transferring data to NewRelease
-
-## Forwardings for creating INDIVIDUAL subscriptions to NewRelease
-
-## Forwardings for ending INDIVIDUAL subscriptions to OldRelease
+      - client-name: AA://v1/approve-oam-request
+        uuid: aips-0-0-5-op-c-bs-aa-2-0-1-000
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
-    uuid: op-fc-0105
+    uuid: aips-0-0-5-op-fc-bm-105
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/embed-yourself
-          uuid: op-s-0001
+          uuid: aips-0-0-5-op-s-bm-001
       fc-port-update:
         - server-name: /v1/embed-yourself
-          uuid: op-s-0001
+          uuid: aips-0-0-5-op-s-bm-001
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: op-s-1000
+        uuid: aips-0-0-5-op-s-im-000
     consequent-requests:
-      - client-name: RegistryOffice://v1/relay-server-replacement
-        uuid: op-c-0021
+      - client-name: RO://v1/relay-server-replacement
+        uuid: aips-0-0-5-op-c-bm-ro-2-0-1-001
 
-  - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
-    uuid: op-fc-0106
+  - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOR
+    uuid: aips-0-0-5-op-fc-bm-106
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/embed-yourself
-          uuid: op-s-0001
+          uuid: aips-0-0-5-op-s-bm-001
       fc-port-update:
         - server-name: /v1/embed-yourself
-          uuid: op-s-0001
+          uuid: aips-0-0-5-op-s-bm-001
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: op-s-1000
+        uuid: aips-0-0-5-op-s-im-000
     consequent-requests:
-      - client-name: RegistryOffice://v1/deregister-application
-        uuid: op-c-0022
+      - client-name: RO://v1/deregister-application
+        uuid: aips-0-0-5-op-c-bm-ro-2-0-1-002
 
   - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
-    uuid: op-fc-0107
+    uuid: aips-0-0-5-op-fc-bm-107
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/embed-yourself
-          uuid: op-s-0001
+          uuid: aips-0-0-5-op-s-bm-001
       fc-port-update:
         - server-name: /v1/embed-yourself
-          uuid: op-s-0001
+          uuid: aips-0-0-5-op-s-bm-001
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/update-client
-        uuid: op-s-0007
+        uuid: aips-0-0-5-op-s-bm-007
     consequent-requests:
-      - client-name: RegistryOffice://v1/relay-operation-update
-        uuid: op-c-0023
-
-  - forwarding-name: PromptForRedirectingTopologyInformationCausesSendingAnInitialStateToALT
-    uuid: op-fc-0005
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
-      fc-port-update:
-        - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/redirect-topology-change-information
-        uuid: op-s-0009
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-all-ltps-and-fcs
-        uuid: op-c-0070
+      - client-name: RO://v1/relay-operation-update
+        uuid: aips-0-0-5-op-c-bm-ro-2-0-1-003
 
   - forwarding-name: ServiceRequestCausesLtpUpdateRequest
-    uuid: op-fc-0006
+    uuid: aips-0-0-5-op-fc-bm-006
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/register-yourself
-        uuid: op-s-0000
+        uuid: aips-0-0-5-op-s-bm-000
       - server-name: /v1/embed-yourself
-        uuid: op-s-0001
+        uuid: aips-0-0-5-op-s-bm-001
       - server-name: /v1/redirect-service-request-information
-        uuid: op-s-0002
+        uuid: aips-0-0-5-op-s-bm-002
       - server-name: /v1/redirect-oam-request-information
-        uuid: op-s-0003
+        uuid: aips-0-0-5-op-s-bm-003
       - server-name: /v1/inquire-oam-request-approvals
-        uuid: op-s-0005
+        uuid: aips-0-0-5-op-s-bm-005
       - server-name: /v1/update-client
-        uuid: op-s-0007
+        uuid: aips-0-0-5-op-s-bm-007
       - server-name: /v1/redirect-topology-change-information
-        uuid: op-s-0009
-      - server-name: /v1/update-operation-key
-        uuid: op-s-0010
+        uuid: aips-0-0-5-op-s-bm-009
       - server-name: /v1/update-operation-client
-        uuid: op-s-0011
+        uuid: aips-0-0-5-op-s-bm-011
       - server-name: /v1/bequeath-your-data-and-die
-        uuid: op-s-1000
-      ## All INDIVIDUAL service requests, which are updating an LTP, to be complemented
+        uuid: aips-0-0-5-op-s-im-000
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: op-c-0071
+      - client-name: ALT://v1/update-ltp
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-001
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
-    uuid: op-fc-0007
+    uuid: aips-0-0-5-op-fc-bm-007
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## All INDIVIDUAL service requests, which are deleting an LTP, to be complemented
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: op-c-0072
+      - client-name: ALT://v1/delete-ltp-and-dependents
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-002
 
   - forwarding-name: ServiceRequestCausesFcUpdateRequest
-    uuid: op-fc-0008
+    uuid: aips-0-0-5-op-fc-bm-008
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## All INDIVIDUAL service requests, which are updating an FC, to be complemented
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: op-c-0073
+      - client-name: ALT://v1/update-fc
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-003
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
-    uuid: op-fc-0009
+    uuid: aips-0-0-5-op-fc-bm-009
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      ## All INDIVIDUAL service requests, which are updating an FC-Port, to be complemented
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: op-c-0074
+      - client-name: ALT://v1/update-fc-port
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-004
 
   - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
-    uuid: op-fc-0010
+    uuid: aips-0-0-5-op-fc-bm-010
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
       - server-name: /v1/end-subscription
-        uuid: op-s-0004
-      ## All INDIVIDUAL service requests, which are deleting an FC-Port, to be complemented
+        uuid: aips-0-0-5-op-s-bm-004
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: op-c-0075
+      - client-name: ALT://v1/delete-fc-port
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-005
 
   - forwarding-name: OamRequestCausesLtpUpdateRequest
-    uuid: op-fc-0011
+    uuid: aips-0-0-5-op-fc-bm-011
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-ltp
-        uuid: op-c-0071
+      - client-name: ALT://v1/update-ltp
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-001
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
-    uuid: op-fc-0012
+    uuid: aips-0-0-5-op-fc-bm-012
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
-        uuid: op-c-0072
+      - client-name: ALT://v1/delete-ltp-and-dependents
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-002
 
   - forwarding-name: OamRequestCausesFcUpdateRequest
-    uuid: op-fc-0013
+    uuid: aips-0-0-5-op-fc-bm-013
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc
-        uuid: op-c-0073
+      - client-name: ALT://v1/update-fc
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-003
 
   - forwarding-name: OamRequestCausesFcPortUpdateRequest
-    uuid: op-fc-0014
+    uuid: aips-0-0-5-op-fc-bm-014
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/update-fc-port
-        uuid: op-c-0074
+      - client-name: ALT://v1/update-fc-port
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-004
 
   - forwarding-name: OamRequestCausesFcPortDeletionRequest
-    uuid: op-fc-0015
+    uuid: aips-0-0-5-op-fc-bm-015
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-update:
         - server-name: /v1/redirect-topology-change-information
-          uuid: op-s-0009
+          uuid: aips-0-0-5-op-s-bm-009
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
     consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/delete-fc-port
-        uuid: op-c-0075
+      - client-name: ALT://v1/delete-fc-port
+        uuid: aips-0-0-5-op-c-bm-alt-2-0-1-005
 
-  ## INDIVIDUAL Forwardings
+  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
+    uuid: aips-0-0-5-op-fc-is-500
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-5-op-s-is-500
+    consequent-requests:
+      - client-name: /v1/provide-transmitter-status-of-parallel-links
+        uuid: aips-0-0-5-op-s-is-600
+
+  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.Response
+    uuid: aips-0-0-5-op-fc-is-501
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-5-op-s-is-500
+    consequent-requests:
+      - client-name: request.body#requestor-receive-operation
+        uuid: n.a.
+
+  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints
+    uuid: aips-0-0-5-op-fc-is-502
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-5-op-s-is-500
+    consequent-requests:
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
+        uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-xxx
+
+  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOff
+    uuid: aips-0-0-5-op-fc-is-503
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-5-op-s-is-500
+    consequent-requests:
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+        uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-yyy
+
+  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.ReportPowerSavingStatus
+    uuid: aips-0-0-5-op-fc-is-504
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-5-op-s-is-500
+    consequent-requests:
+      - client-name: /v1/record-power-saving-status
+        uuid: aips-0-0-5-op-s-is-700
+
+  - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOn
+    uuid: aips-0-0-5-op-fc-is-505
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-5-op-s-is-500
+    consequent-requests:
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+        uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-yyy
+
+  - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReadPowerSavingStatusOfLink
+    uuid: aips-0-0-5-op-fc-is-510
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/reactivate-transmitters-of-link
+        uuid: aips-0-0-5-op-s-is-510
+    consequent-requests:
+      - client-name: /v1/provide-power-saving-status-of-link
+        uuid: aips-0-0-5-op-s-is-702
+
+  - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.Response
+    uuid: aips-0-0-5-op-fc-is-511
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/reactivate-transmitters-of-link
+        uuid: aips-0-0-5-op-s-is-510
+    consequent-requests:
+      - client-name: request.body#requestor-receive-operation
+        uuid: n.a.
+
+  - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints
+    uuid: aips-0-0-5-op-fc-is-512
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/reactivate-transmitters-of-link
+        uuid: aips-0-0-5-op-s-is-510
+    consequent-requests:
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
+        uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-xxx
+
+  - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn
+    uuid: aips-0-0-5-op-fc-is-513
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/reactivate-transmitters-of-link
+        uuid: aips-0-0-5-op-s-is-510
+    consequent-requests:
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+        uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-yyy
+
+  - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
+    uuid: aips-0-0-5-op-fc-is-514
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/reactivate-transmitters-of-link
+        uuid: aips-0-0-5-op-s-is-510
+    consequent-requests:
+      - client-name: /v1/record-power-saving-status
+        uuid: aips-0-0-5-op-s-is-700
+
+  - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff
+    uuid: aips-0-0-5-op-fc-is-515
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/reactivate-transmitters-of-link
+        uuid: aips-0-0-5-op-s-is-510
+    consequent-requests:
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+        uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-yyy
+
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks
+    uuid: aips-0-0-5-op-fc-is-600
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/provide-transmitter-status-of-parallel-links
+        uuid: aips-0-0-5-op-s-is-600
+    consequent-requests:
+      - client-name: MWDI://v1/provide-list-of-parallel-links
+        uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-zzz
+
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response
+    uuid: aips-0-0-5-op-fc-is-601
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/provide-transmitter-status-of-parallel-links
+        uuid: aips-0-0-5-op-s-is-600
+    consequent-requests:
+      - client-name: request.body#requestor-receive-operation
+        uuid: n.a.
+
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints
+    uuid: aips-0-0-5-op-fc-is-602
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/provide-transmitter-status-of-parallel-links
+        uuid: aips-0-0-5-op-s-is-600
+    consequent-requests:
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
+        uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-xxx
+
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
+    uuid: aips-0-0-5-op-fc-is-603
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/provide-transmitter-status-of-parallel-links
+        uuid: aips-0-0-5-op-s-is-600
+    consequent-requests:
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
+        uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-211
+
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
+    uuid: aips-0-0-5-op-fc-is-604
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/provide-transmitter-status-of-parallel-links
+        uuid: aips-0-0-5-op-s-is-600
+    consequent-requests:
+      - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
+        uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-512
+
+  - forwarding-name: RequestForRecordingPowerSavingStatusCausesStatusTableUpdate
+    uuid: aips-0-0-5-op-fc-is-700
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/record-power-saving-status
+        uuid: aips-0-0-5-op-s-is-700
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: aips-0-0-5-es-c-es-1-0-0-000
+
+  - forwarding-name: RequestForListingPowerSavingStatusCausesStatusTableReading
+    uuid: aips-0-0-5-op-fc-is-701
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/list-power-saving-status
+        uuid: aips-0-0-5-op-s-is-701
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: aips-0-0-5-es-c-es-1-0-0-000
+
+  - forwarding-name: RequestForPowerSavingStatusOfLinkCausesLinkStatusReading
+    uuid: aips-0-0-5-op-fc-is-702
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/provide-power-saving-status-of-link
+        uuid: aips-0-0-5-op-s-is-701
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: aips-0-0-5-es-c-es-1-0-0-000
+
+  - forwarding-name: RequestForListingAffectedLinksCausesStatusTableFiltering
+    uuid: aips-0-0-5-op-fc-is-703
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/list-affected-links
+        uuid: aips-0-0-5-op-s-is-703
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: aips-0-0-5-es-c-es-1-0-0-000
+
+  - forwarding-name: RequestForListingLinksToBeRestoredCausesStatusTableFiltering
+    uuid: aips-0-0-5-op-fc-is-704
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/list-to-be-restored-links
+        uuid: aips-0-0-5-op-s-is-704
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: aips-0-0-5-es-c-es-1-0-0-000
+
+  - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.GetPowerSavingStatus
+    uuid: aips-0-0-5-op-fc-is-705
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/delete-link-from-power-saving-status-table
+        uuid: aips-0-0-5-op-s-is-705
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: aips-0-0-5-es-c-es-1-0-0-000
+
+  - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.DeleteLinksFromElasticSearch
+    uuid: aips-0-0-5-op-fc-is-706
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - client-name: /v1/delete-link-from-power-saving-status-table
+        uuid: aips-0-0-5-op-s-is-705
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: aips-0-0-5-es-c-es-1-0-0-000
