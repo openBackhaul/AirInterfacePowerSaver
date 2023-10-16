@@ -612,7 +612,7 @@ forwardings:
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-xxx
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
-    uuid: aips-0-0-5-op-fc-is-6
+    uuid: aips-0-0-5-op-fc-is-603
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -626,8 +626,8 @@ forwardings:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-0-211
 
-  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdiGetAirInterfaceStatusFromLive
-    uuid: aips-0-0-5-op-fc-is-6
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
+    uuid: aips-0-0-5-op-fc-is-604
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -732,7 +732,7 @@ forwardings:
         uuid: aips-0-0-5-es-c-es-1-0-0-000
 
   - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.DeleteLinksFromElasticSearch
-    uuid: aips-0-0-5-op-fc-is-705
+    uuid: aips-0-0-5-op-fc-is-706
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:

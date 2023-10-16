@@ -28,17 +28,26 @@ profile-instances:
       request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/docs'
 
   - profile-name: 'FileProfile'
-    uuid: 'okm-2-0-1-file-p-000'
+    uuid: 'aips-0-0-5-file-p-000'
     capability:
-      file-identifier: 'LOADfile'
-      file-description: 'OperationMode'
+      file-identifier: 'staticListFile'
+      file-description: 'staticLinkList'
     configuration:
       file-path: '../application-data/application-data.json'
-      user-name: 'OperationKeyManagement'
+      user-name: 'AirInterfacePowerSaver'
       password: 'Operations to add password'
       operation: 'write'
 
-
+  - profile-name: 'FileProfile'
+    uuid: 'aips-0-0-5-file-p-001'
+    capability:
+      file-identifier: 'blackListFile'
+      file-description: 'blackLinkList'
+    configuration:
+      file-path: '../application-data/application-data.json'
+      user-name: 'AirInterfacePowerSaver'
+      password: 'Operations to add password'
+      operation: 'write'
 
   - profile-name: 'IntegerProfile'
     uuid: 'aips-0-0-5-integer-p-100'
@@ -51,16 +60,16 @@ profile-instances:
     configuration:
       integer-value: ## Current value of the attribute
 
-  ## Potentially further instances of IntegerProfile to be added
-
-
+  - profile-name: 'StringProfile'
+    uuid: 'aips-0-0-5-string-p-100'
+    capability:
+      string-name: 'RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache'
+    configuration:
+      string-value: 'transmission-mode-max'
 
   - profile-name: 'StringProfile'
-    uuid: 'aips-0-0-5-string-p-10??' ## Replace * by ApplicationID and ReleaseNumber and ?? by SequenceNumber
+    uuid: 'aips-0-0-5-string-p-101'
     capability:
-      string-name: ## Name of the String attribute
-      enumeration: ## Set of allowed values in cornered brackets
-      pattern: ## Regex for validating configuration values
+      string-name: 'RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive'
     configuration:
-      string-value: ## Current value of the attribute
-
+      string-value: 'interface-status;transmission-mode-cur'
