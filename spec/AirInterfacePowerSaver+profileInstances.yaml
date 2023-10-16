@@ -27,28 +27,6 @@ profile-instances:
     configuration:
       request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/docs'
 
-  - profile-name: 'FileProfile'
-    uuid: 'aips-0-0-5-file-p-000'
-    capability:
-      file-identifier: 'staticListFile'
-      file-description: 'staticLinkList'
-    configuration:
-      file-path: '../application-data/application-data.json'
-      user-name: 'AirInterfacePowerSaver'
-      password: 'Operations to add password'
-      operation: 'write'
-
-  - profile-name: 'FileProfile'
-    uuid: 'aips-0-0-5-file-p-001'
-    capability:
-      file-identifier: 'blackListFile'
-      file-description: 'blackLinkList'
-    configuration:
-      file-path: '../application-data/application-data.json'
-      user-name: 'AirInterfacePowerSaver'
-      password: 'Operations to add password'
-      operation: 'write'
-
   - profile-name: 'IntegerProfile'
     uuid: 'aips-0-0-5-integer-p-100'
     capability:
