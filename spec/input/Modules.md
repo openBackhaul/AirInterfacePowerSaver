@@ -17,10 +17,8 @@ It does not represent the function planned to be implemented in AIPS 1.0.0 or an
 #### Management of automations
 Switching operations are performed in the same way on many links.
 However, the total of all links might be divided into several subgroups that experience different kinds of automation.
-In a list of all links, the individual links are assigned none, one or more kinds of automation.
-
-#### Visualization of automation management
-Editing the list of all links is supported by a GUI.
+In a list of all links, the individual links are assigned none, one or more kinds of automation.  
+Visualization of automation management: editing the list of all links is supported by a GUI.
 
 #### Link group related automation
 Enabling and disabling of the power saving mode is controlled for whole groups of links by this type of module.
@@ -75,17 +73,17 @@ Subscribing for alarm notifications is supported, too.
 This section describes the set function planned to be covered by AIPS 1.0.0.
 
 #### Automation management
-AIPS 1.0.0 does contain two simple modules for automation management.
+AIPS 1.0.0 does contain two simple modules for automation management.  
 The **StaticListAutomationManagement** module is reading a list of links from the file system and allows to assignment none, one or several kinds of automation to the individual link.
 Information about assigned kinds of automation can be retrieved for an individual link or all links can be filtered for being assigned to a specific automation.
 Links can be assigned to an automation individually or in groups.
-The resulting list is again saved to the file system.
-The **BlackListManagement** module allows adding and removing links to a list that will be stored on the file system.
-Links on the black list are categorically excluded from any power saving configuration.
-Assignments of automations in other files remain, but are ignored by all switching operation modules.
+The resulting list is again saved to the file system.  
+The **BlackListManagement** module is reading a list of links from the file system, for which switching into power saving mode is not allowed. 
+Adding a link to the blacklist does not affect the assigned automationNames in the static list, but as soon as the link is blacklisted, a currently active power saving needs to be turned off. 
+Once the link is deleted again from the blacklist, power saving mode changes as configured in the static list can be carried out again. It is also possible to add a list of multiple links.
+The resulting list is again saved to the file system.  
 
-#### Visualization of the automation management
-AIPS 1.0.0 does not contain this type of module.
+Later versions of the automation management will also contain a module for visualizing the automation management.
 The list of links, respectively the assignment of automations need to be managed via the REST interface.
 
 #### Link group related automation
@@ -96,7 +94,6 @@ The module allows defining multiple trigger times of trigger type StartPowerSavi
 The trigger times are individually defined and stored into instances of StringProfile.
 The trigger times can either individually or all together be deleted.
 Depending on the type of trigger reached, either the SimpleActivation or the PersistentDeactivation module will be activated.
-The TimeBasedPowerSaving module does not support defining diverse trigger profiles depending on weekdays or subgroups of links.
 
 #### Link related automation
 AIPS 1.0.0 does not contain this type of module.
@@ -118,23 +115,25 @@ The maximum runtime of the module must be configured.
 AIPS 1.0.0 does contain two modules for link related switching operations.
 The **RedundantTransmittersOff** module switches both transmitters of one link off after ensuring that both transmitters of a parallel link are operating at their maximum modulation (means configured maximum, not hardware limitation).
 The RedundantTransmittersOff module that is included in AIPS 1.0.0 does not implement a topology dependent ordering, or any preparatory or clean-up actions. This also excludes any potentially required measures for suppressing alarms, respectively alarm notifications.
-A single attempt is taken, to reverse a partially executed transactions by switching the first transmitter back on, if the second one could not be deactivated.
-When processing is completed, the status of the link (e.g. "redundantTransmittersOff") is reported to the requestor and to a central status documentation. 
+A single attempt is taken, to reverse a partially executed transaction by switching the first transmitter back on, if the second one could not be deactivated.
+When processing is completed, the status of the link (e.g. "RedundantTransmittersOff") is reported to the requestor and to a central status documentation. 
 The **AllTransmittersOn**  module switches both transmitters of the link on.
 The AllTransmittersOn module that is included in AIPS 1.0.0 does not implement a topology dependent ordering, or any preparatory or clean-up actions. This also excludes any potentially required measures for suppressing alarms, respectively alarm notifications.
-A single attempt is taken, to reverse a partially executed transactions by switching the first transmitter back off, if the second one could not be activated.
-When processing is completed, the status of the link (e.g. "normalOperation") is reported to the requestor and to a central status documentation. 
+A single attempt is taken, to reverse a partially executed transaction by switching the first transmitter back off, if the second one could not be activated.
+When processing is completed, the status of the link (e.g. "AllTransmittersOn") is reported to the requestor and to a central status documentation. 
 
 #### Link Analysis
 AIPS 1.0.0 does include a link analysis module.
 The **BasicLinkAnalysis** module provides all necessary information for a switching operation on a protected, but not further differentiated link. 
 While activating the BasicLinkAnalysis module, the RedundantTransmittersOff or the AllTransmittersOn module must pass a Link-ID.
-The BasicLinkAnalysis module translates the Link-ID into the UUID of an AirLayer connection.
-It determines the mount names, UUIDs, and local IDs of the AirInterfaces that terminate the AirLayer connection.
-It analyzes if there is a parallel AirLayer connection and determines the mount names, UUIDs and Local-IDs of its AirInterfaces.
-It reads the transmitterIsOn, transmissionModeMax and transmissionModeCur for the parallel AirLayer connection.
+It reads the interfaceStatus, transmissionModeMax and transmissionModeCur for any parallel AirLayer connection.
 Finally, it returns all this data in the response body.
-If it could not read the complete set of data from both devices, it returns an error.
+If it could not read the complete set of data from both devices (i.e. link endpoints) of any parallel link, it returns an error.
+
+The BasicLinkAnalysis module relies on network inventory information being provided by the MicroWaveDeviceInventory:
+- it does not need to translate the link-ID into the UUID of an AirLayer connection, as they are identical by requirement
+- for a given link it also fetches the mount names, UUIDs, and local IDs of the AirInterfaces that terminate the AirLayer connection from the MWDI
+- it also fetches information about parallel links from the MWDI
 
 #### Power saving status
 AIPS 1.0.0 does include the ActivationStatus module for centralized documentation of the power saving status.
@@ -144,7 +143,6 @@ This information is stored and provided either for the individual link or filter
 
 #### Power saving logging
 AIPS 1.0.0 does not include this type of module.
-Basic logging for debugging the inter module communication is provided by the ExecutionAndTraceLog.
 
 #### Power saving performance
 AIPS 1.0.0 does not include this type of module.

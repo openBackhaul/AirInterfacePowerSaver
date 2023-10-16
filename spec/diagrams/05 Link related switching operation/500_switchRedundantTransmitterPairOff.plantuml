@@ -1,0 +1,82 @@
+@startuml 500_switchRedundantTransmitterPairOff
+skinparam responseMessageBelowArrow true
+
+title
+RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/switch-redundant-transmitter-pair-off" as rto
+participant "AIPS://v1/provide-transmitter-status-of-parallel-links" as provideStatus
+participant "MWDI://core-model-1-4:network-control-domain=cache/link={uuid}" as resolveAddress
+participant "MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwgw
+participant "AIPS://v1/record-power-saving-status" as recordStatus
+participant "AIPS://<alarm-service-to-be-specified>" as alarm
+
+requestor -> rto: {linkId, automationName, own_IpAddress, own_TcpPort, own_responseServiceName}
+activate rto
+rto --> requestor: {requestId}
+
+note over rto
+  <u>GetInfoAboutParallelLink</u>
+end note
+rto -> provideStatus: {linkId}
+provideStatus --> rto: {list-of-((interfaceStatus, transmissionModeMax, transmissionModeCur)-sideA),\n           (interfaceStatus, transmissionModeMax, transmissionModeCur)-sideB)}
+
+note over rto
+  IF (number of parallel links==0)
+  THEN <u>Response</u>
+end note
+rto -> requestor: {requestId, statusOfLink="AllTransmittersOn"}
+
+note over rto
+  <u>DetermineLinkEndpoints</u>
+end note
+rto -> resolveAddress: {uuid=linkId}
+resolveAddress --> rto: {2x(mountName, uuid, localId)}
+
+note over rto
+  IF (for both link endpoints of at least 1 parallel link
+       ((interfaceStatus == "UP") 
+         AND (transmissionModeCur == transmissionModeMax)))
+  THEN <u>SwitchBothTransmitters<b>Off</b></u>
+end note
+rto -> mwgw: {mountName, uuid, localId}
+mwgw --> rto: {responseCode}
+
+note over rto
+  IF (both responseCodes of SwitchTransmitters<b>Off</b> == 200)
+  THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
+end note 
+rto -> recordStatus: {linkId, addDeviationsFromOriginalState="RedundantTransmittersOff", addModulesToRestoreOriginalState="AllTransmittersOn"}
+
+rto -> requestor: {requestId, statusOfLink="RedundantTransmittersOff"}
+
+note over rto
+  IF (at least one responseCode of SwitchTransmitters<b>Off</b> != 200)
+  THEN <u>SwitchBothTransmitters<b>On</b></u>
+end note
+rto -> mwgw: {mountName, uuid, localId}
+mwgw --> rto: {responseCode}
+
+note over rto
+  IF (at least one responseCode of SwitchTransmitters<b>Off</b> != 200)
+      AND (both responseCodes of SwitchTransmitters<b>On</b> == 200))
+  THEN <u>Response</u>
+end note
+
+rto -> requestor: {requestId, statusOfLink="AllTransmittersOn"}
+
+note over rto
+  IF (at least one responseCode of SwitchTransmitters<b>Off</b> != 200)
+      AND (at least one responseCode of SwitchTransmitters<b>On</b> != 200))
+  THEN <u>ReportAlarm</u> and <u>Response</u>
+end note 
+rto -> alarm: {<i>to be specified</i>}
+
+rto -> requestor: {requestId, statusOfLink="UndefinedState"}
+
+
+deactivate rto 
+
+@enduml
