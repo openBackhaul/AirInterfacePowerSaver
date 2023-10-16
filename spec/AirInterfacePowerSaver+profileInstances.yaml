@@ -36,7 +36,7 @@ profile-instances:
       minimum: 24
       maximum: 48
     configuration:
-      integer-value: ## Current value of the attribute
+      integer-value: 24
 
   - profile-name: 'StringProfile'
     uuid: 'aips-0-0-5-string-p-100'
