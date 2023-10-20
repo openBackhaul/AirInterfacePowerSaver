@@ -340,7 +340,7 @@ clients:
 
   - http-client:
       application-name: AirInterfacePowerSaver
-      release-number: 1.0.0
+      release-number: 0.0.5
       uuid: aips-0-0-5-http-c-aips-0-0-5-000
     tcp-client:
       remote-protocol: http
@@ -355,8 +355,8 @@ clients:
         basic:
         individual:
           - operation-name: /v1/provide-transmitter-status-of-parallel-links
-            uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-600
+            uuid: aips-0-0-5-op-c-is-aips-0-0-5-600
           - operation-name: /v1/record-power-saving-status
-            uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-700
+            uuid: aips-0-0-5-op-c-is-aips-0-0-5-700
           - operation-name: /v1/provide-power-saving-status-of-link
-            uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-702
+            uuid: aips-0-0-5-op-c-is-aips-0-0-5-702
