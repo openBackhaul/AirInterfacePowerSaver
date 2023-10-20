@@ -9,7 +9,7 @@ participant "external" as requestor
 participant "AIPS://v1/switch-redundant-transmitter-pair-off" as rto
 participant "AIPS://v1/provide-transmitter-status-of-parallel-links" as provideStatus
 participant "MWDI://core-model-1-4:network-control-domain=cache/link={uuid}" as resolveAddress
-'participant "MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwgw
+participant "MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
 participant "AIPS://v1/record-power-saving-status" as recordStatus
 'participant "AIPS://<alarm-service-to-be-specified>" as alarm
 
@@ -25,6 +25,9 @@ provideStatus --> rto: {list-of-((interfaceStatus, transmissionModeMax, transmis
 
 note over rto
   IF (number of parallel links==0)
+      OR (NOT (for both link endpoints of at least 1 parallel link
+                   ((interfaceStatus == "UP") 
+                    AND (transmissionModeCur == transmissionModeMax))))
   THEN <u>Response</u>
 end note
 rto -> requestor: {requestId, statusOfLink="AllTransmittersOn"}
@@ -36,35 +39,32 @@ rto -> resolveAddress: {uuid=linkId}
 resolveAddress --> rto: {2x(mountName, uuid, localId)}
 
 note over rto
-  IF (for both link endpoints of at least 1 parallel link
-       ((interfaceStatus == "UP") 
-         AND (transmissionModeCur == transmissionModeMax)))
-  THEN <u>SwitchBothTransmitters<b>Off</b></u>
+  FOR both link endpoints
+  <u>SwitchBothTransmitters<b>Off</b></u>
 end note
-rto -> mwgw: {mountName, uuid, localId}
-mwgw --> rto: {responseCode}
+rto -> mwdg: {mountName, uuid, localId}
+mwdg --> rto: {responseCode}
 
 note over rto
   IF (both responseCodes of SwitchTransmitters<b>Off</b> == 200)
   THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
 end note 
 rto -> recordStatus: {linkId, addDeviationsFromOriginalState="RedundantTransmittersOff", addModulesToRestoreOriginalState="AllTransmittersOn"}
-
 rto -> requestor: {requestId, statusOfLink="RedundantTransmittersOff"}
 
 note over rto
   IF (at least one responseCode of SwitchTransmitters<b>Off</b> != 200)
   THEN <u>SwitchBothTransmitters<b>On</b></u>
 end note
-rto -> mwgw: {mountName, uuid, localId}
-mwgw --> rto: {responseCode}
+rto -> mwdg: {mountName, uuid, localId}
+mwdg --> rto: {responseCode}
 
 note over rto
   IF (at least one responseCode of SwitchTransmitters<b>Off</b> != 200)
       AND (both responseCodes of SwitchTransmitters<b>On</b> == 200))
-  THEN <u>Response</u>
+  THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
 end note
-
+rto -> recordStatus: {linkId, removeDeviationsFromOriginalState="RedundantTransmittersOff", removeModulesToRestoreOriginalState="AllTransmittersOn"}
 rto -> requestor: {requestId, statusOfLink="AllTransmittersOn"}
 
 'alarms to be added with later release version
@@ -78,9 +78,9 @@ rto -> requestor: {requestId, statusOfLink="AllTransmittersOn"}
 note over rto
   IF (at least one responseCode of SwitchTransmitters<b>Off</b> != 200)
       AND (at least one responseCode of SwitchTransmitters<b>On</b> != 200))
-  THEN <u>Response</u>
+  THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
 end note
-
+rto -> recordStatus: {linkId, addDeviationsFromOriginalState="UndefinedState", removeModulesToRestoreOriginalState="AllTransmittersOn"}
 rto -> requestor: {requestId, statusOfLink="UndefinedState"}
 
 

@@ -19,8 +19,8 @@ note over rpss
           removeModulesToRestoreOriginalState
 
    <i>entries in deviationsFromOriginalStateList and</i>
-   <i>modulesToRestoreOriginalStateList are added or</i> 
-   <i>removed accordingly</i>
+   <i>modulesToRestoreOriginalStateList are (uniquely)</i> 
+   <i>added or removed accordingly</i>
 end note
 
 requestor -> rpss: {linkId, \none of: ((addDeviationsFromOriginalState, addModulesToRestoreOriginalState), \n            (removeDeviationsFromOriginalState, removeModulesToRestoreOriginalState))}
