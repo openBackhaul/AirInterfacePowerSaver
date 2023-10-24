@@ -74,7 +74,7 @@ servers:
 
   http-server:
     own-application-name: AirInterfacePowerSaver
-    own-release-number: 1.0.0
+    own-release-number: 0.0.5
     uuid: aips-0-0-5-http-s-000
   tcp-server:
     - description: Without TLS layer
@@ -82,11 +82,6 @@ servers:
       own-ip-address: 1.1.4.7
       own-tcp-port: 4007
       uuid: aips-0-0-5-tcp-s-000
-    - description: With TLS layer
-      local-protocol: https
-      own-ip-address: 1.2.4.7
-      own-tcp-port: 4207
-      uuid: aips-0-0-5-tcp-s-001
 
 
 clients:
@@ -106,18 +101,18 @@ clients:
 
   - http-client:
       application-name: OldRelease
-      release-number: 1.0.0
-      uuid: aips-0-0-5-http-c-or-1-0-0-000
+      release-number: 0.0.5
+      uuid: aips-0-0-5-http-c-or-0-0-5-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.47
+      ip-address: 1.1.4.7
       tcp-port: 4007
-      uuid: aips-0-0-5-tcp-c-or-1-0-0-000
+      uuid: aips-0-0-5-tcp-c-or-0-0-5-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/bequeath-your-data-and-die
-            uuid: aips-0-0-5-op-c-bm-or-1-0-0-000
+            uuid: aips-0-0-5-op-c-bm-or-0-0-5-000
         individual:
       service:
         basic:
@@ -125,19 +120,19 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: 1.0.0
-      uuid: aips-0-0-5-http-c-nr-1-0-0-000
+      release-number: 0.0.5
+      uuid: aips-0-0-5-http-c-nr-0-0-5-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.7
       tcp-port: 4007
-      uuid: aips-0-0-5-tcp-c-nr-1-0-0-000
+      uuid: aips-0-0-5-tcp-c-nr-0-0-5-000
     operation-clients:
       own-oam:
         basic:
         individual:
           ## TODO: Add Services required for handing-over configuration or data during update
-          ## - staticList & blackList stored in file -> ignore
+          ## - staticList & blackList stored in file -> postponed
           ## - powerSavingStatus table stored in ElasticSearch -> ignore
           ## - proposal: simpleActivation/persistentDeactivation also stored in ElasticSearch -> ignore
       service:
