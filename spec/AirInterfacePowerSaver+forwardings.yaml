@@ -99,7 +99,7 @@ forwardings:
         uuid: aips-0-0-5-op-s-is-703
       - server-name: /v1/list-to-be-restored-links
         uuid: aips-0-0-5-op-s-is-704
-      - server-name: /v1/delete-link-from-power-saving-table
+      - server-name: /v1/delete-link-from-power-saving-status-table
         uuid: aips-0-0-5-op-s-is-705
     consequent-requests:
       - client-name: EATL://v1/record-service-request
@@ -385,7 +385,6 @@ forwardings:
     consequent-requests:
       - client-name: ALT://v1/delete-fc-port
         uuid: aips-0-0-5-op-c-bm-alt-2-0-1-005
-
 
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
     uuid: aips-0-0-5-op-fc-is-500

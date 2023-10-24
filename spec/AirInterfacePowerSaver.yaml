@@ -431,6 +431,57 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
+#  /v1/switch-redundant-transmitter-pair-off:
+#    todo
+#  /v1/reactivate-transmitters-of-link:
+#
+#  /v1/provide-transmitter-status-of-parallel-links:
+#    todo
+#
+#  /v1/record-power-saving-status:
+#    todo
+#  /v1/list-power-saving-status:
+#    todo
+#  /v1/provide-power-saving-status-of-link:
+#    todo
+#  /v1/list-affected-links:
+#    todo
+#  /v1/list-to-be-restored-links:
+#    todo
+#
+  /v1/delete-link-from-power-saving-status-table:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+      operationId: deleteLinkFromPowerSavingTable
+      summary: 'Deletes the entry of a link from the powerSavingStatusTable'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-id
+              properties:
+                link-id:
+                  type: string
+                  description: 'Identifier of the microwave link in the Telefonica planing tools'
+              example:
+                link-id: '513550010'
+      responses:
+      callbacks:
+
+
+
 ########################################################################################################################
 #   Service Layer - Basic Part - Following paths must be copied into every application
 ########################################################################################################################
@@ -9297,6 +9348,33 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/errorDescription'
+  headers:
+    x-correlator:
+      schema:
+        type: string
+        example: '550e8400-e29b-11d4-a716-446655440000'
+      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+    exec-time:
+      schema:
+        type: integer
+        example: 1100
+      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+    backend-time:
+      schema:
+        type: integer
+        example: 850
+      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+    life-cycle-state:
+      schema:
+        type: string
+        enum:
+          - 'EXPERIMENTAL'
+          - 'OPERATIONAL'
+          - 'DEPRECATED'
+          - 'OBSOLETE'
+          - 'UNKNOWN'
+          - 'NOT_YET_DEFINED'
+        example: 'EXPERIMENTAL'
   schemas:
     errorDescription:
       type: object
