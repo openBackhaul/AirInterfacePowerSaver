@@ -29,6 +29,10 @@ note over delete #Pink
   ist der responseCode=204 richtig?
   204 = no content
   wir wollen ja aber was zurücksenden
+  müsste das nicht in beiden Fällen 200 sein?
+  in beiden Fällen wird eine Liste zurückgesendet, in einem Fall ist diese aber leer
+
+  was soll passieren, wenn es den Link in Elastic gar nicht gibt?
 end note
 
 

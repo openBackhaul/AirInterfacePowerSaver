@@ -525,8 +525,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForRecordingPowerSavingStatusCausesStatusTableUpdate:
+      #callbacks:
+        #RequestForRecordingPowerSavingStatusCausesStatusTableUpdate:
           ##TODO: ElasticSearch, s. MATR
 
   /v1/list-power-saving-status:
@@ -772,6 +772,79 @@ paths:
       #callbacks: RequestForListingLinksToBeRestoredCausesStatusTableFiltering
       #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
 
+  /v1/delete-link-from-power-saving-status-table:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+      operationId: deleteLinkFromPowerSavingTable
+      summary: 'Deletes the entry of a link from the powerSavingStatusTable'
+      tags:
+        - IndividualServices
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-id
+              properties:
+                link-id:
+                  type: string
+                  description: 'Identifier of the microwave link in the Telefonica planing tools'
+              example:
+                link-id: '513550010'
+      responses:
+        '200':
+          description: 'Deleted link from powerSavingTable'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - list-of-deviations-from-original-state
+                properties:
+                  list-of-deviations-from-original-state:
+                    type: array
+                    items:
+                      type: string
+                      description: >
+                        'List of deviationsFromOriginalState modules read from ElasticSearch for the linkId
+                        from {$RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletion.GetPowerSavingStatus.response.body#/list-of-deviations-from-original-state} if not emptyList'
+                        or emptyList
+              example:
+                list-of-deviations-from-original-state:
+                  - 'RedundantTransmittersOff'
+                  - 'UndefinedState'                    
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-is-705/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks:
+        #RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.GetPowerSavingStatus
+          # read from ES
+        #RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.DeleteLinkFromElasticSearch
+          # delete from ES
 
 ########################################################################################################################
 #   Service Layer - Basic Part - Following paths must be copied into every application
