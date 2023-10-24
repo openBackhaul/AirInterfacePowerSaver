@@ -32,7 +32,7 @@ forwardings:
         uuid: aips-0-0-5-op-s-bm-001
     consequent-requests:
       - client-name: OR://v1/bequeath-your-data-and-die
-        uuid: aips-0-0-5-op-c-bm-or-1-0-0-000
+        uuid: aips-0-0-5-op-c-bm-or-0-0-5-000
 
   - forwarding-name: ServiceRequestCausesLoggingRequest
     uuid: aips-0-0-5-op-fc-bm-002

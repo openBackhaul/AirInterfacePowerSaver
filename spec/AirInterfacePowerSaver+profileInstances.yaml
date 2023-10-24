@@ -27,17 +27,6 @@ profile-instances:
     configuration:
       request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/docs'
 
-  - profile-name: 'IntegerProfile'
-    uuid: 'aips-0-0-5-integer-p-100'
-    capability:
-      integer-name: powerSavingStatusTableLinkDeletionPeriod
-      #description: 'Time period between the deletion of links in the powerSavingStatus table which are no longer in the staticList and are not in powerSaving mode'
-      unit: hours
-      minimum: 24
-      maximum: 48
-    configuration:
-      integer-value: 24
-
   - profile-name: 'StringProfile'
     uuid: 'aips-0-0-5-string-p-100'
     capability:
