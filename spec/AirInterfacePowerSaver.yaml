@@ -438,8 +438,97 @@ paths:
 #  /v1/provide-transmitter-status-of-parallel-links:
 #    todo
 #
-#  /v1/record-power-saving-status:
-#    todo
+  /v1/record-power-saving-status:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+      operationId: recordPowerSavingStatus
+      summary: 'Update or create an entry for a linkId in the powerSavingStatusTable'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - description: 'modules to add to the powerSavingStatus entry for the linkId'
+                  type: object
+                  required:
+                    - link-id
+                    - add-deviation-from-original-state
+                    - add-module-to-restore-original-state
+                  properties:
+                    link-id:
+                      type: string
+                      description: >
+                        'Id of the link, for which the entry shall be updated'
+                    add-deviation-from-original-state:
+                      type: string
+                      description: >
+                        'name of the module causing a deviation from the original state'
+                    add-module-to-restore-original-state:
+                      type: string
+                      description: >
+                        'name of the module to restore the original state'                    
+                  example:
+                    link-id: '305551234'
+                    add-deviation-from-original-state: 'RedundantTransmittersOff'
+                    add-module-to-restore-original-state: 'AllTransmittesrOn'
+                - description: 'modules to remove from the powerSavingStatus entry for the linkId'
+                  type: object
+                  required:
+                    - link-id
+                    - remove-deviation-from-original-state
+                    - remove-module-to-restore-original-state
+                  properties:
+                    link-id:
+                      type: string
+                      description: >
+                        'Id of the link, for which the entry shall be updated'
+                    remove-deviation-from-original-state:
+                      type: string
+                      description: >
+                        'name of the module causing a deviation from the original state'
+                    remove-module-to-restore-original-state:
+                      type: string
+                      description: >
+                        'name of the module to restore the original state'                    
+                  example:
+                    link-id: '305551234'
+                    remove-deviation-from-original-state: 'RedundantTransmittersOff'
+                    remove-module-to-restore-original-state: 'AllTransmittesrOn'
+      responses:
+        '204':
+          description: 'Recorder powerSavingStatus for linkId'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-is-700/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForRecordingPowerSavingStatusCausesStatusTableUpdate:
+          ##TODO: ElasticSearch, s. MATR
+
   /v1/list-power-saving-status:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -463,6 +552,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/POWER_SAVING_STATUS_OF_LINK'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-is-701/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
       #callbacks: RequestForListingPowerSavingStatusCausesStatusTableReading
       #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
 
@@ -502,6 +609,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/POWER_SAVING_STATUS_OF_LINK'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-is-702/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
       #callbacks: RequestForPowerSavingStatusOfLinkCausesLinkStatusReading
       #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
 
@@ -555,6 +680,24 @@ paths:
                 link-id-list:
                   - '305551234'
                   - '105558888'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-is-703/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
       #callbacks: RequestForListingAffectedLinksCausesStatusTableFiltering
       #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
 
@@ -608,6 +751,24 @@ paths:
                 link-id-list:
                   - '305551234'
                   - '105558888'
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-is-704/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
       #callbacks: RequestForListingLinksToBeRestoredCausesStatusTableFiltering
       #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
 
