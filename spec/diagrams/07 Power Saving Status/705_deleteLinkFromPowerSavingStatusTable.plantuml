@@ -31,6 +31,7 @@ note over delete #Pink
   wir wollen ja aber was zurücksenden
   müsste das nicht in beiden Fällen 200 sein?
   in beiden Fällen wird eine Liste zurückgesendet, in einem Fall ist diese aber leer
+  der Aufrufer muss dann anhand der zurückgegebenen Liste entscheiden, wie er das ERgebnis behandelt
 
   was soll passieren, wenn es den Link in Elastic gar nicht gibt?
 end note

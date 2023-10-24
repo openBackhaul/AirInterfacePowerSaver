@@ -431,13 +431,329 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-#  /v1/switch-redundant-transmitter-pair-off:
-#    todo
-#  /v1/reactivate-transmitters-of-link:
-#
-#  /v1/provide-transmitter-status-of-parallel-links:
-#    todo
-#
+  /v1/switch-redundant-transmitter-pair-off:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+
+      operationId: switchRedundantTransmittersPairOff
+      summary: 'Tries to switch off redundant transmitters for a given link'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-id
+                - automation-name
+                - requestor-protocol
+                - requestor-address
+                - requestor-port
+                - requestor-receive-operation
+              properties:
+                link-id:
+                  type: string
+                  description: >
+                    'linkId for which transmitters shall be switched-off'
+                automation-name:
+                  type: string
+                  description: >
+                    'automation-name for which transmitters shall be switched-off'                  
+                requestor-protocol:
+                  type: string
+                  description: >
+                    'HTTP or HTTPs protocol for sending the response to the requestor'
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                requestor-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IP address for sending the response to the requestor'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name for sending the response to the requestor'
+                requestor-port:
+                  type: integer
+                  description: >
+                    'TCP port for sending the response to the requestor'
+                requestor-receive-operation:
+                  type: string
+                  description: 'Operation at the requestor for receiving the response'
+            example:
+              link-id: '305551234'
+              requestor-protocol: 'HTTP'
+              requestor-address:
+                ip-address:
+                  ipv-4-address: '1.1.4.1'
+              requestor-port: 4001
+              requestor-receive-operation: '/v1/add-links-to-power-saving-deactivation-queue'
+      responses:
+        '200':
+          description: 'Request for switching-off redundant transmitters of a link received, response request will be sent after processing is finished.'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - request-id
+                properties:
+                  request-id:
+                    type: string
+                    description: 'Identifier of the request for redundant transmitter switch-off'
+                example:
+                  request-id: '305251234-101120-1400'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks:
+        #RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
+        #RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.Response
+        #RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints
+        #RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOff
+        #RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.ReportPowerSavingStatus
+        #RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOn
+
+
+  /v1/reactivate-transmitters-of-link:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+
+      operationId: reactivateTransmittersOfLink
+      summary: 'Tries to reactivate all transmitters of a link'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-id
+                - automation-name
+                - requestor-protocol
+                - requestor-address
+                - requestor-port
+                - requestor-receive-operation
+              properties:
+                link-id:
+                  type: string
+                  description: >
+                    'linkId for which transmitters shall be reactivated'
+                automation-name:
+                  type: string
+                  description: >
+                    'automation-name for which transmitters shall be reactivated'                  
+                requestor-protocol:
+                  type: string
+                  description: >
+                    'HTTP or HTTPs protocol for sending the response to the requestor'
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                requestor-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IP address for sending the response to the requestor'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name for sending the response to the requestor'
+                requestor-port:
+                  type: integer
+                  description: >
+                    'TCP port for sending the response to the requestor'
+                requestor-receive-operation:
+                  type: string
+                  description: 'Operation at the requestor for receiving the response'
+            example:
+              link-id: '305551234'
+              requestor-protocol: 'HTTP'
+              requestor-address:
+                ip-address:
+                  ipv-4-address: '1.1.4.1'
+              requestor-port: 4001
+              requestor-receive-operation: '/v1/add-links-to-power-saving-activation-queue'
+      responses:
+        '200':
+          description: 'Request for reactivating all transmitters of a link received, response request will be sent after processing is finished.'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - request-id
+                properties:
+                  request-id:
+                    type: string
+                    description: 'Identifier of the request for all transmitters reactivation'
+                example:
+                  request-id: '305251234-101120-1400'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks:
+        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReadPowerSavingStatusOfLink
+        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.Response
+        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints
+        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn
+        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
+        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff
+
+  /v1/provide-transmitter-status-of-parallel-links:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+
+      operationId: provideTransmitterStatusOfParallelLinks
+      summary: 'Returns the transmitter status of all found parallel links'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link-id
+                - requestor-protocol
+                - requestor-address
+                - requestor-port
+                - requestor-receive-operation
+              properties:
+                link-id:
+                  type: string
+                  description: >
+                    'linkId for which the transmitter status of parallel links shall be retrieved'
+                requestor-protocol:
+                  type: string
+                  description: >
+                    'HTTP or HTTPs protocol for sending the response to the requestor'
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                requestor-address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IP address for sending the response to the requestor'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name for sending the response to the requestor'
+                requestor-port:
+                  type: integer
+                  description: >
+                    'TCP port for sending the response to the requestor'
+                requestor-receive-operation:
+                  type: string
+                  description: 'Operation at the requestor for receiving the response'
+            example:
+              link-id: '305551234'
+              requestor-protocol: 'HTTP'
+              requestor-address:
+                ip-address:
+                  ipv-4-address: '1.1.4.1'
+              requestor-port: 4001
+              requestor-receive-operation: '/v1/switch-redundant-transmitter-pair-off'
+      responses:
+        '200':
+          description: 'Request for status of parallel links received, response request will be sent after collecting all data.'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - request-id
+                properties:
+                  request-id:
+                    type: string
+                    description: 'Identifier of the request for parallel link status'
+                example:
+                  request-id: '305251234-101120-1400'
+        '4XX':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+      #callbacks:
+        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks
+        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints
+        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
+        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
+        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response
+
+
   /v1/record-power-saving-status:
     parameters:
       - $ref: '#/components/parameters/user'
