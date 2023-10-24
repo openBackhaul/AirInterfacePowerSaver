@@ -25,6 +25,13 @@ note over delete
 end note
 delete --> requestor: {list-of(deviationsFromOriginalState)}, responseCode=204
 
+note over delete #Pink
+  ist der responseCode=204 richtig?
+  204 = no content
+  wir wollen ja aber was zurücksenden
+end note
+
+
 'now cleanup
 note over delete
     IF (deviationsFromOriginalState == emptyList)
@@ -33,6 +40,8 @@ end note
 delete -> es: {linkId}
 
 delete --> requestor: {}, responseCode=200
+
+
 
 
 

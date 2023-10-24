@@ -440,16 +440,7 @@ paths:
 #
 #  /v1/record-power-saving-status:
 #    todo
-#  /v1/list-power-saving-status:
-#    todo
-#  /v1/provide-power-saving-status-of-link:
-#    todo
-#  /v1/list-affected-links:
-#    todo
-#  /v1/list-to-be-restored-links:
-#    todo
-#
-  /v1/delete-link-from-power-saving-status-table:
+  /v1/list-power-saving-status:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -457,12 +448,38 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'    
     post:
-      operationId: deleteLinkFromPowerSavingTable
-      summary: 'Deletes the entry of a link from the powerSavingStatusTable'
+      operationId: listPowerSavingStatusTable
+      summary: 'Provides the powerSavingStatusTable'
       tags:
         - IndividualServices
       security:
-        - basicAuth: []
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Complete powerSavingStatus provided'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/POWER_SAVING_STATUS_OF_LINK'
+      #callbacks: RequestForListingPowerSavingStatusCausesStatusTableReading
+      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
+
+  /v1/provide-power-saving-status-of-link:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+      operationId: listPowerSavingStatusTable
+      summary: 'Provides the powerSavingStatusTable'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -472,14 +489,127 @@ paths:
               required:
                 - link-id
               properties:
-                link-id:
+                mount-name:
                   type: string
-                  description: 'Identifier of the microwave link in the Telefonica planing tools'
+                  description: >
+                    'Id of the link, for which power saving status shall be provided'
               example:
-                link-id: '513550010'
+                link-id: '305551234'
       responses:
-      callbacks:
+        '200':
+          description: 'PowerSavingStatus for linkId provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/POWER_SAVING_STATUS_OF_LINK'
+      #callbacks: RequestForPowerSavingStatusOfLinkCausesLinkStatusReading
+      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
 
+  /v1/list-affected-links:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+      operationId: listAffectedLinks
+      summary: 'Provides the list of affected links from the powerSavingStatusTable'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - deviation-from-original-state
+              properties:
+                mount-name:
+                  type: string
+                  description: >
+                    'deviationFromOriginalState for which the powerSavingStatus table shall be filtered'
+              example:
+                deviation-from-original-state: 'RedundantTransmittersOff'
+      responses:
+        '200':
+          description: 'List of links filtered for the deviationFromOriginalState'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link-id-list
+                properties:
+                  mount-name-list:
+                    type: array
+                    items:
+                      type: string
+                      description: >
+                        'Links from powerSavingStatusTable for which deviationsFromOriginalState contains provided filter
+                        from {$RequestForListingAffectedLinksCausesStatusTableFiltering.response.body#link-id'
+              example:
+                link-id-list:
+                  - '305551234'
+                  - '105558888'
+      #callbacks: RequestForListingAffectedLinksCausesStatusTableFiltering
+      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
+
+  /v1/list-to-be-restored-links:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'    
+    post:
+      operationId: listToBeRestoredLinks
+      summary: 'Provides the list of links from powerSavingStatusTable filtered for a given restoreModule'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - module-to-restore-original-state
+              properties:
+                mount-name:
+                  type: string
+                  description: >
+                    'moduleToRestoreOriginalState for which the powerSavingStatus table shall be filtered'
+              example:
+                module-to-restore-original-state: 'AllTransmittersOn'
+      responses:
+        '200':
+          description: 'List of links filtered for the moduleToRestoreOriginalState'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link-id-list
+                properties:
+                  mount-name-list:
+                    type: array
+                    items:
+                      type: string
+                      description: >
+                        'Links from powerSavingStatusTable for which deviationsFromOriginalState contains provided filter
+                        from {$RequestForListingLinksToBeRestoredCausesStatusTableFiltering.response.body#link-id'
+              example:
+                link-id-list:
+                  - '305551234'
+                  - '105558888'
+      #callbacks: RequestForListingLinksToBeRestoredCausesStatusTableFiltering
+      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
 
 
 ########################################################################################################################
@@ -9769,6 +9899,33 @@ components:
                       type: string
                     logical-termination-point:
                       type: string
+
+    POWER_SAVING_STATUS_OF_LINK:
+      type: object
+      required:
+        - link-id
+        - deviations-from-original-state
+        - modules-to-restore-original-state
+      properties:
+        link-id:
+          type: string
+          description: 'Id of the link'
+        deviations-from-original-state:
+          type: array
+          items:
+            type: string
+            description: 'module causing deviation from original state'
+        modules-to-restore-original-state:
+          type: array
+          items:
+            type: string
+            description: 'module to restore original state'
+      example:
+        link-id: '104550001'
+        deviations-from-original-state: ['RedundantTransmittersOff','UndefinedState']
+        modules-to-restore-original-state: ["AllTransmittersOn"]
+
+
   securitySchemes:
     apiKeyAuth:
       type: apiKey
