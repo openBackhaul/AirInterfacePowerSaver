@@ -431,7 +431,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /v1/switch-redundant-transmitter-pair-off:
+  /v1/switch-redundant-transmitter-pair-off: #todo
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -541,7 +541,7 @@ paths:
         #RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOn
 
 
-  /v1/reactivate-transmitters-of-link:
+  /v1/reactivate-transmitters-of-link: #todo
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -650,7 +650,7 @@ paths:
         #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
         #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff
 
-  /v1/provide-transmitter-status-of-parallel-links:
+  /v1/provide-transmitter-status-of-parallel-links: #todo
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -754,7 +754,7 @@ paths:
         #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response
 
 
-  /v1/record-power-saving-status:
+  /v1/record-power-saving-status: #done
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -784,7 +784,7 @@ paths:
                     link-id:
                       type: string
                       description: >
-                        'Id of the link, for which the entry shall be updated'
+                        'Id of the link, for which the entry shall be created or updated'
                     add-deviation-from-original-state:
                       type: string
                       description: >
@@ -815,14 +815,17 @@ paths:
                     remove-module-to-restore-original-state:
                       type: string
                       description: >
-                        'name of the module to restore the original state'                    
+                        'name of the module to restore the original state'
                   example:
-                    link-id: '305551234'
-                    remove-deviation-from-original-state: 'RedundantTransmittersOff'
-                    remove-module-to-restore-original-state: 'AllTransmittesrOn'
+                    - link-id: '305551234'
+                      add-deviation-from-original-state: 'RedundantTransmittersOff'
+                      add-module-to-restore-original-state: 'AllTransmittesrOn'
+                    - link-id: '305551234'
+                      remove-deviation-from-original-state: 'RedundantTransmittersOff'
+                      remove-module-to-restore-original-state: 'AllTransmittesrOn'
       responses:
         '204':
-          description: 'Recorder powerSavingStatus for linkId'
+          description: 'Recorded powerSavingStatus for linkId'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -841,11 +844,99 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks:
-        #RequestForRecordingPowerSavingStatusCausesStatusTableUpdate:
-          ##TODO: ElasticSearch, s. MATR
+      callbacks:
+        RequestForRecordingPowerSavingStatusCausesStatusTableUpdate:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-es-c-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            # es gibt 2 Fällen: hinzufügen oder löschen:
+            # - hinzufügen: wenn es den Eintrag für den Link noch nicht gibt, wird der hinzugefügt und die beiden Modul-Listen werden initial angelegt
+            #               mit den beiden Modulen in den add-Parametern;
+            #               wenn es den Eintrag schon gibt, dann wird in den beiden Modul-Listen einfach nur das Modul dazugeschrieben, sofern noch nicht enthalten
+            #               (zumindest beim UndefinedState könnte versucht werden, den mehrfach hinzuzufügen)
+            # - löschen: es wird nicht der komplette Eintrag für den Link gelöscht, sondern es werden nur die beiden Modulnamen aus den remove-Parametern aus den Modul-Listen gelöscht
+            # 
+            # da in beiden Fällen nichts endgültig gelöscht wird, nur ein put (create/update), statt einem delete
+            put:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      oneOf:
+                        - description: 'modules to add to the deviationsFromOrignalState-list and modulesToRestoreOriginalState-list of the powerSavingStatus entry for the linkId'
+                          type: object
+                          required:
+                            - link-id
+                            - add-deviation-from-original-state
+                            - add-module-to-restore-original-state
+                          properties:
+                            link-id:
+                              type: string
+                              description: >
+                                'Id of the link, for which the entry shall be created or updated
+                                from {$request.body#link-id}'
+                            add-deviation-from-original-state:
+                              type: string
+                              description: >
+                                'name of the module causing a deviation from the original state to be added uniquely to the deviationsFromOriginalState-list
+                                from {$request.body#add-deviation-from-original-state}'
+                            add-module-to-restore-original-state:
+                              type: string
+                              description: >
+                                'name of the module to restore the original state to be added uniquely to the modulesToRestoreOriginalState-list
+                                from {$request.body#add-module-to-restore-original-state}'                    
+                          example:
+                            link-id: '305551234'
+                            add-deviation-from-original-state: 'RedundantTransmittersOff'
+                            add-module-to-restore-original-state: 'AllTransmittesrOn'
+                        - description: 'modules to remove from deviationsFromOrignalState-list and modulesToRestoreOriginalState-list of the powerSavingStatus entry for the linkId'
+                          type: object
+                          required:
+                            - link-id
+                            - remove-deviation-from-original-state
+                            - remove-module-to-restore-original-state
+                          properties:
+                            link-id:
+                              type: string
+                              description: >
+                                'Id of the link, for which the entry shall be updated
+                                from {$request.body#link-id}'
+                            remove-deviation-from-original-state:
+                              type: string
+                              description: >
+                                'name of the module causing a deviation from the original state to be removed from the deviationsFromOriginalState-list
+                                from {$request.body#remove-deviation-from-original-state}'
+                            remove-module-to-restore-original-state:
+                              type: string
+                              description: >
+                                'name of the module to restore the original state to be removed from the modulesToRestoreOriginalState-list
+                                from {$request.body#remove-module-to-restore-original-state}'
+                    example:
+                      - link-id: '305551234'
+                        add-deviation-from-original-state: 'RedundantTransmittersOff'
+                        add-module-to-restore-original-state: 'AllTransmittesrOn'
+                      - link-id: '305551234'
+                        remove-deviation-from-original-state: 'RedundantTransmittersOff'
+                        remove-module-to-restore-original-state: 'AllTransmittesrOn'
+              responses:
+                '204':
+                  description: 'Recorded powerSavingStatus for linkId'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /v1/list-power-saving-status:
+  /v1/list-power-saving-status: #done
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -886,10 +977,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks: RequestForListingPowerSavingStatusCausesStatusTableReading
-      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
+      #callbacks: RequestForListingPowerSavingStatusCausesStatusTableReading -> read from Elastic wird ausgelassen
 
-  /v1/provide-power-saving-status-of-link:
+  /v1/provide-power-saving-status-of-link: #done
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -943,10 +1033,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks: RequestForPowerSavingStatusOfLinkCausesLinkStatusReading
-      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
+      #callbacks: RequestForPowerSavingStatusOfLinkCausesLinkStatusReading -> read from Elastic wird ausgelassen
 
-  /v1/list-affected-links:
+  /v1/list-affected-links: #done
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1014,10 +1103,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks: RequestForListingAffectedLinksCausesStatusTableFiltering
-      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
+      #callbacks: RequestForListingAffectedLinksCausesStatusTableFiltering -> read from Elastic wird ausgelassen
 
-  /v1/list-to-be-restored-links:
+  /v1/list-to-be-restored-links: #done
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1085,10 +1173,9 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks: RequestForListingLinksToBeRestoredCausesStatusTableFiltering
-      #callback auskommentiert, analog zum MATR, da nur Lesen von ElasticSearch
+      #callbacks: RequestForListingLinksToBeRestoredCausesStatusTableFiltering -> read from Elastic wird ausgelassen
 
-  /v1/delete-link-from-power-saving-status-table:
+  /v1/delete-link-from-power-saving-status-table: #todo
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1165,6 +1252,8 @@ paths:
 ########################################################################################################################
 #   Service Layer - Basic Part - Following paths must be copied into every application
 ########################################################################################################################
+
+
   /v1/register-yourself:
     parameters:
       - $ref: '#/components/parameters/user'
