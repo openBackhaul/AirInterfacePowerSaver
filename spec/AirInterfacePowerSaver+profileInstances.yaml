@@ -28,14 +28,14 @@ profile-instances:
       request: 'https://[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=*-0-0-1-tcp-s-0000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]/docs'
 
   - profile-name: 'StringProfile'
-    uuid: 'aips-0-0-5-string-p-100'
+    uuid: 'aips-0-0-5-string-p-000'
     capability:
       string-name: 'RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache'
     configuration:
       string-value: 'transmission-mode-max'
 
   - profile-name: 'StringProfile'
-    uuid: 'aips-0-0-5-string-p-101'
+    uuid: 'aips-0-0-5-string-p-001'
     capability:
       string-name: 'RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive'
     configuration:

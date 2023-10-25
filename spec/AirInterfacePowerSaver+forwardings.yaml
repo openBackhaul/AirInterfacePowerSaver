@@ -99,7 +99,7 @@ forwardings:
         uuid: aips-0-0-5-op-s-is-703
       - server-name: /v1/list-to-be-restored-links
         uuid: aips-0-0-5-op-s-is-704
-      - server-name: /v1/delete-link-from-power-saving-table
+      - server-name: /v1/delete-link-from-power-saving-status-table
         uuid: aips-0-0-5-op-s-is-705
     consequent-requests:
       - client-name: EATL://v1/record-service-request
@@ -386,7 +386,6 @@ forwardings:
       - client-name: ALT://v1/delete-fc-port
         uuid: aips-0-0-5-op-c-bm-alt-2-0-1-005
 
-
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
     uuid: aips-0-0-5-op-fc-is-500
     forwarding-type: InvariantProcessSnippet
@@ -535,7 +534,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-5-op-s-is-510
     consequent-requests:
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
   - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
@@ -565,7 +564,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-5-op-s-is-510
     consequent-requests:
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks

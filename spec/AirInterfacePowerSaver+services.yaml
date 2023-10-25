@@ -69,7 +69,7 @@ servers:
           uuid: aips-0-0-5-op-s-is-703
         - operation-name: /v1/list-to-be-restored-links
           uuid: aips-0-0-5-op-s-is-704
-        - operation-name: /v1/delete-link-from-power-saving-table
+        - operation-name: /v1/delete-link-from-power-saving-status-table
           uuid: aips-0-0-5-op-s-is-705
 
   http-server:

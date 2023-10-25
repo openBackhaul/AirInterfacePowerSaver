@@ -80,7 +80,7 @@ note over rto
       AND (at least one responseCode of SwitchTransmitters<b>On</b> != 200))
   THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
 end note
-rto -> recordStatus: {linkId, addDeviationsFromOriginalState="UndefinedState", removeModulesToRestoreOriginalState="AllTransmittersOn"}
+rto -> recordStatus: {linkId, addDeviationsFromOriginalState="UndefinedState", addModulesToRestoreOriginalState="AllTransmittersOn"}
 rto -> requestor: {requestId, statusOfLink="UndefinedState"}
 
 
