@@ -642,14 +642,403 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks:
-        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReadPowerSavingStatusOfLink
-        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.Response
-        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints
-        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn
-        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
-        #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff
-
+      callbacks:
+        RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction:
+          ReadPowerSavingStatusOfLink: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-aips-0-0-5-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            #/v1/provide-power-saving-status-of-link
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        link-id:
+                          type: string
+                          description: >
+                            'Identifier of the microwave link for which power saving status shall be provided
+                            from {request.body#link-id}'
+              responses:
+                '200':
+                  description: 'PowerSavingStatus for linkId provided'
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/POWER_SAVING_STATUS_OF_LINK'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          DetermineLinkEndpoints: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            #MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                            'Identifier (uuid) of an parallel link for which link endpoints shall be retrieved from MWDI cache, executed for each found parallel link
+                            from {request.body#link-id}'
+              responses:
+                '200':
+                  description: 'Link endpoint address triplets for linkId provided'
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/LINK_ADDRESS_TRIPLES'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          SwitchTransmittersOn: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
+            #done for both link endpoints: where to write that down?
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                            'Identifier the device from the link endpoint address triplet
+                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            TODO/mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'RF-2146697473'
+                  description: >
+                            'Identifier the uuid from the link endpoint address triplet
+                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            TODO/uuid}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '2146697473'
+                  description: >
+                            'Identifier the local-id from the link endpoint address triplet
+                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            TODO/local-id}'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        transmitter-is-on:
+                          type: boolean
+                          enum: 
+                            - true
+                          description: 'The value of transmitter-is-on is set to be set to true'
+                    example:
+                      transmitter-is-on: true
+              responses:
+                '204':
+                  description: 'Transmitter of link endpoint was switched on'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'                    
+          ReportPowerSavingStatus: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-aips-0-0-5-511/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          # /v1/record-power-saving-status
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      oneOf:
+                        - description: > 
+                            'modules to add to the powerSavingStatus entry for the linkId
+                            from {IF (at least one responseCode of RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn != 200)
+                                      AND (both responseCodes of RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff == 200)
+                                  THEN chose add modules}'
+                          type: object
+                          required:
+                            - link-id
+                            - add-deviation-from-original-state
+                            - add-module-to-restore-original-state
+                          properties:
+                            link-id:
+                              type: string
+                              description: >
+                                'Identifier of the microwave link for which the entry shall be created or updated
+                                from {request.body#link-id}'
+                            add-deviation-from-original-state:
+                              type: string
+                              enum:
+                                - 'RedundantTransmittersOff'
+                              description: >
+                                'Name of the module causing a deviation from the original state'
+                            add-module-to-restore-original-state:
+                              type: string
+                              enum:
+                                - 'AllTransmittersOn'
+                              description: >
+                                'Name of the module to restore the original state'                    
+                          example:
+                            link-id: '305551234'
+                            add-deviation-from-original-state: 'RedundantTransmittersOff'
+                            add-module-to-restore-original-state: 'AllTransmittesrOn'
+                        - description: >
+                            'modules to remove from the powerSavingStatus entry for the linkId
+                              from {IF (at both responseCodes of RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn == 200)                                
+                                THEN chose remove modules}'
+                          type: object
+                          required:
+                            - link-id
+                            - remove-deviation-from-original-state
+                            - remove-module-to-restore-original-state
+                          properties:
+                            link-id:
+                              type: string
+                              description: >
+                                'Identifier of the microwave link for which the entry shall be created or updated
+                                from {request.body#link-id}
+                            remove-deviation-from-original-state:
+                              type: string
+                              enum:
+                                - 'RedundantTransmittersOff'
+                              description: >
+                                'Name of the module causing a deviation from the original state'
+                            remove-module-to-restore-original-state:
+                              type: string
+                              enum:
+                                - 'AllTransmittersOn'
+                              description: >
+                                'Name of the module to restore the original state'
+                      example:
+                        - link-id: '305551234'
+                          add-deviation-from-original-state: 'RedundantTransmittersOff'
+                          add-module-to-restore-original-state: 'AllTransmittersOn'
+                        - link-id: '305551234'
+                          remove-deviation-from-original-state: 'RedundantTransmittersOff'
+                          remove-module-to-restore-original-state: 'AllTransmittersOn'
+              responses:
+                '204':
+                  description: 'Recorded powerSavingStatus for linkId'            
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'          
+          SwitchBothTransmittersOff: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg          
+            #done for both link endpoints: where to write that down?
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                            'Identifier the device from the link endpoint address triplet
+                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            TODO/mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'RF-2146697473'
+                  description: >
+                            'Identifier the uuid from the link endpoint address triplet
+                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            TODO/uuid}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '2146697473'
+                  description: >
+                            'Identifier the local-id from the link endpoint address triplet
+                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            TODO/local-id}'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        transmitter-is-on:
+                          type: boolean
+                          enum:
+                            - false
+                          description: 'The value of transmitter-is-on is set to be set to true'
+                    example:
+                      transmitter-is-on: false
+              responses:
+                '204':
+                  description: 'Transmitter of link endpoint was switched off'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          Response: #[{$request.body#requestor-protocol}]://[{$request.body#requestor-address.ip-address.ipv-4-address} or {$request.body#requestor-address.domain-name}]:[{$request.body#requestor-port}][{$request.body#requestor-receive-operation}]
+          # what to return?
+          # 1. if (ReadPowerSavingStatusOfLink.modulesToRestoreOriginalState does not contain "AllTransmittersOn"): {requestId, status-of-link="AllTransmittersOn"}
+          # 2. else if (both SwitchTransmittersOn.responseCode == 200): {requestId, status-of-link="AllTransmittersOn"}
+          # 3. else if (both SwitchBothTransmittersOff.responseCode == 200): {requestId, status-of-link="RedundantTransmittersOff"}
+          # 4. else: {requestId, status-of-link="UndefinedState"}
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          request-id:
+                            type: string
+                            enum:
+                              - 'AllTransmittersOn'
+                              - 'RedundantTransmittersOff'
+                              - 'UndefinedState'
+                            description: >
+                              'Identifier of the request for a current mac-table
+                              from {$response.body#request-id}'
+                          status-of-link:
+                            type: string
+                            description: >
+                              'The link powerSavingStatus after processing of reactivate-all-transmitters-of-link
+                              from {IF (RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReadPowerSavingStatusOfLink.response.body#modules-to-restore-original-state contains "AllTransmittersOn")
+                                      THEN status-of-link=AllTransmittersOn
+                                    ELSE IF (both RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn.response.code==200)
+                                      THEN status-of-link=AllTransmittersOn
+                                    ELSE IF (both RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff.response.code==200)
+                                      THEN status-of-link=RedundantTransmittersOff
+                                    ELSE status-of-link=UndefinedState}'
+                      example:
+                        - request-id: '305251234-101120-1400'
+                          status-of-link: 'AllTransmittersOn'
+              responses:
+                '200':
+                  description: 'Provide transmitter status of parallel link'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          request-id:
+                            type: string
+                            description: >
+                              'Identifier of the microwave link for which the transmitter status of parallel links shall be retrieved
+                              from {$response.body#request-id}'
+                          status-of-link:
+                            type: string
+                            description: >
+                              'The link powerSavingStatus after processing of reactivate-all-transmitters-of-link
+                              from {RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.Response.request.body#status-of-link}'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/provide-transmitter-status-of-parallel-links: #done
     parameters:
       - $ref: '#/components/parameters/user'
@@ -1181,13 +1570,13 @@ paths:
                       type: string
                       description: >
                         'Name of the module to restore the original state'
-                  example:
-                    - link-id: '305551234'
-                      add-deviation-from-original-state: 'RedundantTransmittersOff'
-                      add-module-to-restore-original-state: 'AllTransmittesrOn'
-                    - link-id: '305551234'
-                      remove-deviation-from-original-state: 'RedundantTransmittersOff'
-                      remove-module-to-restore-original-state: 'AllTransmittesrOn'
+            example:
+              - link-id: '305551234'
+                add-deviation-from-original-state: 'RedundantTransmittersOff'
+                add-module-to-restore-original-state: 'AllTransmittesrOn'
+              - link-id: '305551234'
+                remove-deviation-from-original-state: 'RedundantTransmittersOff'
+                remove-module-to-restore-original-state: 'AllTransmittesrOn'
       responses:
         '204':
           description: 'Recorded powerSavingStatus for linkId'
@@ -1367,7 +1756,7 @@ paths:
               required:
                 - link-id
               properties:
-                mount-name:
+                link-id:
                   type: string
                   description: >
                     'Identifier of the microwave link for which power saving status shall be provided'
