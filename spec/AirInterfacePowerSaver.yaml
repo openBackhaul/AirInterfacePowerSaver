@@ -463,11 +463,11 @@ paths:
                 link-id:
                   type: string
                   description: >
-                    'linkId for which transmitters shall be switched-off'
+                    'Identifier of the microwave link for which transmitters shall be switched-off'
                 automation-name:
                   type: string
                   description: >
-                    'automation-name for which transmitters shall be switched-off'                  
+                    'Automation-name for which transmitters shall be switched-off'                  
                 requestor-protocol:
                   type: string
                   description: >
@@ -573,11 +573,11 @@ paths:
                 link-id:
                   type: string
                   description: >
-                    'linkId for which transmitters shall be reactivated'
+                    'Identifier of the microwave link for which transmitters shall be reactivated'
                 automation-name:
                   type: string
                   description: >
-                    'automation-name for which transmitters shall be reactivated'                  
+                    'Automation-name for which transmitters shall be reactivated'                  
                 requestor-protocol:
                   type: string
                   description: >
@@ -681,7 +681,7 @@ paths:
                 link-id:
                   type: string
                   description: >
-                    'linkId for which the transmitter status of parallel links shall be retrieved'
+                    'Identifier of the microwave link for which the transmitter status of parallel links shall be retrieved'
                 requestor-protocol:
                   type: string
                   description: >
@@ -784,15 +784,15 @@ paths:
                     link-id:
                       type: string
                       description: >
-                        'Id of the link, for which the entry shall be created or updated'
+                        'Identifier of the microwave link for which the entry shall be created or updated'
                     add-deviation-from-original-state:
                       type: string
                       description: >
-                        'name of the module causing a deviation from the original state'
+                        'Name of the module causing a deviation from the original state'
                     add-module-to-restore-original-state:
                       type: string
                       description: >
-                        'name of the module to restore the original state'                    
+                        'Name of the module to restore the original state'                    
                   example:
                     link-id: '305551234'
                     add-deviation-from-original-state: 'RedundantTransmittersOff'
@@ -807,15 +807,15 @@ paths:
                     link-id:
                       type: string
                       description: >
-                        'Id of the link, for which the entry shall be updated'
+                        'Identifier of the microwave link for which the entry shall be updated'
                     remove-deviation-from-original-state:
                       type: string
                       description: >
-                        'name of the module causing a deviation from the original state'
+                        'Name of the module causing a deviation from the original state'
                     remove-module-to-restore-original-state:
                       type: string
                       description: >
-                        'name of the module to restore the original state'
+                        'Name of the module to restore the original state'
                   example:
                     - link-id: '305551234'
                       add-deviation-from-original-state: 'RedundantTransmittersOff'
@@ -871,17 +871,17 @@ paths:
                             link-id:
                               type: string
                               description: >
-                                'Id of the link, for which the entry shall be created or updated
+                                'Identifier of the microwave link for which the entry shall be created or updated
                                 from {$request.body#link-id}'
                             add-deviation-from-original-state:
                               type: string
                               description: >
-                                'name of the module causing a deviation from the original state to be added uniquely to the deviationsFromOriginalState-list
+                                'Name of the module causing a deviation from the original state to be added uniquely to the deviationsFromOriginalState-list
                                 from {$request.body#add-deviation-from-original-state}'
                             add-module-to-restore-original-state:
                               type: string
                               description: >
-                                'name of the module to restore the original state to be added uniquely to the modulesToRestoreOriginalState-list
+                                'Name of the module to restore the original state to be added uniquely to the modulesToRestoreOriginalState-list
                                 from {$request.body#add-module-to-restore-original-state}'                    
                           example:
                             link-id: '305551234'
@@ -897,17 +897,17 @@ paths:
                             link-id:
                               type: string
                               description: >
-                                'Id of the link, for which the entry shall be updated
+                                'Identifier of the microwave link for which the entry shall be updated
                                 from {$request.body#link-id}'
                             remove-deviation-from-original-state:
                               type: string
                               description: >
-                                'name of the module causing a deviation from the original state to be removed from the deviationsFromOriginalState-list
+                                'Name of the module causing a deviation from the original state to be removed from the deviationsFromOriginalState-list
                                 from {$request.body#remove-deviation-from-original-state}'
                             remove-module-to-restore-original-state:
                               type: string
                               description: >
-                                'name of the module to restore the original state to be removed from the modulesToRestoreOriginalState-list
+                                'Name of the module to restore the original state to be removed from the modulesToRestoreOriginalState-list
                                 from {$request.body#remove-module-to-restore-original-state}'
                     example:
                       - link-id: '305551234'
@@ -1005,7 +1005,7 @@ paths:
                 mount-name:
                   type: string
                   description: >
-                    'Id of the link, for which power saving status shall be provided'
+                    'Identifier of the microwave link for which power saving status shall be provided'
               example:
                 link-id: '305551234'
       responses:
@@ -1131,7 +1131,7 @@ paths:
                 mount-name:
                   type: string
                   description: >
-                    'moduleToRestoreOriginalState for which the powerSavingStatus table shall be filtered'
+                    'ModuleToRestoreOriginalState for which the powerSavingStatus table shall be filtered'
               example:
                 module-to-restore-original-state: 'AllTransmittersOn'
       responses:
@@ -1175,7 +1175,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       #callbacks: RequestForListingLinksToBeRestoredCausesStatusTableFiltering -> read from Elastic wird ausgelassen
 
-  /v1/delete-link-from-power-saving-status-table: #todo
+  /v1/delete-link-from-power-saving-status-table: #done
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1200,7 +1200,7 @@ paths:
               properties:
                 link-id:
                   type: string
-                  description: 'Identifier of the microwave link in the Telefonica planing tools'
+                  description: 'Identifier of the microwave link'
               example:
                 link-id: '513550010'
       responses:
@@ -1219,12 +1219,11 @@ paths:
                       type: string
                       description: >
                         'List of deviationsFromOriginalState modules read from ElasticSearch for the linkId
-                        from {$RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletion.GetPowerSavingStatus.response.body#/list-of-deviations-from-original-state} if not emptyList'
-                        or emptyList
+                        from {$RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletion.GetPowerSavingStatus.response.body#/list-of-deviations-from-original-state (can be an empty list), 
+                        or emptyList if the link-id was not found in the PowerSavingStatusTable during GetPowerSavingStatus}'
               example:
-                list-of-deviations-from-original-state:
-                  - 'RedundantTransmittersOff'
-                  - 'UndefinedState'                    
+                - list-of-deviations-from-original-state: ['RedundantTransmittersOff', 'UndefinedState' ]
+                - list-of-deviations-from-original-state: []
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -1243,11 +1242,47 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks:
-        #RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.GetPowerSavingStatus
-          # read from ES
-        #RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.DeleteLinkFromElasticSearch
-          # delete from ES
+      callbacks:
+        RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt:
+          #GetPowerSavingStatus: omitted, read from ElasticSearch
+          DeleteLinkFromElasticSearch: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-es-c-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            # is only executed, if (linkId was found in GetPowerSavingStatus) AND (linkId.deviationsFromOriginalState==emptyList)
+            # TODO: muss das noch irgendwo explizit reingeschrieben werden? 
+            delete:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - link-id
+                      properties:
+                        link-id:
+                          type: string
+                          description: > 
+                            'Identifier of the link for which the entry in the powerSavingStatus table shall be deleted
+                            from {$request.body#link-id}'
+                      example:
+                        link-id: '513550010'
+              responses:
+                '204':
+                  description: 'Entry for linkId deleted from powerSavingStatusTable'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
 ########################################################################################################################
 #   Service Layer - Basic Part - Following paths must be copied into every application
