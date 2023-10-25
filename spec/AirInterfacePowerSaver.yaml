@@ -650,7 +650,7 @@ paths:
         #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
         #RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff
 
-  /v1/provide-transmitter-status-of-parallel-links: #todo
+  /v1/provide-transmitter-status-of-parallel-links: #done
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -737,7 +737,6 @@ paths:
                 properties:
                   request-id:
                     type: string
-                    description: 'Identifier of the request for parallel link status'
                 example:
                   request-id: '305251234-101120-1400'
         '4XX':
@@ -746,13 +745,379 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks:
-        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks
-        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints
-        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
-        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
-        #RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response
-
+      callbacks:
+        RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi:
+          GetParallelLinks: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-601/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            # MWDI://v1/provide-list-of-parallel-links
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - link-id
+                      properties:
+                        link-id:
+                          type: string
+                          description: > 
+                            'Identifier of the link for which the parallel links shall be retrieved from MWDI
+                            from {$request.body#link-id}'
+                      example:
+                        link-id: '513550010'
+              responses:
+                '200':
+                  description: 'List of parallel links provided'
+                  # was wird zurückgeliefert?
+                  # list-of-(linkId, layerProtocolName)
+                  # DAS MUSS AN MWDI-SPEC ANGEPASST WERDEN, SOBALD MWDI-SPEC FERTIG IST
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        required:
+                          - parallel-links
+                        properties:
+                          parallel-links:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                parallel-link-id:
+                                  type: string
+                                layer-protocol-name:
+                                  type: string                             
+                      example:
+                        parallel-links:
+                          - parallel-link-id: '305551234'
+                            layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                          - parallel-link-id: '305551001'
+                            layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          DetermineLinkEndpoints: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-602/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            # MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                            'Identifier (uuid) of an parallel link for which link endpoints shall be retrieved from MWDI cache, executed for each found parallel link
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks.response.body#parallel-links/parallel-link-id}'
+              responses:
+                '200':
+                  description: 'List of parallel links provided'
+                  # was wird zurückgeliefert? 2x(mount-name, uuid, localId)
+                  # muss erst im MWDI definiert werden
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        $ref: '#/components/schemas/LINK_ADDRESS_TRIPLES'
+                      #example: todo              
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          GetAirInterfaceConfigFromCache:  #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-603/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            # MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
+            # is executed for each found link endpoint: does this need to be included here somewhere?
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                            'Identifier the device from the link endpoint address triplet
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            TODO/mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'RF-2146697473'
+                  description: >
+                            'Identifier the uuid from the link endpoint address triplet
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            TODO/uuid}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '2146697473'
+                  description: >
+                            'Identifier the local-id from the link endpoint address triplet
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            TODO/local-id}' 
+                - name: fields
+                  in: query
+                  schema:
+                    type: string
+                    example: ''
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aips-0-0-5-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'AirInterfaceConfiguration provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        description: 'Only relevant attributes listed'
+                        type: object
+                        properties:
+                          air-interface-2-0:air-interface-configuration:
+                            type: object
+                            properties:
+                              transmission-mode-max:
+                                type: string
+                      example:
+                        air-interface-2-0:air-interface-configuration:
+                          transmission-mode-max: '0007-128QAM-78528/87570-1'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          GetAirInterfaceStatusFromLive:   #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-604/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            #MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
+            # is executed for each found link endpoint: does this need to be included here somewhere?
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+                - name: mount-name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '305551234'
+                  description: >
+                            'Identifier the device from the link endpoint address triplet
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            TODO/mount-name}'
+                - name: uuid
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: 'RF-2146697473'
+                  description: >
+                            'Identifier the uuid from the link endpoint address triplet
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            TODO/uuid}'
+                - name: local-id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: '2146697473'
+                  description: >
+                            'Identifier the local-id from the link endpoint address triplet
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            TODO/local-id}' 
+                - name: fields
+                  in: query
+                  schema:
+                    type: string
+                    example: ''
+                  description: >
+                    'If different from empty string, a fields filter with the following value to be added to the request
+                    from [/core-model-1-4:control-construct/profile-collection/profile=aips-0-0-5-string-p-001/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
+              responses:
+                '200':
+                  description: 'AirInterfaceStatus provided from live network'
+                  content:
+                    application/json:
+                      schema:
+                        description: 'Only relevant attributes listed'
+                        type: object
+                        properties:
+                          air-interface-2-0:air-interface-status:
+                            type: object
+                            properties:
+                              interface-status:
+                                type: string
+                              transmission-mode-cur:
+                                type: string
+                      example:
+                        air-interface-2-0:air-interface-configuration:
+                          interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                          transmission-mode-cur: '0007-128QAM-78528/87570-1'
+                  headers:
+                    x-correlator:
+                      $ref: '#/components/headers/x-correlator'
+                    exec-time:
+                      $ref: '#/components/headers/exec-time'
+                    backend-time:
+                      $ref: '#/components/headers/backend-time'
+                    life-cycle-state:
+                      $ref: '#/components/headers/life-cycle-state'
+                      description: 'Life cycle state of the consumed service'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          Response: #[{$request.body#requestor-protocol}]://[{$request.body#requestor-address.ip-address.ipv-4-address} or {$request.body#requestor-address.domain-name}]:[{$request.body#requestor-port}][{$request.body#requestor-receive-operation}]
+          # what to return?
+          # 1. if GetParallelLinks.response == emptyList: {requestId, emptyList, responseCode=200}
+          # 2. if (any responseCode!=200): {requestId, responseCode=404}
+          # 3. "else": {requestId, list-of(interfaceStatus,transmissionModeMax,transmissionModeCur)-A, list-of(interfaceStatus,transmissionModeMax,transmissionModeCur)-B} -> am Besten als Schema
+          #             TRANSMITTER_STATUS_OF_LINK_ENDPOINT = list-of(interfaceStatus,transmissionModeMax,transmissionModeCur) for link endpoint
+          #             TRANSMITTER_STATUS_OF_LINK = (TRANSMITTER_STATUS_OF_LINK_ENDPOINT-A, TRANSMITTER_STATUS_OF_LINK_ENDPOINT-B)
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          request-id:
+                            type: string
+                            description: >
+                              'Identifier of the request for a current mac-table
+                              from {$response.body#request-id}'
+                            example: '305251234-101120-1400'
+                          has-parallel-links:
+                            type: boolean
+                            description: >
+                              'If there are parallel links
+                                from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks.response.body#parallel-links != emptyList) THEN true ELSE false}'
+                            example: 'true'
+                          transmitter-status-of-link:
+                            type: array
+                            description: 'Provides the transmitter status of both link endpoints as a list of nested lists'
+                            minItems: 2
+                            maxItems: 2
+                            items:
+                              type: object
+                              properties:
+                                interface-status:
+                                  type: string
+                                  description: >
+                                    'Status of the interface at the link endpoint
+                                    from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive.response.body#air-interface-2-0:air-interface-status/interface-status}'
+                                transmission-mode-max:
+                                  type: string
+                                  description: >
+                                    'Maximum configured transmission mode at the link endpoint
+                                    from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}'
+                                transmission-mode-cur:
+                                  type: string
+                                  description: >
+                                    'Currently operated transmission mode at the link endpoint
+                                    from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}'
+                            example:
+                              - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                transmission-mode-max: '0007-128QAM-78528/87570-1'
+                                transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                              - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                transmission-mode-max: '0007-QPSK-22080/24454-1'
+                                transmission-mode-cur: '0007-QPSK-22080/24454-1'
+              responses:
+                '200':
+                  description: 'Provide transmitter status of parallel link'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        properties:
+                          request-id:
+                            type: string
+                            description: >
+                              'Identifier of the microwave link for which the transmitter status of parallel links shall be retrieved
+                              from {$response.body#request-id}'
+                          transmitter-status-of-link:
+                            type: array
+                            description: >
+                              'Complete transmitter status of the parallel link or an empty list
+                              from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == false) THEN
+                                emptyList
+                                ELSE 
+                                (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint A) 
+                                  AND (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint B)
+                              }'
+                '4XX':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/record-power-saving-status: #done
     parameters:
@@ -10599,6 +10964,47 @@ components:
         deviations-from-original-state: ['RedundantTransmittersOff','UndefinedState']
         modules-to-restore-original-state: ["AllTransmittersOn"]
 
+    
+    TRANSMITTER_STATUS_OF_LINK_ENDPOINT:
+      type: object
+      required:
+        - interface-status
+        - transmission-mode-max
+        - transmission-mode-cur
+      properties:
+        interface-status:
+          type: string
+          description: 'Status of the interface at the link endpoint'
+        transmission-mode-max:
+          type: string
+          description: 'Maximum configured transmission mode at the link endpoint'
+        transmission-mode-cur:
+          type: string
+          description: 'Currently operated transmission mode at the link endpoint'
+      example:
+        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+        - transmission-mode-max: '0007-128QAM-78528/87570-1'
+        - transmission-mode-cur: '0007-QPSK-22080/24454-1'
+
+    TRANSMITTER_STATUS_OF_LINK:
+      type: array
+      description: 'Provides the transmitter status of both link endpoints as a list of nested lists'
+      minItems: 2
+      maxItems: 2      
+      items:
+        $ref: '#/components/schemas/TRANSMITTER_STATUS_OF_LINK_ENDPOINT'
+      example:
+        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+          transmission-mode-max: '0007-128QAM-78528/87570-1'
+          transmission-mode-cur: '0007-QPSK-22080/24454-1'
+        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+          transmission-mode-max: '0007-QPSK-22080/24454-1'
+          transmission-mode-cur: '0007-QPSK-22080/24454-1'
+
+    LINK_ADDRESS_TRIPLES:
+      type: object
+      description: 'link address information retrieved from MWDI cache'
+      # 2x (mount-name, uuid, localid)
 
   securitySchemes:
     apiKeyAuth:

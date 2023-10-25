@@ -9,8 +9,8 @@ participant "external" as requestor
 participant "AIPS://v1/provide-transmitter-status-of-parallel-links" as provideStatus
 participant "MWDI://v1/provide-list-of-parallel-links" as mwdiParallelLink
 participant "MWDI://core-model-1-4:network-control-domain=cache/link={uuid}" as resolver
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max" as mwdiAirIfConfig
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur" as mwdiAirIfStatus
+'participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max" as mwdiAirIfConfig
+'participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur" as mwdiAirIfStatus
 
 requestor -> provideStatus: {linkId, own_IpAddress, own_TcpPort, own_responseServiceName}
 activate provideStatus

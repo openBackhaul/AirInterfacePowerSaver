@@ -1,0 +1,64 @@
+components:
+  schemas:
+
+      POWER_SAVING_STATUS_OF_LINK:
+      type: object
+      required:
+        - link-id
+        - deviations-from-original-state
+        - modules-to-restore-original-state
+      properties:
+        link-id:
+          type: string
+          description: 'Id of the link'
+        deviations-from-original-state:
+          type: array
+          items:
+            type: string
+            description: 'module causing deviation from original state'
+        modules-to-restore-original-state:
+          type: array
+          items:
+            type: string
+            description: 'module to restore original state'
+      example:
+        link-id: '104550001'
+        deviations-from-original-state: ['RedundantTransmittersOff','UndefinedState']
+        modules-to-restore-original-state: ["AllTransmittersOn"]
+
+
+    TRANSMITTER_STATUS_OF_LINK_ENDPOINT:
+      type: object
+      required:
+        - interface-status
+        - transmission-mode-max
+        - transmission-mode-cur
+      properties:
+        interface-status:
+          type: string
+          description: 'Status of the interface at the link endpoint'
+        transmission-mode-max:
+          type: string
+          description: 'Maximum configured transmission mode at the link endpoint'
+        transmission-mode-cur:
+          type: string
+          description: 'Currently operated transmission mode at the link endpoint'
+      example:
+        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+        - transmission-mode-max: '0007-128QAM-78528/87570-1'
+        - transmission-mode-cur: '0007-QPSK-22080/24454-1'
+
+    TRANSMITTER_STATUS_OF_LINK:
+      type: array
+      description: 'Provides the transmitter status of both link endpoints as a list of nested lists'
+      minItems: 2
+      maxItems: 2      
+      items:
+        $ref: '#/components/schemas/TRANSMITTER_STATUS_OF_LINK_ENDPOINT'
+      example:
+        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+          transmission-mode-max: '0007-128QAM-78528/87570-1'
+          transmission-mode-cur: '0007-QPSK-22080/24454-1'
+        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+          transmission-mode-max: '0007-QPSK-22080/24454-1'
+          transmission-mode-cur: '0007-QPSK-22080/24454-1'
