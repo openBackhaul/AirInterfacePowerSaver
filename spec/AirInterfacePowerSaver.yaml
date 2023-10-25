@@ -11816,12 +11816,12 @@ components:
             description: 'module to restore original state'
       example:
         link-id: '104550001'
-        deviations-from-original-state: 
+        deviations-from-original-state:
           - 'RedundantTransmittersOff'
           - 'UndefinedState'
         modules-to-restore-original-state:
           - 'AllTransmittersOn'
-  
+
     TRANSMITTER_STATUS_OF_LINK_ENDPOINT:
       type: object
       required:
@@ -11847,7 +11847,7 @@ components:
       type: array
       description: 'Provides the transmitter status of both link endpoints as a list of nested lists'
       minItems: 2
-      maxItems: 2      
+      maxItems: 2
       items:
         $ref: '#/components/schemas/TRANSMITTER_STATUS_OF_LINK_ENDPOINT'
       example:
