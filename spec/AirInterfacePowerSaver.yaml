@@ -437,7 +437,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
 
       operationId: switchRedundantTransmittersPairOff
@@ -467,7 +467,7 @@ paths:
                 automation-name:
                   type: string
                   description: >
-                    'Automation-name for which transmitters shall be switched-off'                  
+                    'Automation-name for which transmitters shall be switched-off'
                 requestor-protocol:
                   type: string
                   description: >
@@ -736,7 +736,7 @@ paths:
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'               
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
           ReportPowerSavingStatus: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-aips-0-0-5-501/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             #/v1/record-power-saving-status
             # cases:
@@ -755,7 +755,7 @@ paths:
                   application/json:
                     schema:
                       oneOf:
-                        - description: > 
+                        - description: >
                             'modules to add to the powerSavingStatus entry for the linkId: successful switch-off
                             from {IF (for both RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOff.response.code==200)}'
                           type: object
@@ -780,7 +780,7 @@ paths:
                               enum:
                                 - 'AllTransmittersOn'
                               description: >
-                                'Name of the module to restore the original state'                    
+                                'Name of the module to restore the original state'
                           example:
                             link-id: '305551234'
                             add-deviation-from-original-state: 'RedundantTransmittersOff'
@@ -812,7 +812,7 @@ paths:
                                 - 'AllTransmittersOn'
                               description: >
                                 'Name of the module to restore the original state'
-                        - description: > 
+                        - description: >
                             'modules to add to the powerSavingStatus entry for the linkId: failed switch-off and rollback
                             from {IF (at least one RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOff.response.code!=200)
                                 AND (at least one RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOn.response.code!=200)}'
@@ -848,7 +848,7 @@ paths:
                           remove-module-to-restore-original-state: 'AllTransmittersOn'
               responses:
                 '204':
-                  description: 'Recorded powerSavingStatus for linkId'            
+                  description: 'Recorded powerSavingStatus for linkId'
                   headers:
                     x-correlator:
                       $ref: '#/components/headers/x-correlator'
@@ -935,7 +935,7 @@ paths:
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'      
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
           Response: #[{$request.body#requestor-protocol}]://[{$request.body#requestor-address.ip-address.ipv-4-address} or {$request.body#requestor-address.domain-name}]:[{$request.body#requestor-port}][{$request.body#requestor-receive-operation}]
           # what to return?
           # 1. if (GetParallelLinks returns emptyList or no sufficient parallel link): {requestId, status-of-link="AllTransmittersOn"}
@@ -1012,7 +1012,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
 
       operationId: reactivateTransmittersOfLink
@@ -1042,7 +1042,7 @@ paths:
                 automation-name:
                   type: string
                   description: >
-                    'Automation-name for which transmitters shall be reactivated'                  
+                    'Automation-name for which transmitters shall be reactivated'
                 requestor-protocol:
                   type: string
                   description: >
@@ -1264,7 +1264,7 @@ paths:
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'          
+                  $ref: '#/components/responses/responseForErroredServiceRequests'    
           ReportPowerSavingStatus: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-aips-0-0-5-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-aips-0-0-5-511/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
           # /v1/record-power-saving-status
             post:
@@ -1279,7 +1279,7 @@ paths:
                   application/json:
                     schema:
                       oneOf:
-                        - description: > 
+                        - description: >
                             'modules to add to the powerSavingStatus entry for the linkId
                             from {IF (at least one responseCode of RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn != 200)
                                       AND (both responseCodes of RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff == 200)
@@ -1621,7 +1621,7 @@ paths:
                       properties:
                         link-id:
                           type: string
-                          description: > 
+                          description: >
                             'Identifier of the link for which the parallel links shall be retrieved from MWDI
                             from {$request.body#link-id}'
                       example:
@@ -1980,7 +1980,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: recordPowerSavingStatus
       summary: 'Update or create an entry for a linkId in the powerSavingStatusTable'
@@ -2162,7 +2162,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: listPowerSavingStatusTable
       summary: 'Provides the powerSavingStatusTable'
@@ -2205,7 +2205,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: listPowerSavingStatusTable
       summary: 'Provides the powerSavingStatusTable'
@@ -2261,7 +2261,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: listAffectedLinks
       summary: 'Provides the list of affected links from the powerSavingStatusTable'
@@ -2331,7 +2331,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: listToBeRestoredLinks
       summary: 'Provides the list of links from powerSavingStatusTable filtered for a given restoreModule'
@@ -2401,7 +2401,7 @@ paths:
       - $ref: '#/components/parameters/originator'
       - $ref: '#/components/parameters/x-correlator'
       - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'    
+      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: deleteLinkFromPowerSavingTable
       summary: 'Deletes the entry of a link from the powerSavingStatusTable'
@@ -2479,7 +2479,7 @@ paths:
                       properties:
                         link-id:
                           type: string
-                          description: > 
+                          description: >
                             'Identifier of the link for which the entry in the powerSavingStatus table shall be deleted
                             from {$request.body#link-id}'
                       example:
