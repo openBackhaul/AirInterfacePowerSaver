@@ -1313,7 +1313,7 @@ paths:
                             add-module-to-restore-original-state: 'AllTransmittesrOn'
                         - description: >
                             'modules to remove from the powerSavingStatus entry for the linkId
-                              from {IF (at both responseCodes of RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn == 200)                                
+                              from {IF (at both responseCodes of RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn == 200)
                                 THEN chose remove modules}'
                           type: object
                           required:
@@ -1365,7 +1365,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchBothTransmittersOff: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg          
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on"
             #done for both link endpoints: where to write that down?
             post:
               parameters:
@@ -1647,7 +1647,7 @@ paths:
                                 parallel-link-id:
                                   type: string
                                 layer-protocol-name:
-                                  type: string                             
+                                  type: string
                       example:
                         parallel-links:
                           - parallel-link-id: '305551234'
@@ -1698,7 +1698,7 @@ paths:
                       schema:
                         type: object
                         $ref: '#/components/schemas/LINK_ADDRESS_TRIPLES'
-                      #example: todo              
+                      #example: todo
                   headers:
                     x-correlator:
                       $ref: '#/components/headers/x-correlator'
@@ -1963,8 +1963,8 @@ paths:
                               'Complete transmitter status of the parallel link or an empty list
                               from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == false) THEN
                                 emptyList
-                                ELSE 
-                                (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint A) 
+                                ELSE
+                                (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint A)
                                   AND (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint B)
                               }'
                 '4XX':
@@ -2073,7 +2073,7 @@ paths:
             #               wenn es den Eintrag schon gibt, dann wird in den beiden Modul-Listen einfach nur das Modul dazugeschrieben, sofern noch nicht enthalten
             #               (zumindest beim UndefinedState könnte versucht werden, den mehrfach hinzuzufügen)
             # - löschen: es wird nicht der komplette Eintrag für den Link gelöscht, sondern es werden nur die beiden Modulnamen aus den remove-Parametern aus den Modul-Listen gelöscht
-            # 
+            #
             # da in beiden Fällen nichts endgültig gelöscht wird, nur ein put (create/update), statt einem delete
             put:
               requestBody:
@@ -2439,7 +2439,7 @@ paths:
                       type: string
                       description: >
                         'List of deviationsFromOriginalState modules read from ElasticSearch for the linkId
-                        from {$RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletion.GetPowerSavingStatus.response.body#/list-of-deviations-from-original-state (can be an empty list), 
+                        from {$RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletion.GetPowerSavingStatus.response.body#/list-of-deviations-from-original-state (can be an empty list),
                         or emptyList if the link-id was not found in the PowerSavingStatusTable during GetPowerSavingStatus}'
               example:
                 - list-of-deviations-from-original-state: ['RedundantTransmittersOff', 'UndefinedState']
@@ -2467,7 +2467,7 @@ paths:
           #GetPowerSavingStatus: omitted, read from ElasticSearch
           DeleteLinkFromElasticSearch: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-es-c-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             # is only executed, if (linkId was found in GetPowerSavingStatus) AND (linkId.deviationsFromOriginalState==emptyList)
-            # TODO: muss das noch irgendwo explizit reingeschrieben werden? 
+            # TODO: muss das noch irgendwo explizit reingeschrieben werden?
             delete:
               requestBody:
                 content:
@@ -11816,10 +11816,12 @@ components:
             description: 'module to restore original state'
       example:
         link-id: '104550001'
-        deviations-from-original-state: ['RedundantTransmittersOff','UndefinedState']
-        modules-to-restore-original-state: ["AllTransmittersOn"]
-
-    
+        deviations-from-original-state: 
+          - 'RedundantTransmittersOff'
+          - 'UndefinedState'
+        modules-to-restore-original-state:
+          - 'AllTransmittersOn'
+  
     TRANSMITTER_STATUS_OF_LINK_ENDPOINT:
       type: object
       required:
