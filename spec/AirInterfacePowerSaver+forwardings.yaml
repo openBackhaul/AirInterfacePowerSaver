@@ -534,7 +534,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-5-op-s-is-510
     consequent-requests:
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
   - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
@@ -564,7 +564,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-5-op-s-is-510
     consequent-requests:
-      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks
