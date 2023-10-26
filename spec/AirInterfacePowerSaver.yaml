@@ -2178,7 +2178,17 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/POWER_SAVING_STATUS_OF_LINK'
+                  $ref: '#/components/schemas/POWER_SAVING_STATUS_OF_LINKS'
+              example:
+                - link-id: '104550001'
+                  deviations-from-original-state:
+                    - 'RedundantTransmittersOff'
+                    - 'UndefinedState'
+                  modules-to-restore-original-state:
+                    - 'AllTransmittersOn'
+                - link-id: '200551234'
+                  deviations-from-original-state: []
+                  modules-to-restore-original-state: []
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -11794,7 +11804,8 @@ components:
                     logical-termination-point:
                       type: string
 
-    POWER_SAVING_STATUS_OF_LINK:
+
+    POWER_SAVING_STATUS_OF_LINKS:
       type: object
       required:
         - link-id
@@ -11814,8 +11825,24 @@ components:
           items:
             type: string
             description: 'module to restore original state'
+
+    POWER_SAVING_STATUS_OF_LINK:
+      type: object
+      required:
+        - deviations-from-original-state
+        - modules-to-restore-original-state
+      properties:
+        deviations-from-original-state:
+          type: array
+          items:
+            type: string
+            description: 'module causing deviation from original state'
+        modules-to-restore-original-state:
+          type: array
+          items:
+            type: string
+            description: 'module to restore original state'
       example:
-        link-id: '104550001'
         deviations-from-original-state:
           - 'RedundantTransmittersOff'
           - 'UndefinedState'
