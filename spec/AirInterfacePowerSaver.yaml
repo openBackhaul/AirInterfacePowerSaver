@@ -431,6 +431,8 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
+
+  #TODO:_Rückgabe-Schema von /v1/provide-transmitter-status-of-parallel-links geändert -> callback anpassen
   /v1/switch-redundant-transmitter-pair-off:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -1006,6 +1008,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
+  #TODO:_Rückgabe-Schema von /v1/provide-transmitter-status-of-parallel-links geändert -> callback anpassen
   /v1/reactivate-transmitters-of-link:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -1898,52 +1901,58 @@ paths:
                 content:
                   application/json:
                     schema:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          request-id:
-                            type: string
-                            description: >
-                              'Identifier of the request for a current mac-table
-                              from {$response.body#request-id}'
-                            example: '305251234-101120-1400'
-                          has-parallel-links:
-                            type: boolean
-                            description: >
-                              'If there are parallel links
-                                from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks.response.body#parallel-links != emptyList) THEN true ELSE false}'
-                            example: 'true'
-                          transmitter-status-of-link:
-                            type: array
-                            description: 'Provides the transmitter status of both link endpoints as a list of nested lists'
-                            minItems: 2
-                            maxItems: 2
-                            items:
-                              type: object
-                              properties:
-                                interface-status:
-                                  type: string
-                                  description: >
-                                    'Status of the interface at the link endpoint
-                                    from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive.response.body#air-interface-2-0:air-interface-status/interface-status}'
-                                transmission-mode-max:
-                                  type: string
-                                  description: >
-                                    'Maximum configured transmission mode at the link endpoint
-                                    from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}'
-                                transmission-mode-cur:
-                                  type: string
-                                  description: >
-                                    'Currently operated transmission mode at the link endpoint
-                                    from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}'
-                            example:
-                              - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                                transmission-mode-max: '0007-128QAM-78528/87570-1'
-                                transmission-mode-cur: '0007-QPSK-22080/24454-1'
-                              - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                                transmission-mode-max: '0007-QPSK-22080/24454-1'
-                                transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                      type: object
+                      properties:
+                        request-id:
+                          type: string
+                          description: >
+                            'Identifier of the request for a current mac-table
+                            from {$response.body#request-id}'
+                          example: '305251234-101120-1400'                        
+                        has-parallel-links:
+                          # wird in responses überprüft, um zu entscheiden, ob die emptyList zurückgegeben werden muss oder nicht
+                          # ist es sinnvoll das hier zu inkludieren?
+                          type: boolean
+                          description: >
+                            'If there are parallel links
+                              from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks.response.body#parallel-links != emptyList) THEN true ELSE false}'
+                          example: 'true'
+                        transmitter-status-of-parallel-links:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # je eine item-Instanz pro parallelem link, die Id des paralleleln Links wird nicht gebraucht, nur dessen transmitter-status
+                              transmitter-status-of-link:
+                                type: array
+                                description: 'Provides the transmitter status of both link endpoints for a single parallel link as a list of nested lists'
+                                minItems: 2
+                                maxItems: 2
+                                items:
+                                  type: object
+                                  properties:
+                                    interface-status:
+                                      type: string
+                                      description: >
+                                        'Status of the interface at the link endpoint
+                                        from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive.response.body#air-interface-2-0:air-interface-status/interface-status}'
+                                    transmission-mode-max:
+                                      type: string
+                                      description: >
+                                        'Maximum configured transmission mode at the link endpoint
+                                        from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache.response.body#air-interface-2-0:air-interface-configuration/transmission-mode-max}'
+                                    transmission-mode-cur:
+                                      type: string
+                                      description: >
+                                        'Currently operated transmission mode at the link endpoint
+                                        from {RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive.response.body#air-interface-2-0:air-interface-status/transmission-mode-cur}'
+                                example:
+                                  - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                    transmission-mode-max: '0007-128QAM-78528/87570-1'
+                                    transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                                  - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                    transmission-mode-max: '0007-QPSK-22080/24454-1'
+                                    transmission-mode-cur: '0007-QPSK-22080/24454-1'
               responses:
                 '200':
                   description: 'Provide transmitter status of parallel link'
@@ -1957,16 +1966,33 @@ paths:
                             description: >
                               'Identifier of the microwave link for which the transmitter status of parallel links shall be retrieved
                               from {$response.body#request-id}'
-                          transmitter-status-of-link:
+                          transmitter-status-of-parallel-links:
                             type: array
-                            description: >
-                              'Complete transmitter status of the parallel link or an empty list
-                              from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == false) THEN
-                                emptyList
-                                ELSE
-                                (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint A)
-                                  AND (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint B)
-                              }'
+                            properties:
+                              transmitter-status-of-link:
+                                type: array
+                                description: >
+                                  'Complete transmitter status of the parallel link or an empty list
+                                  from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == false) THEN
+                                    emptyList
+                                    ELSE
+                                    (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint A)
+                                      AND (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/[interface-status,transmission-mode-max,transmission-mod-cur] for link endpoint B)
+                                  }'
+                      examples:
+                        no-parallel-links:
+                          value:
+                            transmitter-status-of-parallel-links: []
+                        transmitter-status-data-complete:
+                          value:
+                            transmitter-status-of-parallel-links:
+                              - transmitter-status-of-link:
+                                - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                  transmission-mode-max: '0007-128QAM-78528/87570-1'
+                                  transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                                - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                  transmission-mode-max: '0007-QPSK-22080/24454-1'
+                                  transmission-mode-cur: '0007-QPSK-22080/24454-1'                             
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
@@ -2443,7 +2469,7 @@ paths:
                 link-id: '513550010'
       responses:
         '200':
-          description: 'Deleted link from powerSavingTable'
+          description: 'Deleting the link from powerSavingTable only possible if emptyList is returned, otherwise link is kept.'
           content:
             application/json:
               schema:
@@ -2459,9 +2485,13 @@ paths:
                         'List of deviationsFromOriginalState modules read from ElasticSearch for the linkId
                         from {$RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletion.GetPowerSavingStatus.response.body#/list-of-deviations-from-original-state (can be an empty list),
                         or emptyList if the link-id was not found in the PowerSavingStatusTable during GetPowerSavingStatus}'
-              example:
-                - list-of-deviations-from-original-state: ['RedundantTransmittersOff', 'UndefinedState']
-                - list-of-deviations-from-original-state: []
+              examples:
+                link-must-not-be-deleted:
+                  value:
+                    list-of-deviations-from-original-state: ['RedundantTransmittersOff', 'UndefinedState']
+                link-can-be-deleted:
+                  value:
+                    list-of-deviations-from-original-state: []
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
