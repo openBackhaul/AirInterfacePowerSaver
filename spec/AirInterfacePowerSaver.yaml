@@ -2036,13 +2036,17 @@ paths:
                       type: string
                       description: >
                         'Name of the module to restore the original state'
-            example:
-              - link-id: '305551234'
-                add-deviation-from-original-state: 'RedundantTransmittersOff'
-                add-module-to-restore-original-state: 'AllTransmittesrOn'
-              - link-id: '305551234'
-                remove-deviation-from-original-state: 'RedundantTransmittersOff'
-                remove-module-to-restore-original-state: 'AllTransmittesrOn'
+            examples:
+              add-modules:
+                value:
+                  link-id: '305551234'
+                  add-deviation-from-original-state: 'RedundantTransmittersOff'
+                  add-module-to-restore-original-state: 'AllTransmittersOn'
+              remove-modules:
+                value:
+                  link-id: '305551234'
+                  remove-deviation-from-original-state: 'RedundantTransmittersOff'
+                  remove-module-to-restore-original-state: 'AllTransmittersOn'
       responses:
         '204':
           description: 'Recorded powerSavingStatus for linkId'
@@ -2129,13 +2133,17 @@ paths:
                               description: >
                                 'Name of the module to restore the original state to be removed from the modulesToRestoreOriginalState-list
                                 from {$request.body#remove-module-to-restore-original-state}'
-                    example:
-                      - link-id: '305551234'
-                        add-deviation-from-original-state: 'RedundantTransmittersOff'
-                        add-module-to-restore-original-state: 'AllTransmittesrOn'
-                      - link-id: '305551234'
-                        remove-deviation-from-original-state: 'RedundantTransmittersOff'
-                        remove-module-to-restore-original-state: 'AllTransmittesrOn'
+                    examples:
+                      add-modules:
+                        value:
+                          link-id: '305551234'
+                          add-deviation-from-original-state: 'RedundantTransmittersOff'
+                          add-module-to-restore-original-state: 'AllTransmittersOn'
+                      remove-modules:
+                        value:
+                          link-id: '305551234'
+                          remove-deviation-from-original-state: 'RedundantTransmittersOff'
+                          remove-module-to-restore-original-state: 'AllTransmittersOn'
               responses:
                 '204':
                   description: 'Recorded powerSavingStatus for linkId'
