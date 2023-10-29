@@ -1,5 +1,8 @@
 # AirInterfacePowerSaver Specification
 
+### Structure and Diagrams
+- [Diagrams](./diagrams/README.md)
+
 ### ServiceList
 - [AirInterfacePowerSaver+services](./AirInterfacePowerSaver+services.yaml)
 

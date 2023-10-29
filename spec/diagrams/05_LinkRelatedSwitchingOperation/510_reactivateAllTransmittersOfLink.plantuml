@@ -9,7 +9,7 @@ participant "external" as requestor
 participant "AIPS://v1/reactivate-all-transmitters-of-link" as ato
 participant "AIPS://v1/provide-power-saving-status-of-link" as readStatus
 participant "MWDI://core-model-1-4:network-control-domain=cache/link={uuid}" as resolveAddress
-participant "MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
+participant "MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
 participant "AIPS://v1/record-power-saving-status" as recordStatus
 'participant "AIPS://<alarm-service-to-be-specified>" as alarm
 

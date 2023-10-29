@@ -668,7 +668,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchBothTransmittersOff: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-500/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
             #done for both link endpoints: where to write that down?
             post:
               parameters:
@@ -677,7 +677,7 @@ paths:
                 - $ref: '#/components/parameters/x-correlator'
                 - $ref: '#/components/parameters/trace-indicator'
                 - $ref: '#/components/parameters/customer-journey'
-                - name: mount-name
+                - name: mountName
                   in: path
                   required: true
                   schema:
@@ -686,7 +686,7 @@ paths:
                   description: >
                             'Identifier the device from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mount-name}'
+                            TODO/mountName}'
                 - name: uuid
                   in: path
                   required: true
@@ -697,7 +697,7 @@ paths:
                             'Identifier the uuid from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
                             TODO/uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -868,7 +868,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchBothTransmittersOn: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-500/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -876,7 +876,7 @@ paths:
                 - $ref: '#/components/parameters/x-correlator'
                 - $ref: '#/components/parameters/trace-indicator'
                 - $ref: '#/components/parameters/customer-journey'
-                - name: mount-name
+                - name: mountName
                   in: path
                   required: true
                   schema:
@@ -885,7 +885,7 @@ paths:
                   description: >
                             'Identifier the device from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mount-name}'
+                            TODO/mountName}'
                 - name: uuid
                   in: path
                   required: true
@@ -896,7 +896,7 @@ paths:
                             'Identifier the uuid from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
                             TODO/uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -1197,7 +1197,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchTransmittersOn: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
             #done for both link endpoints: where to write that down?
             post:
               parameters:
@@ -1206,7 +1206,7 @@ paths:
                 - $ref: '#/components/parameters/x-correlator'
                 - $ref: '#/components/parameters/trace-indicator'
                 - $ref: '#/components/parameters/customer-journey'
-                - name: mount-name
+                - name: mountName
                   in: path
                   required: true
                   schema:
@@ -1215,7 +1215,7 @@ paths:
                   description: >
                             'Identifier the device from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mount-name}'
+                            TODO/mountName}'
                 - name: uuid
                   in: path
                   required: true
@@ -1226,7 +1226,7 @@ paths:
                             'Identifier the uuid from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
                             TODO/uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -1368,7 +1368,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchBothTransmittersOff: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on"
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on"
             #done for both link endpoints: where to write that down?
             post:
               parameters:
@@ -1377,7 +1377,7 @@ paths:
                 - $ref: '#/components/parameters/x-correlator'
                 - $ref: '#/components/parameters/trace-indicator'
                 - $ref: '#/components/parameters/customer-journey'
-                - name: mount-name
+                - name: mountName
                   in: path
                   required: true
                   schema:
@@ -1386,7 +1386,7 @@ paths:
                   description: >
                             'Identifier the device from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mount-name}'
+                            TODO/mountName}'
                 - name: uuid
                   in: path
                   required: true
@@ -1397,7 +1397,7 @@ paths:
                             'Identifier the uuid from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
                             TODO/uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -1694,7 +1694,7 @@ paths:
               responses:
                 '200':
                   description: 'List of parallel links provided'
-                  # was wird zurückgeliefert? 2x(mount-name, uuid, localId)
+                  # was wird zurückgeliefert? 2x(mountName, uuid, localId)
                   # muss erst im MWDI definiert werden
                   content:
                     application/json:
@@ -1719,7 +1719,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           GetAirInterfaceConfigFromCache:  #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-603/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            # MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
+            # MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
             # is executed for each found link endpoint: does this need to be included here somewhere?
             post:
               parameters:
@@ -1728,7 +1728,7 @@ paths:
                 - $ref: '#/components/parameters/x-correlator'
                 - $ref: '#/components/parameters/trace-indicator'
                 - $ref: '#/components/parameters/customer-journey'
-                - name: mount-name
+                - name: mountName
                   in: path
                   required: true
                   schema:
@@ -1737,7 +1737,7 @@ paths:
                   description: >
                             'Identifier the device from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/mount-name}'
+                            TODO/mountName}'
                 - name: uuid
                   in: path
                   required: true
@@ -1748,7 +1748,7 @@ paths:
                             'Identifier the uuid from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
                             TODO/uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -1800,7 +1800,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           GetAirInterfaceStatusFromLive:   #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-604/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
+            #MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
             # is executed for each found link endpoint: does this need to be included here somewhere?
             post:
               parameters:
@@ -1809,7 +1809,7 @@ paths:
                 - $ref: '#/components/parameters/x-correlator'
                 - $ref: '#/components/parameters/trace-indicator'
                 - $ref: '#/components/parameters/customer-journey'
-                - name: mount-name
+                - name: mountName
                   in: path
                   required: true
                   schema:
@@ -1818,7 +1818,7 @@ paths:
                   description: >
                             'Identifier the device from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/mount-name}'
+                            TODO/mountName}'
                 - name: uuid
                   in: path
                   required: true
@@ -1829,7 +1829,7 @@ paths:
                             'Identifier the uuid from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
                             TODO/uuid}'
-                - name: local-id
+                - name: localId
                   in: path
                   required: true
                   schema:
@@ -11926,7 +11926,7 @@ components:
     LINK_ADDRESS_TRIPLES:
       type: object
       description: 'link address information retrieved from MWDI cache'
-      # 2x (mount-name, uuid, localid)
+      # 2x (mountName, uuid, localid)
 
   securitySchemes:
     apiKeyAuth:

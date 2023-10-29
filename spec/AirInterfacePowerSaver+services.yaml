@@ -141,12 +141,12 @@ clients:
 
   - http-client:
       application-name: RegistryOffice
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: aips-0-0-5-http-c-ro-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.8
-      tcp-port: 3008
+      ip-address: 1.1.3.17
+      tcp-port: 3017
       uuid: aips-0-0-5-tcp-c-ro-2-0-1-000
     operation-clients:
       own-oam:
@@ -166,12 +166,12 @@ clients:
 
   - http-client:
       application-name: TypeApprovalRegister
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: aips-0-0-5-http-c-tar-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.9
-      tcp-port: 3009
+      ip-address: 1.1.3.18
+      tcp-port: 3018
       uuid: aips-0-0-5-tcp-c-tar-2-0-1-000
     operation-clients:
       own-oam:
@@ -183,12 +183,12 @@ clients:
 
   - http-client:
       application-name: ExecutionAndTraceLog
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: aips-0-0-5-http-c-eatl-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.10
-      tcp-port: 3010
+      ip-address: 1.1.3.19
+      tcp-port: 3019
       uuid: aips-0-0-5-tcp-c-eatl-2-0-1-000
     operation-clients:
       own-oam:
@@ -202,12 +202,12 @@ clients:
 
   - http-client:
       application-name: OamLog
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: aips-0-0-5-http-c-ol-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.11
-      tcp-port: 3011
+      ip-address: 1.1.3.20
+      tcp-port: 3020
       uuid: aips-0-0-5-tcp-c-ol-2-0-1-000
     operation-clients:
       own-oam:
@@ -221,12 +221,12 @@ clients:
 
   - http-client:
       application-name: AdministratorAdministration
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: aips-0-0-5-http-c-aa-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.12
-      tcp-port: 3012
+      ip-address: 1.1.3.21
+      tcp-port: 3021
       uuid: aips-0-0-5-tcp-c-aa-2-0-1-000
     operation-clients:
       own-oam:
@@ -240,12 +240,12 @@ clients:
 
   - http-client:
       application-name: ApplicationLayerTopology
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: aips-0-0-5-http-c-alt-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.13
-      tcp-port: 3013
+      ip-address: 1.1.3.22
+      tcp-port: 3022
       uuid: aips-0-0-5-tcp-c-alt-2-0-1-000
     operation-clients:
       own-oam:
@@ -269,12 +269,12 @@ clients:
 
   - http-client:
       application-name: OperationKeyManagement
-      release-number: 2.0.1
+      release-number: 2.0.2
       uuid: aips-0-0-5-http-c-okm-2-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.3.14
-      tcp-port: 3014
+      ip-address: 1.1.3.23
+      tcp-port: 3023
       uuid: aips-0-0-5-tcp-c-okm-2-0-1-000
     operation-clients:
       own-oam:
@@ -286,12 +286,12 @@ clients:
 
   - http-client:
       application-name: MicroWaveDeviceInventory
-      release-number: 1.0.1
+      release-number: 1.1.0
       uuid: aips-0-0-5-http-c-mwdi-1-0-1-000
     tcp-client:
       remote-protocol: http
-      ip-address: 1.1.4.4
-      tcp-port: 4004
+      ip-address: 1.1.4.15
+      tcp-port: 4015
       uuid: aips-0-0-5-tcp-c-mwdi-1-0-1-000
     operation-clients:
       own-oam:
@@ -313,9 +313,9 @@ clients:
             uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-601
           - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
             uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-602
-          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration
+          - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration
             uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-603
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status
             uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-604
 
   - http-client:
@@ -335,11 +335,11 @@ clients:
         basic:
         individual:
           ## RedundantTransmittersOff
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
             uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-500
 
           ## AllTransmittersOn
-          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+          - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
             uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
   - http-client:

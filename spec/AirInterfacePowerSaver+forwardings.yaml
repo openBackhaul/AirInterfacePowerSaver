@@ -443,7 +443,7 @@ forwardings:
       - server-name: /v1/switch-redundant-transmitter-pair-off
         uuid: aips-0-0-5-op-s-is-500
     consequent-requests:
-      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-500
 
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.ReportPowerSavingStatus
@@ -473,7 +473,7 @@ forwardings:
       - server-name: /v1/switch-redundant-transmitter-pair-off
         uuid: aips-0-0-5-op-s-is-500
     consequent-requests:
-      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-500
 
 
@@ -534,7 +534,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-5-op-s-is-510
     consequent-requests:
-      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
   - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReportPowerSavingStatus
@@ -564,7 +564,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-5-op-s-is-510
     consequent-requests:
-      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
+      - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks
@@ -624,7 +624,7 @@ forwardings:
       - server-name: /v1/provide-transmitter-status-of-parallel-links
         uuid: aips-0-0-5-op-s-is-600
     consequent-requests:
-      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
+      - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-603
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
@@ -639,7 +639,7 @@ forwardings:
       - server-name: /v1/provide-transmitter-status-of-parallel-links
         uuid: aips-0-0-5-op-s-is-600
     consequent-requests:
-      - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mount-name}/logical-termination-point={uuid}/layer-protocol={local-id}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
+      - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-604
 
   - forwarding-name: RequestForRecordingPowerSavingStatusCausesStatusTableUpdate
