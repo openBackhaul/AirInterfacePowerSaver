@@ -2137,7 +2137,7 @@
             "aips-0-0-5-op-c-is-aips-0-0-5-500",
             "aips-0-0-5-op-c-is-aips-0-0-5-501",            
             "aips-0-0-5-op-c-is-aips-0-0-5-510",
-            "aips-0-0-5-op-c-is-aips-0-0-5-511",
+            "aips-0-0-5-op-c-is-aips-0-0-5-511"
           ],
           "server-ltp": [
               "aips-0-0-5-tcp-c-aips-0-0-5-000"
@@ -2324,9 +2324,49 @@
                 "logical-termination-point": "aips-0-0-5-op-s-bs-005"
               },
               {
-                "local-id": "200",
+                "local-id": "300",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "aips-0-0-5-op-c-bs-eatl-2-0-2-000"
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-500"
+              },
+              {
+                "local-id": "310",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-510"
+              },
+              {
+                "local-id": "320",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-600"
+              },
+              {
+                "local-id": "340",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-700"
+              },
+              {
+                "local-id": "341",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-701"
+              },
+              {
+                "local-id": "342",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-702"
+              },
+              {
+                "local-id": "343",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-703"
+              },
+              {
+                "local-id": "344",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-704"
+              },
+              {
+                "local-id": "345",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-5-op-c-bs-is-705"
               }
             ]
           },
