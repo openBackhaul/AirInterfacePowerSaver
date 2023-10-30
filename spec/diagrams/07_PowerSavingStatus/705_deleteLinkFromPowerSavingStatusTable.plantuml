@@ -23,19 +23,9 @@ note over delete
     IF (deviationsFromOriginalState != emptyList)
     THEN send response
 end note
-delete --> requestor: {list-of(deviationsFromOriginalState)}, responseCode=204
-
-note over delete #Pink
-  ist der responseCode=204 richtig?
-  204 = no content
-  wir wollen ja aber was zurücksenden
-  müsste das nicht in beiden Fällen 200 sein?
-  in beiden Fällen wird eine Liste zurückgesendet, in einem Fall ist diese aber leer
-  der Aufrufer muss dann anhand der zurückgegebenen Liste entscheiden, wie er das ERgebnis behandelt
-
-  was soll passieren, wenn es den Link in Elastic gar nicht gibt?
-end note
-
+'we cannot use responseCode 204 to indicate that the list is not empty, 
+'because the module list shall be returned, which requires responseCode to be 200
+delete --> requestor: {list-of(deviationsFromOriginalState)}, responseCode=200
 
 'now cleanup
 note over delete
