@@ -61,22 +61,6 @@ note over provideStatus
 end note
 provideStatus -> requestor: {requestId, responseCode=404}
 
-note over provideStatus #Pink
-  wenn es MEHRERE parallel Links gibt, wäre es theoretisch kein Problem,
-  wenn z.B. nur von einem keine vollständigen Daten kommen, weil:
-  wenn man einen Link abschalten will, muss es nur MINDESTENS 1 parallelen Link geben,
-  der die Übertragung übernehmen kann
-
-  also ggf. könnte man das wie folgt präzisieren:
-  - man prüft jeweils pro parallelem Link, ob die Datensets für die beiden link endpoints
-    vollständig sind
-    - ja: die kommen in die Rückgabe-Liste
-    - nein: werden nicht zur Rückgabe-Liste hinzugefügt; ggf. kann man das irgendwie auch festhalten, dass man nicht alle Daten hatte
-  - wenn alle parallen Links abgearbeitet sind:
-    - nur wenn die Rückgabe-Liste mindestens Daten für einen parallelen Link enthält, dann gibt man sie zurück
-    - ansonsten den Fehler
-end note
-
 note over provideStatus
   ELSE <u>Response</u>
 end note
