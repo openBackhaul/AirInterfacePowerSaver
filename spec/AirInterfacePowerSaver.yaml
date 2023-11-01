@@ -1987,19 +1987,19 @@ paths:
                           value:
                             transmitter-status-of-parallel-links:
                               - transmitter-status-of-link:
-                                - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                                  transmission-mode-max: '0007-128QAM-78528/87570-1'
-                                  transmission-mode-cur: '0007-QPSK-22080/24454-1'
-                                - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                                  transmission-mode-max: '0007-QPSK-22080/24454-1'
-                                  transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                                  - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                    transmission-mode-max: '0007-128QAM-78528/87570-1'
+                                    transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                                  - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                    transmission-mode-max: '0007-QPSK-22080/24454-1'
+                                    transmission-mode-cur: '0007-QPSK-22080/24454-1'
                               - transmitter-status-of-link:
-                                - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                                  transmission-mode-max: '0007-256QAM-78528/87570-1'
-                                  transmission-mode-cur: '0007-8QAM-22080/24454-1'
-                                - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                                  transmission-mode-max: '0007-256QAM-22080/24454-1'
-                                  transmission-mode-cur: '0007-8QAM-22080/24454-1'
+                                  - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                    transmission-mode-max: '0007-256QAM-78528/87570-1'
+                                    transmission-mode-cur: '0007-8QAM-22080/24454-1'
+                                  - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                                    transmission-mode-max: '0007-256QAM-22080/24454-1'
+                                    transmission-mode-cur: '0007-8QAM-22080/24454-1'
                 '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
