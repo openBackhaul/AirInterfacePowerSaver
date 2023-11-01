@@ -1887,7 +1887,7 @@ paths:
                           description: >
                             'Identifier of the request for parallel link transmitter status
                             from {$response.body#request-id}'
-                          example: '305251234-101120-1400'                        
+                          example: '305251234-101120-1400'
                         has-parallel-links:
                           type: boolean
                           description: >
@@ -1965,21 +1965,20 @@ paths:
                                         type: string
                                         description: >
                                           'the interface-status for the parallel link
-                                          from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == true) 
-                                            THEN (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/interface-status (for respective link endpoint)}'                                       
+                                          from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == true)
+                                            THEN (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/interface-status (for respective link endpoint)}'
                                       transmission-mode-max:
                                         type: string
                                         description: >
                                           'the transmission-mode-max for the parallel link
-                                          from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == true) 
-                                            THEN (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/transmission-mode-max (for respective link endpoint)}'                                       
-
+                                          from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == true)
+                                            THEN (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/transmission-mode-max (for respective link endpoint)}'
                                       transmission-mode-cur:
                                         type: string
                                         description: >
                                           'the transmission-mode-cur for the parallel link
-                                          from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == true) 
-                                            THEN (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/transmission-mode-cur (for respective link endpoint)}'                                       
+                                          from {IF (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#has-parallel-links == true)
+                                            THEN (RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response.request.body#transmitter-status-of-parallel-links/transmitter-status-of-link/transmission-mode-cur (for respective link endpoint)}'
                       examples:
                         no-parallel-links:
                           value:
@@ -2001,6 +2000,7 @@ paths:
                                 - interface-status: 'INTERFACE_STATUS_TYPE_UP'
                                   transmission-mode-max: '0007-256QAM-22080/24454-1'
                                   transmission-mode-cur: '0007-8QAM-22080/24454-1'
+                '4XX':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
