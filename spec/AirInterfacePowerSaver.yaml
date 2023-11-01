@@ -646,11 +646,11 @@ paths:
                             from {request.body#link-id}'
               responses:
                 '200':
-                  description: 'Link endpoint address triplets for linkId provided'
+                  description: 'Link information from MWDI provided'
                   content:
                     application/json:
                       schema:
-                        $ref: '#/components/schemas/LINK_ADDRESS_TRIPLES'
+                        $ref: '#/components/schemas/LINKS_FROM_CACHE'
                   headers:
                     x-correlator:
                       $ref: '#/components/headers/x-correlator'
@@ -668,8 +668,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchBothTransmittersOff: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-500/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
-            #done for both link endpoints: where to write that down?
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -684,9 +683,9 @@ paths:
                     type: string
                     example: '305551234'
                   description: >
-                            'Identifier the device from the link endpoint address triplet
-                            from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mountName}'
+                            'Identifier of the device from the link endpoint address triplet
+                            from {extract mountName (substring before + sign) from $RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            core-model-1-4:link/forwarding-domain (from the 1st array element for the 1st link endpoint, from the 2nd array element for the 2nd link endpoint)}'
                 - name: uuid
                   in: path
                   required: true
@@ -694,9 +693,9 @@ paths:
                     type: string
                     example: 'RF-2146697473'
                   description: >
-                            'Identifier the uuid from the link endpoint address triplet
+                            'Identifier of the ltp-uuid from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/uuid}'
+                            core-model-1-4:link/link-port/logical-termination-point (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: localId
                   in: path
                   required: true
@@ -704,9 +703,9 @@ paths:
                     type: string
                     example: '2146697473'
                   description: >
-                            'Identifier the local-id from the link endpoint address triplet
+                            'Identifier of the local-id from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/local-id}'
+                            core-model-1-4:link/link-port/local-id (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
               requestBody:
                 content:
                   application/json:
@@ -883,9 +882,9 @@ paths:
                     type: string
                     example: '305551234'
                   description: >
-                            'Identifier the device from the link endpoint address triplet
-                            from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mountName}'
+                            'Identifier of the device from the link endpoint address triplet
+                            from {extract mountName (substring before + sign) from $RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            core-model-1-4:link/forwarding-domain (from the 1st array element for the 1st link endpoint, from the 2nd array element for the 2nd link endpoint)}'
                 - name: uuid
                   in: path
                   required: true
@@ -893,9 +892,9 @@ paths:
                     type: string
                     example: 'RF-2146697473'
                   description: >
-                            'Identifier the uuid from the link endpoint address triplet
+                            'Identifier of the ltp-uuid from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/uuid}'
+                            core-model-1-4:link/link-port/logical-termination-point (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: localId
                   in: path
                   required: true
@@ -903,9 +902,9 @@ paths:
                     type: string
                     example: '2146697473'
                   description: >
-                            'Identifier the local-id from the link endpoint address triplet
+                            'Identifier of the local-id from the link endpoint address triplet
                             from {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/local-id}'
+                            core-model-1-4:link/link-port/local-id (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
               requestBody:
                 content:
                   application/json:
@@ -1175,11 +1174,11 @@ paths:
                             from {request.body#link-id}'
               responses:
                 '200':
-                  description: 'Link endpoint address triplets for linkId provided'
+                  description: 'Link information from MWDI provided'
                   content:
                     application/json:
                       schema:
-                        $ref: '#/components/schemas/LINK_ADDRESS_TRIPLES'
+                        $ref: '#/components/schemas/LINKS_FROM_CACHE'
                   headers:
                     x-correlator:
                       $ref: '#/components/headers/x-correlator'
@@ -1197,8 +1196,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchTransmittersOn: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
-            #done for both link endpoints: where to write that down?
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1213,9 +1211,9 @@ paths:
                     type: string
                     example: '305551234'
                   description: >
-                            'Identifier the device from the link endpoint address triplet
-                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mountName}'
+                            'Identifier of the device from the link endpoint address triplet
+                            from {extract mountName (substring before + sign) from $RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            core-model-1-4:link/forwarding-domain (from the 1st array element for the 1st link endpoint, from the 2nd array element for the 2nd link endpoint)}'
                 - name: uuid
                   in: path
                   required: true
@@ -1223,9 +1221,9 @@ paths:
                     type: string
                     example: 'RF-2146697473'
                   description: >
-                            'Identifier the uuid from the link endpoint address triplet
+                            'Identifier of the ltp-uuid from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/uuid}'
+                            core-model-1-4:link/link-port/logical-termination-point (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: localId
                   in: path
                   required: true
@@ -1233,9 +1231,9 @@ paths:
                     type: string
                     example: '2146697473'
                   description: >
-                            'Identifier the local-id from the link endpoint address triplet
+                            'Identifier of the local-id from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/local-id}'
+                            core-model-1-4:link/link-port/local-id (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
               requestBody:
                 content:
                   application/json:
@@ -1368,8 +1366,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           SwitchBothTransmittersOff: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on"
-            #done for both link endpoints: where to write that down?
+            #MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1384,9 +1381,9 @@ paths:
                     type: string
                     example: '305551234'
                   description: >
-                            'Identifier the device from the link endpoint address triplet
-                            from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/mountName}'
+                            'Identifier of the device from the link endpoint address triplet
+                            from {extract mountName (substring before + sign) from $RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
+                            core-model-1-4:link/forwarding-domain (from the 1st array element for the 1st link endpoint, from the 2nd array element for the 2nd link endpoint)}'
                 - name: uuid
                   in: path
                   required: true
@@ -1394,9 +1391,9 @@ paths:
                     type: string
                     example: 'RF-2146697473'
                   description: >
-                            'Identifier the uuid from the link endpoint address triplet
+                            'Identifier of the ltp-uuid from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/uuid}'
+                            core-model-1-4:link/link-port/logical-termination-point (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: localId
                   in: path
                   required: true
@@ -1404,9 +1401,9 @@ paths:
                     type: string
                     example: '2146697473'
                   description: >
-                            'Identifier the local-id from the link endpoint address triplet
+                            'Identifier of the local-id from the link endpoint address triplet
                             from {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints.response.body#
-                            TODO/local-id}'
+                            core-model-1-4:link/link-port/local-id (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
               requestBody:
                 content:
                   application/json:
@@ -1628,13 +1625,10 @@ paths:
                             'Identifier of the link for which the parallel links shall be retrieved from MWDI
                             from {$request.body#link-id}'
                       example:
-                        link-id: '513550010'
+                        link-id: '305551234'
               responses:
                 '200':
                   description: 'List of parallel links provided'
-                  # was wird zurückgeliefert?
-                  # list-of-(linkId, layerProtocolName)
-                  # DAS MUSS AN MWDI-SPEC ANGEPASST WERDEN, SOBALD MWDI-SPEC FERTIG IST
                   content:
                     application/json:
                       schema:
@@ -1645,18 +1639,11 @@ paths:
                           parallel-links:
                             type: array
                             items:
-                              type: object
-                              properties:
-                                parallel-link-id:
-                                  type: string
-                                layer-protocol-name:
-                                  type: string
+                              type: string
                       example:
                         parallel-links:
-                          - parallel-link-id: '305551234'
-                            layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
-                          - parallel-link-id: '305551001'
-                            layer-protocol-name: 'air-interface-2-0:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+                          - '305551234'
+                          - '305551235'
                   headers:
                     x-correlator:
                       $ref: '#/components/headers/x-correlator'
@@ -1690,18 +1677,15 @@ paths:
                     example: '305551234'
                   description: >
                             'Identifier (uuid) of an parallel link for which link endpoints shall be retrieved from MWDI cache, executed for each found parallel link
-                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks.response.body#parallel-links/parallel-link-id}'
+                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks.response.body#parallel-links}'
               responses:
                 '200':
-                  description: 'List of parallel links provided'
-                  # was wird zurückgeliefert? 2x(mountName, uuid, localId)
-                  # muss erst im MWDI definiert werden
+                  description: 'Link information from MWDI provided'
                   content:
                     application/json:
                       schema:
                         type: object
-                        $ref: '#/components/schemas/LINK_ADDRESS_TRIPLES'
-                      #example: todo
+                        $ref: '#/components/schemas/LINKS_FROM_CACHE'
                   headers:
                     x-correlator:
                       $ref: '#/components/headers/x-correlator'
@@ -1720,7 +1704,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           GetAirInterfaceConfigFromCache:  #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-603/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             # MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
-            # is executed for each found link endpoint: does this need to be included here somewhere?
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1735,9 +1718,9 @@ paths:
                     type: string
                     example: '305551234'
                   description: >
-                            'Identifier the device from the link endpoint address triplet
-                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/mountName}'
+                            'Identifier of the device from the link endpoint address triplet
+                            from {extract mountName (substring before + sign) from $RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            core-model-1-4:link/forwarding-domain (from the 1st array element for the 1st link endpoint, from the 2nd array element for the 2nd link endpoint)}'
                 - name: uuid
                   in: path
                   required: true
@@ -1745,9 +1728,9 @@ paths:
                     type: string
                     example: 'RF-2146697473'
                   description: >
-                            'Identifier the uuid from the link endpoint address triplet
+                            'Identifier of the ltp-uuid from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/uuid}'
+                            core-model-1-4:link/link-port/logical-termination-point (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: localId
                   in: path
                   required: true
@@ -1755,9 +1738,9 @@ paths:
                     type: string
                     example: '2146697473'
                   description: >
-                            'Identifier the local-id from the link endpoint address triplet
+                            'Identifier of the local-id from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/local-id}'
+                            core-model-1-4:link/link-port/local-id (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: fields
                   in: query
                   schema:
@@ -1801,7 +1784,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           GetAirInterfaceStatusFromLive:   #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-c-mwdi-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-c-is-mwdi-1-0-1-604/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             #MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
-            # is executed for each found link endpoint: does this need to be included here somewhere?
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1816,9 +1798,9 @@ paths:
                     type: string
                     example: '305551234'
                   description: >
-                            'Identifier the device from the link endpoint address triplet
-                            from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/mountName}'
+                            'Identifier of the device from the link endpoint address triplet
+                            from {extract mountName (substring before + sign) from $RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
+                            core-model-1-4:link/forwarding-domain (from the 1st array element for the 1st link endpoint, from the 2nd array element for the 2nd link endpoint)}'
                 - name: uuid
                   in: path
                   required: true
@@ -1826,9 +1808,9 @@ paths:
                     type: string
                     example: 'RF-2146697473'
                   description: >
-                            'Identifier the uuid from the link endpoint address triplet
+                            'Identifier of the ltp-uuid from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/uuid}'
+                            core-model-1-4:link/link-port/logical-termination-point (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: localId
                   in: path
                   required: true
@@ -1836,9 +1818,9 @@ paths:
                     type: string
                     example: '2146697473'
                   description: >
-                            'Identifier the local-id from the link endpoint address triplet
+                            'Identifier of the local-id from the link endpoint address triplet
                             from {$RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints.response.body#
-                            TODO/local-id}'
+                            core-model-1-4:link/link-port/local-id (1st link-port element for the 1st link endpoint, 2nd array element for the 2nd link endpoint)}'
                 - name: fields
                   in: query
                   schema:
@@ -1890,6 +1872,8 @@ paths:
           # 3. "else": {requestId, list-of(interfaceStatus,transmissionModeMax,transmissionModeCur)-A, list-of(interfaceStatus,transmissionModeMax,transmissionModeCur)-B} -> am Besten als Schema
           #             TRANSMITTER_STATUS_OF_LINK_ENDPOINT = list-of(interfaceStatus,transmissionModeMax,transmissionModeCur) for link endpoint
           #             TRANSMITTER_STATUS_OF_LINK = (TRANSMITTER_STATUS_OF_LINK_ENDPOINT-A, TRANSMITTER_STATUS_OF_LINK_ENDPOINT-B)
+
+          #KATTODO
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
