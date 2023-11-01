@@ -11923,10 +11923,94 @@ components:
           transmission-mode-max: '0007-QPSK-22080/24454-1'
           transmission-mode-cur: '0007-QPSK-22080/24454-1'
 
+
+
     LINK_ADDRESS_TRIPLES:
+    # 2x (mountName, uuid, localid)
+    # mwdi liefert mehr Infos zurück; aus denen müssen die obigen Felder extrahiert werden
+    # oder man muss in den paths auf LINKS_FROM_CACHE umstellen
+    # woher kommen die Infos?
+    # mount-name: aus dem ersten Teil der forwarding-domain
+    # uuid vom air-interface: = link-port.local-id ?
+    # local-id vom ltp = link-port.logical-termination-point ?
+    # 
+    # links sind schon gefiltert auf das air-interface-layer
+    # brauchen wir dann die air-if-uuid noch?
+
+    LINKS_FROM_CACHE:
       type: object
-      description: 'link address information retrieved from MWDI cache'
-      # 2x (mountName, uuid, localid)
+      description: 'link (address) information retrieved from MWDI cache'
+      properties:
+        core-model-1-4:link:
+          type: array
+          items:
+            $ref: '#/components/schemas/LINK'
+      example:
+        core-model-1-4:link:
+          - uuid: '305551234'
+            layer-protocol-name: 'core-model-1-4:LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER'
+            link-direction: 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+            forwarding-domain:
+              - '305251234+AirLayerFd'
+              - '305251235+AirLayerFd'
+            link-port:
+              - local-id: 'LP-MWPS-TTP-1-1'
+                link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                logical-termination-point: 'LTP-MWPS-TTP-1-1'
+              - local-id: 'LP-MWPS-TTP-1-1'
+                link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
+                logical-termination-point: 'LTP-MWPS-TTP-1-1'
+
+    # das ist das LINK-Schema aus dem MWDI
+    LINK:
+      type: object
+      required:
+        - uuid
+        - layer-protocol-name
+        - link-direction
+        - forwarding-domain
+        - link-port
+      properties:
+        uuid:
+          type: string
+        layer-protocol-name:
+          type: string
+        link-direction:
+          type: string
+          enum:
+            - 'core-model-1-4:FORWARDING_DIRECTION_BIDIRECTIONAL'
+            - 'core-model-1-4:FORWARDING_DIRECTION_UNIDIRECTIONAL'
+            - 'core-model-1-4:FORWARDING_DIRECTION_OMNIDIRECTIONAL'
+            - 'core-model-1-4:FORWARDING_DIRECTION_UNDEFINED_OR_UNKNOWN'
+        forwarding-domain:
+          type: array
+          items:
+            type: string
+        link-port:
+          type: array
+          items:
+            $ref: '#/components/schemas/LINK_PORT'
+
+    # link-port schema aus MWDI
+    LINK_PORT:
+      type: object
+      required:
+        - local-id
+        - link-port-direction
+        - logical-termination-point
+      properties:
+        local-id:
+          type: string
+        link-port-direction:
+          type: string
+          enum:
+            - 'core-model-1-4:PORT_DIRECTION_INPUT'
+            - 'core-model-1-4:PORT_DIRECTION_OUTPUT'
+            - 'core-model-1-4:PORT_DIRECTION_BIDIRECTIONAL'
+            - 'core-model-1-4:PORT_DIRECTION_OMNIDIRECTIONAL'
+            - 'core-model-1-4:PORT_DIRECTION_UNIDENTIFIED_OR_UNKNOWN'
+        logical-termination-point:
+          type: string
 
   securitySchemes:
     apiKeyAuth:
