@@ -36,13 +36,13 @@ note over rto
   <u>DetermineLinkEndpoints</u>
 end note
 rto -> resolveAddress: {uuid=linkId}
-resolveAddress --> rto: {2x(mountName, uuid, localId)}
+resolveAddress --> rto: {2x(mountName-from-forwardingDomain, uuid, localId)}
 
 note over rto
   FOR both link endpoints
   <u>SwitchBothTransmitters<b>Off</b></u>
 end note
-rto -> mwdg: {mountName, uuid, localId}
+rto -> mwdg: {mountName-from-forwardingDomain, uuid, localId}
 mwdg --> rto: {responseCode}
 
 note over rto

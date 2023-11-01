@@ -20,12 +20,19 @@ provideStatus --> requestor: {requestId}
 note over provideStatus
   <u>GetParallelLinks</u>
 end note
+note over mwdiParallelLink
+  - <i>the returned list contains all parallel links on</i>
+    <i>the same layer</i>
+  - <i>if list.size()==1, only the link itself is returned,</i>
+    <i>but there are no parallel links</i>
+end note
 provideStatus -> mwdiParallelLink: {uuid=linkId}
-mwdiParallelLink --> provideStatus: {list-of-(uuid=linkId, layerProtocolName)}
+mwdiParallelLink --> provideStatus: {parallelLinksList}
 
 'return error if parallel link not found
 note over provideStatus
-  IF <i>GetParallelLinks</i> response is empty list
+  FROM <i>GetParallelLinks</i> response
+    IF parallelLinksList.size() <= 1
   THEN <u>Response</u>
 end note
 provideStatus -> requestor: {requestId, emptyList}
@@ -33,25 +40,29 @@ provideStatus -> requestor: {requestId, emptyList}
 'if parallel links are found: find their address triples
 note over provideStatus
   FOR each found parallel linkId
-    WITH layerProtocolName=="AirLayer"
     <u>DetermineLinkEndpoints</u>
 end note
+note over resolver
+  response contains ... for each link endpoint:
+  - a forwardingDomain entry built from "mountName+layerInformation"
+  - the layerProtocol-localId and ltp-uuid 
+end note
 provideStatus -> resolver: {uuid=linkId}
-resolver --> provideStatus: {2x(mountName, uuid, localId)}
+resolver --> provideStatus: {2x(forwardingDomain, uuid, localId)}
 
 'fetch status/config info for parallel links
 note over provideStatus
   FOR each found link endpoint
   <u>GetAirInterfaceConfigFromCache</u>
 end note
-provideStatus -> mwdiAirIfConfig: {mountName, uuid, localId}
+provideStatus -> mwdiAirIfConfig: {mountName-from-forwardingDomain, uuid, localId}
 mwdiAirIfConfig --> provideStatus: {transmissionModeMax}
 
 note over provideStatus
   FOR each found link endpoint
   <u>GetAirInterfaceStatusFromLive</u>
 end note
-provideStatus -> mwdiAirIfStatus: {mountName, uuid, localId}
+provideStatus -> mwdiAirIfStatus: {mountName-from-forwardingDomain, uuid, localId}
 mwdiAirIfStatus--> provideStatus: {interfaceStatus, transmissionModeCur}
 
 'check if data for both link endpoints matches and is complete

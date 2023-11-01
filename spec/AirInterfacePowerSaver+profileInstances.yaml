@@ -7,7 +7,7 @@ profile-instances:
       label: 'Inform about Application'
       display-in-new-browser-window: false
     configuration:
-      consequent-operation-reference:  '/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
     uuid: 'aips-0-0-5-action-p-001'
@@ -16,7 +16,7 @@ profile-instances:
       label: 'Release History'
       display-in-new-browser-window: false
     configuration:
-     consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
 
   - profile-name: 'ActionProfile'

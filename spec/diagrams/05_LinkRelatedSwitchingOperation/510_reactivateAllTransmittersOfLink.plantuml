@@ -34,13 +34,13 @@ note over ato
   THEN <u>DetermineLinkEndpoints</u>
 end note
 ato -> resolveAddress: {uuid=linkId}
-resolveAddress --> ato: {2x(mountName, uuid, localId)}
+resolveAddress --> ato: {2x(forwardingDomain, uuid, localId)}
 
 note over ato
   For both link endpoints 
   <u>SwitchTransmitters<b>On</b></u>
 end note
-ato -> mwdg: {mountName, uuid, localId}
+ato -> mwdg: {mountName-from-forwardingDomain, uuid, localId}
 mwdg --> ato: {responseCode}
 
 note over ato
@@ -54,7 +54,7 @@ note over ato
   IF (at least one responseCode of SwitchTransmitters<b>On</b> != 200)
   THEN <u>SwitchBothTransmitters<b>Off</b></u>
 end note
-ato -> mwdg: {mountName, uuid, localId}
+ato -> mwdg: {mountName-from-forwardingDomain, uuid, localId}
 mwdg --> ato: {responseCode}
 
 note over ato
