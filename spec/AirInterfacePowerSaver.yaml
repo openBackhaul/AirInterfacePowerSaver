@@ -11923,23 +11923,37 @@ components:
           transmission-mode-max: '0007-QPSK-22080/24454-1'
           transmission-mode-cur: '0007-QPSK-22080/24454-1'
 
-
-
     LINK_ADDRESS_TRIPLES:
-    # 2x (mountName, uuid, localid)
-    # mwdi liefert mehr Infos zurück; aus denen müssen die obigen Felder extrahiert werden
-    # oder man muss in den paths auf LINKS_FROM_CACHE umstellen
-    # woher kommen die Infos?
-    # mount-name: aus dem ersten Teil der forwarding-domain
-    # uuid vom air-interface: = link-port.local-id ?
-    # local-id vom ltp = link-port.logical-termination-point ?
-    # 
-    # links sind schon gefiltert auf das air-interface-layer
-    # brauchen wir dann die air-if-uuid noch?
+      type: object
+      description: 'link endpoint address triples'
+      properties:
+        link-endpoint-address-triples:
+          type: array
+          required:
+            - mount-name
+            - local-id
+            - uuid
+          properties:
+            mount-name:
+              type: string
+              description: 'mount-name of the link endpoint'
+            local-id:
+              type: string
+              description: 'local-id of the (airInterface) layer-protocol'
+            uuid:
+              type: string
+              description: 'uuid of the logical-termination-point'
+          example:
+            - mount-name: '305251234'
+              local-id: 'LP-MWPS-TTP-1-1'
+              uuid: 'LTP-MWPS-TTP-1-1'
+            - mount-name: '305251235'
+              local-id: 'LP-MWPS-TTP-1-1'
+              uuid: 'LTP-MWPS-TTP-1-1'
 
     LINKS_FROM_CACHE:
       type: object
-      description: 'link (address) information retrieved from MWDI cache'
+      description: 'link address information retrieved from MWDI cache'
       properties:
         core-model-1-4:link:
           type: array
@@ -11961,7 +11975,6 @@ components:
                 link-port-direction: 'core-model-1-4:PORT_DIRECTION_INPUT'
                 logical-termination-point: 'LTP-MWPS-TTP-1-1'
 
-    # das ist das LINK-Schema aus dem MWDI
     LINK:
       type: object
       required:
@@ -11991,7 +12004,6 @@ components:
           items:
             $ref: '#/components/schemas/LINK_PORT'
 
-    # link-port schema aus MWDI
     LINK_PORT:
       type: object
       required:
