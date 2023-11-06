@@ -1,6 +1,3 @@
-Delete this link at the end of the specification process:  
-- [Roadmap to Specification](../../issues/1)
-
 # AirInterfacePowerSaver
 
 ### Location
