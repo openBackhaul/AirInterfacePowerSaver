@@ -1,0 +1,36 @@
+@startuml 700_recordPowerSavingStatus
+skinparam responseMessageBelowArrow true
+
+title
+RequestForRecordingPowerSavingStatusCausesStatusTableUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/record-power-saving-status" as rpss
+participant "ElasticSearch" as es
+
+
+note over rpss
+  passed attributes are optional, if
+  power saving was turned ...
+  - <b>on</b>: addDeviationsFromOriginalState, 
+          addModulesToRestoreOriginalState
+  - <b>off</b>: removeDeviationsFromOriginalState, 
+          removeModulesToRestoreOriginalState
+
+   <i>entries in deviationsFromOriginalStateList and</i>
+   <i>modulesToRestoreOriginalStateList are (uniquely)</i> 
+   <i>added or removed accordingly</i>
+end note
+
+requestor -> rpss: {linkId, \none of: ((addDeviationsFromOriginalState, addModulesToRestoreOriginalState), \n            (removeDeviationsFromOriginalState, removeModulesToRestoreOriginalState))}
+activate rpss
+
+rpss -> es: <i>update or create entry for linkId</i>
+
+deactivate rpss 
+
+footer \n\nPower saving status is recorded in a table with the following columns: linkId, deviationsFromOriginalState (module name list), modulesToRestoreOriginalState (module name list)
+
+
+@enduml

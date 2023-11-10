@@ -1,0 +1,27 @@
+@startuml 703_ListAffectedLinks
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingAffectedLinksCausesStatusTableFiltering
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-affected-links" as listStatus
+participant "ElasticSearch" as es
+
+requestor -> listStatus: {deviationFromOriginalState}
+activate listStatus
+
+note over listStatus
+  Filter PowerSavingStatus-table records for
+  records where deviationsFromOriginalStateList 
+  contains deviationFromOriginalState
+end note
+listStatus -> es: {deviationFromOriginalState}
+es --> listStatus: {linkIdList}
+listStatus --> requestor: {linkIdList}
+
+
+deactivate listStatus 
+
+@enduml
