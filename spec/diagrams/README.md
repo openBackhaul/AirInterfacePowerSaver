@@ -169,3 +169,22 @@ AIPS v1.0.0 does not contain this type of module.
 ![RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi](./06_LinkAnalysis/601_provideTransmitterStatusOfParallelLinks.png)  
 .  
 .  
+### 07 Power Saving Status
+![RequestForRecordingPowerSavingStatusCausesStatusTableUpdate](./07_PowerSavingStatus/700_recordPowerSavingStatus.png)  
+.  
+.  
+![RequestForListingPowerSavingStatusCausesStatusTableReading](./07_PowerSavingStatus/701_listPowerSavingStatus.png)  
+.  
+.  
+![RequestForPowerSavingStatusOfLinkCausesLinkStatusReading](./07_PowerSavingStatus/702_providePowerSavingStatusOfLink.png)  
+.  
+.  
+![RequestForListingAffectedLinksCausesStatusTableFiltering](./07_PowerSavingStatus/703_ListAffectedLinks.png)  
+.  
+.  
+![RequestForListingLinksToBeRestoredCausesStatusTableFiltering](./07_PowerSavingStatus/704_listToBeRestoredLinks.png)  
+.  
+.  
+![RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt](./07_PowerSavingStatus/705_deleteLinkFromPowerSavingStatusTable.png)  
+.  
+.  
