@@ -1,0 +1,83 @@
+@startuml 601_provideTransmitterStatusOfParallelLinks
+skinparam responseMessageBelowArrow true
+
+title
+RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi
+end title
+
+participant "REQUESTOR" as requestor
+participant "e.g. AIPS://v1/receive-transmitter-status-of-parallel-links" as delivery
+participant "AIPS://v1/provide-transmitter-status-of-parallel-links" as provideStatus
+participant "MWDI://v1/provide-list-of-parallel-links" as mwdiParallelLink
+participant "MWDI://core-model-1-4:network-control-domain=cache/link={uuid}" as resolver
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max" as mwdiAirIfConfig
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur" as mwdiAirIfStatus
+
+requestor -> provideStatus: {linkId, own_IpAddress, own_TcpPort, /receive-service}
+activate provideStatus
+provideStatus --> requestor: {requestId}
+
+'get parallel link
+note over provideStatus
+  <u>GetParallelLinks</u>
+end note
+note over mwdiParallelLink
+  - <i>the returned list contains all parallel links on</i>
+    <i>the same layer</i>
+  - <i>if list.size()==1, only the link itself is returned,</i>
+    <i>but there are no parallel links</i>
+end note
+provideStatus -> mwdiParallelLink: {uuid=linkId}
+mwdiParallelLink --> provideStatus: {parallelLinksList}
+
+'return error if parallel link not found
+note over provideStatus
+IF parallelLinksList.size() <= 1
+  THEN <u>Response</u> and exit
+end note
+provideStatus -> delivery: {requestId, parallel-link-list(empty transmitter-status-list)}
+
+'if parallel links are found: find their address triples
+note left provideStatus
+IF parallelLinksList.size() > 1
+  FOR each found parallel linkId
+end note
+note over provideStatus
+    <u>DetermineLinkEndpoints</u>
+end note
+provideStatus -> resolver: {uuid=linkId}
+resolver --> provideStatus: {2x(CC,LTP,LP)}
+
+'fetch status/config info for parallel links
+note over provideStatus
+  <u>GetAirInterfaceConfigFromCache</u>
+  for both link endpoints
+end note
+provideStatus -> mwdiAirIfConfig: {mountName-from-CC, uuid-from-LTP, localId-from-LP}
+mwdiAirIfConfig --> provideStatus: {transmissionModeMax}
+
+note over provideStatus
+  <u>GetAirInterfaceStatusFromLive</u>
+  for both link endpoints
+end note
+provideStatus -> mwdiAirIfStatus: {mountName-from-CC, uuid-from-LTP, localId-from-LP}
+mwdiAirIfStatus--> provideStatus: {interfaceStatus, transmissionModeCur}
+
+note over provideStatus
+  IF (all 5 responseCode == 200)
+    add entry to the list of 
+    transmitter status of parallel links
+end note
+
+note left provideStatus
+  End of FOR loop
+end note
+provideStatus -> delivery: {requestId, parallel-link-list(transmitter-status-list(interfaceStatus, transmissionModeMax, transmissionModeCur))}
+
+note right delivery
+Please regard, that parallel-link-list 
+includes the original link-id and transmitter status
+end note
+
+deactivate provideStatus 
+@enduml

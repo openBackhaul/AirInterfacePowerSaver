@@ -1,0 +1,45 @@
+@startuml 705_deleteLinkFromPowerSavingStatusTable
+skinparam responseMessageBelowArrow true
+
+title
+RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/delete-link-from-power-saving-status-table" as delete
+participant "ElasticSearch" as es
+
+requestor -> delete: {linkId}
+activate delete
+
+'get all linkIds from power saving status table
+note over delete
+  <u>GetPowerSavingStatus</u>
+end note
+delete -> es: {linkId}
+es --> delete: {list-of(deviationsFromOriginalState)} 
+
+note over delete
+    IF (deviationsFromOriginalState != emptyList)
+    THEN send response
+end note
+'we cannot use responseCode 204 to indicate that the list is not empty, 
+'because the module list shall be returned, which requires responseCode to be 200
+delete --> requestor: {list-of(deviationsFromOriginalState)}, responseCode=200
+
+'now cleanup
+note over delete
+    IF (deviationsFromOriginalState == emptyList)
+    THEN <u>DeleteLinkFromElasticSearch</u>
+end note
+delete -> es: {linkId}
+
+delete --> requestor: {}, responseCode=200
+
+
+
+
+
+deactivate delete 
+
+@enduml
