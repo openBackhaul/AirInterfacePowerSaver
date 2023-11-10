@@ -1351,33 +1351,33 @@ paths:
               requesting-mwdi-failed:
                 value:
                   request-id: '305551234-231108-1400'
-                  parallel-link-list: [ ]
+                  parallel-link-list: []
               no-parallel-link-found:
                 value:
                   request-id: '305551234-231108-1400'
                   parallel-link-list:
                     - link-id: '305551234'
-                      transmitter-status-list: [ ]
+                      transmitter-status-list: []
               one-parallel-link-found:
                 value:
                   request-id: '305551234-231108-1400'
                   parallel-link-list:
                     - link-id: '305551234'
                       transmitter-status-list:
-                      - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                        transmission-mode-max: '0007-128QAM-78528/87570-1'
-                        transmission-mode-cur: '0007-QPSK-22080/24454-1'
-                      - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                        transmission-mode-max: '0007-128QAM-78528/87570-1'
-                        transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                          transmission-mode-max: '0007-128QAM-78528/87570-1'
+                          transmission-mode-cur: '0007-QPSK-22080/24454-1'
+                        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                          transmission-mode-max: '0007-128QAM-78528/87570-1'
+                          transmission-mode-cur: '0007-QPSK-22080/24454-1'
                     - link-id: '305551235'
                       transmitter-status-list:
-                      - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                        transmission-mode-max: '0007-128QAM-78528/87570-1'
-                        transmission-mode-cur: '0007-128QAM-78528/87570-1'
-                      - interface-status: 'INTERFACE_STATUS_TYPE_UP'
-                        transmission-mode-max: '0007-128QAM-78528/87570-1'
-                        transmission-mode-cur: '0007-128QAM-78528/87570-1'
+                        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                          transmission-mode-max: '0007-128QAM-78528/87570-1'
+                          transmission-mode-cur: '0007-128QAM-78528/87570-1'
+                        - interface-status: 'INTERFACE_STATUS_TYPE_UP'
+                          transmission-mode-max: '0007-128QAM-78528/87570-1'
+                          transmission-mode-cur: '0007-128QAM-78528/87570-1'
       responses:
         '204':
           description: 'Transmitter status of parallel links received'
@@ -3304,7 +3304,7 @@ paths:
                               type: string
                               pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                               description: >
-                                'If provided, own IPv4 address, which has to be documented (but not be directly used for formulating the callback) 
+                                'If provided, own IPv4 address, which has to be documented (but not be directly used for formulating the callback)
                                 update [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
                         domain-name:
                           type: string
