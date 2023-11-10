@@ -567,7 +567,7 @@ forwardings:
       - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
 
-  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetParallelLinks
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetParallelLinks
     uuid: aips-0-0-5-op-fc-is-600
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -582,7 +582,7 @@ forwardings:
       - client-name: MWDI://v1/provide-list-of-parallel-links
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-601
 
-  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.Response
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.Response
     uuid: aips-0-0-5-op-fc-is-601
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -597,7 +597,7 @@ forwardings:
       - client-name: request.body#requestor-receive-operation
         uuid: n.a.
 
-  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints
     uuid: aips-0-0-5-op-fc-is-602
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -612,7 +612,7 @@ forwardings:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-602
 
-  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
     uuid: aips-0-0-5-op-fc-is-603
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -627,7 +627,7 @@ forwardings:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-603
 
-  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
+  - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
     uuid: aips-0-0-5-op-fc-is-604
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -641,108 +641,3 @@ forwardings:
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
         uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-604
-
-  - forwarding-name: RequestForRecordingPowerSavingStatusCausesStatusTableUpdate
-    uuid: aips-0-0-5-op-fc-is-700
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/record-power-saving-status
-        uuid: aips-0-0-5-op-s-is-700
-    consequent-requests:
-      - client-name: ElasticSearch
-        uuid: aips-0-0-5-es-c-es-1-0-0-000
-
-  - forwarding-name: RequestForListingPowerSavingStatusCausesStatusTableReading
-    uuid: aips-0-0-5-op-fc-is-701
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/list-power-saving-status
-        uuid: aips-0-0-5-op-s-is-701
-    consequent-requests:
-      - client-name: ElasticSearch
-        uuid: aips-0-0-5-es-c-es-1-0-0-000
-
-  - forwarding-name: RequestForPowerSavingStatusOfLinkCausesLinkStatusReading
-    uuid: aips-0-0-5-op-fc-is-702
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/provide-power-saving-status-of-link
-        uuid: aips-0-0-5-op-s-is-701
-    consequent-requests:
-      - client-name: ElasticSearch
-        uuid: aips-0-0-5-es-c-es-1-0-0-000
-
-  - forwarding-name: RequestForListingAffectedLinksCausesStatusTableFiltering
-    uuid: aips-0-0-5-op-fc-is-703
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/list-affected-links
-        uuid: aips-0-0-5-op-s-is-703
-    consequent-requests:
-      - client-name: ElasticSearch
-        uuid: aips-0-0-5-es-c-es-1-0-0-000
-
-  - forwarding-name: RequestForListingLinksToBeRestoredCausesStatusTableFiltering
-    uuid: aips-0-0-5-op-fc-is-704
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/list-to-be-restored-links
-        uuid: aips-0-0-5-op-s-is-704
-    consequent-requests:
-      - client-name: ElasticSearch
-        uuid: aips-0-0-5-es-c-es-1-0-0-000
-
-  - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.GetPowerSavingStatus
-    uuid: aips-0-0-5-op-fc-is-705
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/delete-link-from-power-saving-status-table
-        uuid: aips-0-0-5-op-s-is-705
-    consequent-requests:
-      - client-name: ElasticSearch
-        uuid: aips-0-0-5-es-c-es-1-0-0-000
-
-  - forwarding-name: RequestForDeletingLinkFromPowerSavingStatusTableCausesDeletionAttempt.DeleteLinksFromElasticSearch
-    uuid: aips-0-0-5-op-fc-is-706
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/delete-link-from-power-saving-status-table
-        uuid: aips-0-0-5-op-s-is-705
-    consequent-requests:
-      - client-name: ElasticSearch
-        uuid: aips-0-0-5-es-c-es-1-0-0-000

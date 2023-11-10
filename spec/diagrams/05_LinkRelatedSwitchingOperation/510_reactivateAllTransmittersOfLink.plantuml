@@ -5,7 +5,8 @@ title
 RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction
 end title
 
-participant "external" as requestor
+participant "REQUESTOR" as requestor
+participant "e.g. AIPS://v1/receive-power-saving-deactivation-status" as delivery
 participant "AIPS://v1/reactivate-all-transmitters-of-link" as ato
 participant "AIPS://v1/provide-power-saving-status-of-link" as readStatus
 participant "MWDI://core-model-1-4:network-control-domain=cache/link={uuid}" as resolveAddress
@@ -13,7 +14,7 @@ participant "MWDG://core-model-1-4:network-control-domain=live/control-construct
 participant "AIPS://v1/record-power-saving-status" as recordStatus
 'participant "AIPS://<alarm-service-to-be-specified>" as alarm
 
-requestor -> ato: {linkId, automationName, own_IpAddress, own_TcpPort, own_responseServiceName}
+requestor -> ato: {linkId, automationName, own_IpAddress, own_TcpPort, /v1/receive-power-saving-deactivation-status}
 activate ato
 ato --> requestor: {requestId}
 
@@ -24,46 +25,44 @@ ato -> readStatus: {linkId}
 readStatus -> ato: {deviationsFromOriginalState, modulesToRestoreOriginalState}
 
 note over ato
-  IF (modulesToRestoreOriginalState does not contain "AllTransmittersOn")
-  THEN <u>Response</u> 
+  IF (modulesToRestoreOriginalState does NOT contain "AllTransmittersOn")
+  THEN <u>Response</u> and exit
 end note
-ato -> requestor: {requestId, statusOfLink="AllTransmittersOn"}
+ato -> delivery: {requestId, statusOfLink="NotQualified"}
 
 note over ato
-  IF (modulesToRestoreOriginalState contains "AllTransmittersOn")
-  THEN <u>DetermineLinkEndpoints</u>
+  ELSE <u>DetermineLinkEndpoints</u> of initial Link
 end note
 ato -> resolveAddress: {uuid=linkId}
-resolveAddress --> ato: {2x(forwardingDomain, uuid, localId)}
+resolveAddress --> ato: {2x(CC,LTP,LP)}
 
 note over ato
   For both link endpoints 
   <u>SwitchTransmitters<b>On</b></u>
 end note
-ato -> mwdg: {mountName-from-forwardingDomain, uuid, localId}
-mwdg --> ato: {responseCode}
+ato -> mwdg: {mountName-from-CC, uuid-from-LTP, localId-from-LP}
+mwdg --> ato: {odlResponseCode}
 
 note over ato
-  IF (both responseCodes of SwitchTransmitters<b>On</b> == 200)
-  THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
+  IF (both odlResponseCode of SwitchTransmitters<b>On</b> == 204)
+    THEN <u>Response</u> and <u>ReportPowerSavingStatus</u> and exit
 end note 
 ato -> recordStatus: {linkId, removeDeviationsFromOriginalState="RedundantTransmittersOff", removeModulesToRestoreOriginalState="AllTransmittersOn"}
-ato -> requestor: {requestId, statusOfLink="AllTransmittersOn"}
+ato -> delivery: {requestId, statusOfLink="AllTransmittersOn"}
 
 note over ato
-  IF (at least one responseCode of SwitchTransmitters<b>On</b> != 200)
-  THEN <u>SwitchBothTransmitters<b>Off</b></u>
+  IF (at least one odlResponseCode of SwitchTransmitters<b>On</b> != 204)
+    THEN <u>SwitchBothTransmitters<b>Off</b></u>
 end note
-ato -> mwdg: {mountName-from-forwardingDomain, uuid, localId}
-mwdg --> ato: {responseCode}
+ato -> mwdg: {mountName-from-CC, uuid-from-LTP, localId-from-LP}
+mwdg --> ato: {odlResponseCode}
 
 note over ato
-  IF (at least one responseCode of SwitchTransmitters<b>On</b> != 200)
-      AND (both responseCodes of SwitchTransmitters<b>Off</b> == 200))
-  THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
+  IF (both odlResponseCode of SwitchTransmitters<b>Off</b> == 204))
+    THEN <u>Response</u> and <u>ReportPowerSavingStatus</u> and exit
 end note
 ato -> recordStatus: {linkId, addDeviationsFromOriginalState="RedundantTransmittersOff", addModulesToRestoreOriginalState="AllTransmittersOn"}
-ato -> requestor: {requestId, statusOfLink="RedundantTransmittersOff"}
+ato -> delivery: {requestId, statusOfLink="RedundantTransmittersOff"}
 
 'alarms to be added with later release version
 'note over ato
@@ -75,12 +74,10 @@ ato -> requestor: {requestId, statusOfLink="RedundantTransmittersOff"}
 
 
 note over ato
-  IF (at least one responseCode of SwitchTransmitters<b>On</b> != 200)
-      AND (at least one responseCode of SwitchTransmitters<b>Off</b> != 200))
-  THEN <u>ReportPowerSavingStatus</u> and <u>Response</u>
+  ELSE <u>ReportPowerSavingStatus</u> and <u>Response</u>
 end note 
-ato -> recordStatus: {linkId, addDeviationsFromOriginalState="UndefinedState", addModulesToRestoreOriginalState="AllTransmittersOn"}
-ato -> requestor: {requestId, statusOfLink="UndefinedState"}
+ato -> recordStatus: {linkId, addModulesToRestoreOriginalState="AllTransmittersOn"}
+ato -> delivery: {requestId, statusOfLink="UndefinedState"}
 
 
 deactivate ato 

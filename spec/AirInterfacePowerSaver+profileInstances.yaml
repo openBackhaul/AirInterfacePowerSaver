@@ -18,7 +18,6 @@ profile-instances:
     configuration:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=aips-0-0-5-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
-
   - profile-name: 'ActionProfile'
     uuid: 'aips-0-0-5-action-p-002'
     capability:
@@ -111,13 +110,13 @@ profile-instances:
   - profile-name: 'StringProfile'
     uuid: 'aips-0-0-5-string-p-000'
     capability:
-      string-name: 'RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache'
+      string-name: 'RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache'
     configuration:
       string-value: 'transmission-mode-max'
 
   - profile-name: 'StringProfile'
     uuid: 'aips-0-0-5-string-p-001'
     capability:
-      string-name: 'RequestForProvidingTransmitterStatusOfParallelLinkCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive'
+      string-name: 'RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive'
     configuration:
       string-value: 'interface-status;transmission-mode-cur'

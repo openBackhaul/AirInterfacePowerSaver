@@ -43,11 +43,20 @@ servers:
         - operation-name: /docs
           uuid: aips-0-0-5-op-s-bs-005
       individual:
+        ## 04: Link Group related switching operation
+        ## SimpleActivation
+        - operation-name: /v1/receive-power-saving-activation-status
+          uuid: aips-0-0-5-op-s-is-405
+        ## PersistentDeactivation
+        - operation-name: /v1/receive-power-saving-deactivation-status
+          uuid: aips-0-0-5-op-s-is-415
+
         ## 05: Link related switching operation ------------------------------------------------
         ## RedundantTransmittersOff
         - operation-name: /v1/switch-redundant-transmitter-pair-off
           uuid: aips-0-0-5-op-s-is-500
-
+        - operation-name: /v1/receive-transmitter-status-of-parallel-links
+          uuid: aips-0-0-5-op-s-is-501
         ## AllTransmittersOn
         - operation-name: /v1/reactivate-transmitters-of-link
           uuid: aips-0-0-5-op-s-is-510
