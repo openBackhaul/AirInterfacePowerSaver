@@ -1,0 +1,70 @@
+@startuml 120_addLinksToBlackList
+skinparam responseMessageBelowArrow true
+
+title
+RequestForAddingLinksToBlackListCausesBlackListUpdateAndPersistentDeactivation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/add-links-to-black-list" as addLinks
+participant "AIPS://v1/list-links" as listLinks
+participant "AIPS://v1/list-links-in-black-list" as listBlackList
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+requestor -> addLinks: {linkIdList}
+activate addLinks
+
+'get current assignments from staticList
+note over addLinks
+  <u>GetCurrentStaticListAssignments</u>
+  capture current state before removing assignments
+  from staticList; required for async power saving
+  switch-off
+end note
+addLinks -> listLinks: {linkIdList}
+listLinks --> addLinks: {list-of-(linkId,automationNamesList)}
+
+'get current blackList
+note over addLinks
+  <u>GetCurrentBlackList</u>
+end note
+addLinks -> listBlackList
+listBlackList --> addLinks: {linkIdList_blackList}
+
+'add links to blackList file
+note over addLinks
+  Add linkIds from linkIdList to blackList
+  (if not yet included)
+end note
+
+'stop ongoing/planned power saving
+note over addLinks
+  FOR each linkId from linkIdList
+    IF NOT (linkIdList_blackList.contains(linkId))
+      FOR each automationName from linkId.assignedAutomationNamesList
+        build pair (linkId, automationName) and
+        <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+addLinks -> stopSimpleActivation: {linkId, automationName}
+stopSimpleActivation --> addLinks
+
+'initiate persistentDeactivation to turn power saving off
+note over addLinks
+  FOR each pair (linkId, automationName)
+  from previous step
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+addLinks -> startPersistentDeactivation: {linkId, automationName, switchingOperationName="PersistentDeactivation"}
+
+deactivate addLinks
+
+footer
+
+
+  Note: as soon as a linkId gets newly added to the blackList, power saving for this linkId is no longer allowed.
+  Therefore, all planned/ongoing power saving activations need to be stopped and if power saving is already active, 
+  it needs to be switched off (for each automationName assigned to that linkId).
+end footer
+
+@enduml

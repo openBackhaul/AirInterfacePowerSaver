@@ -1,0 +1,24 @@
+@startuml 106_listLinks
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingLinksInStaticListCausesListing
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-links" as listLinks
+
+requestor -> listLinks: <i>optional:</i> {linkIdList}
+activate listLinks
+
+note over listLinks
+  - if requestor provided linkIdList filter
+    the data from the file for those linkIds from this
+    linkIdList,
+  - else return complete staticList
+end note
+listLinks --> requestor: {list-of-(linkId, assignedAutomationsList)}
+
+deactivate listLinks
+
+@enduml

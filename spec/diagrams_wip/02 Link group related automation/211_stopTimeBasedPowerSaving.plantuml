@@ -1,0 +1,41 @@
+@startuml 211_stopTimeBasedPowerSaving
+skinparam responseMessageBelowArrow true
+
+title
+RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/stop-time-based-power-saving" as stopPsModule
+participant "AIPS://v1/list-links-with-specific-automation-assigned" as listLinks
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+
+requestor -> stopPsModule
+activate stopPsModule
+
+'get the list of linkIds for which TB power saving needs to be stopped
+note over stopPsModule
+  <u>GetLinkList</u>
+end note
+stopPsModule -> listLinks: {automationName="TimeBasedPowerSaving"}
+listLinks --> stopPsModule: {linkIdList}
+
+'stop ongoing/planned power savings
+note over stopPsModule
+  FOR each linkId in linkIdList
+    <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+stopPsModule -> stopSimpleActivation: {linkdId, automationName="TimeBasedPowerSaving"}
+stopSimpleActivation -> stopPsModule
+
+'initiate power saving switch-off
+note over stopPsModule
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+stopPsModule -> startPersistentDeactivation: {linkdIdList, automationName="TimeBasedPowerSaving", switchingOperationName="PersistentDeactivation"}
+
+deactivate stopPsModule
+
+@enduml

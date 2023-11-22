@@ -1,0 +1,51 @@
+@startuml 105_unassignAutomationFromAllLinks
+skinparam responseMessageBelowArrow true
+
+title
+RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/unassign-automation-from-all-links" as unassignAutomation
+participant "AIPS://v1/list-links-with-specific-automation-assigned" as listLinks
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+
+requestor -> unassignAutomation: {automationName}
+activate unassignAutomation
+
+'get current assignments from staticList
+note over unassignAutomation
+  <u>GetLinksFromCurrentAssignments</u>
+  capture current state before removing assignments
+  from staticList; required for async power saving
+  switch-off
+end note
+unassignAutomation -> listLinks: {automationName}
+listLinks --> unassignAutomation: {linkIdList}
+
+'update staticList by removing automationName assignment for all links
+note over unassignAutomation
+  remove automationName from assignmentList
+  of all linkIds in staticList
+end note
+
+'stop ongoing/planned power saving
+note over unassignAutomation
+  FOR each linkId from linkIdList
+    build pair (linkId, automationName) and
+    <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+unassignAutomation -> stopSimpleActivation: {linkId, automationName}
+stopSimpleActivation --> unassignAutomation
+
+'initiate persistentDeactivation to turn power saving off
+note over unassignAutomation
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+unassignAutomation -> startPersistentDeactivation: {linkIdList, automationName, switchingOperationName="PersistentDeactivation"}
+
+deactivate unassignAutomation
+
+@enduml

@@ -1,0 +1,111 @@
+@startuml 300_startDroppedFramesMonitoring
+skinparam responseMessageBelowArrow true
+
+title
+RequestForStartingDroppedFramesMonitoringCausesCyclicOperation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/start-dropped-frames-monitoring" as startModule
+participant "AIPS://v1/list-links-with-specific-automation-assigned" as listLinks
+participant "MWDI://<get-dropped-frames>-to-be-checked" as mwdi
+participant "MWDI://v1/provide-list-of-parallel-links" as mwdiParallelLink
+participant "AIPS://v1/provide-power-saving-status-of-link" as readStatus
+
+requestor -> startModule
+activate startModule
+
+'get all links subject to this automation
+note over startModule
+  <u>GetLinkIdList</u>
+end note
+startModule -> listLinks: {automationName="DroppedFramesInitiationRestoration"}
+listLinks --> startModule: {linkIdList}
+
+'monitor them constantly
+note over startModule
+  FOR each linkId from linkIdList
+    <u>GetDroppedFrames</u>
+
+    unclear yet what to derive from mwdi
+    we also might need a translation from linkId to addressTriple
+    we might have an own service, which capsulates this and also
+    determines if a certain treshold is crossed and just delivers true/false
+end note
+startModule -> mwdi: {linkId}
+mwdi --> startModule: {response to-be-specified}
+
+note over startModule #pink
+  wenn viele Frames verloren gehen, müssen wir folgendes tun:
+  - gibt es einen parallel Link, der ausgeschaltet ist?
+    - nein: dann müssen wir mit den droppedFrames leben
+    - ja: dann müssen wir versuchen, den wieder anzuschalten
+
+    - was passiert bei mehreren parallelen Links, z.B. bei 4 parallen Links:
+      - schaltet man erstmal einen an und guckt, was passiert
+      - oder versucht man direkt alle anzuschalten?
+end note
+
+'if dropped frames condition met: get parallel links
+note over startModule
+  FOR each linkId
+    IF (too many dropped frames)
+    THEN <u>GetParallelLinks</u>
+end note
+startModule -> mwdiParallelLink: {uuid=linkId}
+mwdiParallelLink --> startModule: {list-of-(uuid=linkId, layerProtocolName)}
+
+'check whether those parallel links have active power saving
+note over startModule
+  FOR each linkId from <i>GetParallelLinks</i>
+    <u>GetPowerSavingStatus</u>
+end note
+startModule -> readStatus: {linkId}
+readStatus -> startModule: {deviationsFromOriginalState, modulesToRestoreOriginalState}
+
+
+note over startModule #pink
+  hier müsste man jetzt eigentlich eine Fallunterscheidung für verschiede 
+  Automation-Typen machen; da wir aktuell nur TimeBasedPowerSaving haben,
+  gibt es auch nur diesen einen Fall
+
+  im Prinzip ist man für einen bestimmen Link auch dann immer schon fertig,
+  wenn die modulesToRestoreOriginalState Liste leer ist 
+end note
+
+'falls via simpleActivation & persistentDeactivation steuern:
+note over startModule
+  FOR each linkId from <i>GetParallelLinks</i>
+    IF (modulesToRestoreOriginalState.contains("AllTransmittersOn")) 
+    THEN <u>RemoveFrom<b>Activation</b>Queue</u>
+    
+    <b>beim stopSimpleActivation und startPersistentDeactivation muss der automationName übergeben werden (zB TimeBasedPowerSaving),</b>
+    <b>aber der statusTable hat die INfo gar nicht, da steht nur "AllTransmittersOn" drin</b>
+    Alternativ: man ruft direkt AllTransmittersOn auf, statt die Services von Modul 4
+    Aber: droppedFramesInitiatedRestoration ist link based, nicht linkgroup based...
+end note
+startModule -> stopSimpleActivation: {linkdId, automationName="TimeBasedPowerSaving"}
+
+note over startModule
+  FOR each linkId from <i>GetParallelLinks</i>
+    IF (modulesToRestoreOriginalState.contains("AllTransmittersOn")) 
+    <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+startModule -> startPersistentDeactivation: {linkdId, automationName="TimeBasedPowerSaving", switchingOperationName="PersistentDeactivation"}
+
+
+
+note over startModule
+  - aus dem PowerSavingStatus wird jetzt nicht ersichtlich, dass das wegen den droppedFrames wieder eingeschaltet wurde
+  - soll das PowerSaving nur ausgeschaltet werden, oder auch wieder ein?
+    - falls wieder einschalten: macht man dann in bestimmten Zeitintervallen eine Prüfung, wie es jetzt aussieht?
+    - oder würde das einschalten nur über die anderen Module zB Time-Based erfolgen?
+
+  - wenn droppedFrames Monitoring das powerSaving ausschaltet, braucht man ggf. einen Sperre für andere Module
+    (zB könnte ein timebased-Trigger ja erfüllt sein, aber wir wollen nicht wieder anschalten); das könnte aber z.B. auch einfach
+    ein integerProfile sein, wo wir reinschreiben für die nächsten x Minuten darf nichts ausgeschaltet werden...
+end note
+
+deactivate startModule
+
+@enduml

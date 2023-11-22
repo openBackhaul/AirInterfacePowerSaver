@@ -1,0 +1,15 @@
+@startuml 400_addLinksToPersistentDeactivationQueue
+skinparam responseMessageBelowArrow true
+
+title
+RequestForAddingLinksToPowerSavingDeactivationQueueCausesQueueUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as addLinks
+
+requestor -> addLinks: {linkIdList, automationName, switchingOperationName}
+activate addLinks
+deactivate addLinks
+
+@enduml

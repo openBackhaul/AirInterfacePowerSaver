@@ -1,0 +1,60 @@
+@startuml 4xx_cyclicOperationOnPowerSavingDectivationQueue
+skinparam responseMessageBelowArrow true
+
+title
+PromptForEmbeddingCausesCyclicOperationOnPowerSavingDeactivationQueue
+end title
+
+participant "RO" as ro
+participant "AIPS://v1/embed-yourself" as embedYourself
+participant "AIPS://v1/provide-power-saving-status-of-link" as listStatus
+participant "AIPS://v1/switch-redundant-transmitter-pair-off" as redundantTransmittersOff
+
+ro -> embedYourself
+
+'cyclic operation starts
+note over embedYourself
+  CyclicOperation for power saving deactivation queue
+  (from PersistentDeactivation module) starts
+
+  - queue records have the following columns:
+    linkId, automationName, switchingOperationName
+  - records are NOT unique
+  - records are only deleted here due to 
+    - successful power saving switch-off
+    - or if maximum runtime reached
+end note
+
+'iterate over queue, get power saving status
+note over embedYourself
+  FOR each record in queue
+    <u>GetPowerSavingStatus</u>
+end note
+embedYourself -> listStatus: {linkId}
+listStatus --> embedYourself: {deviationsFromOriginalStateList, modulesToRestoreOriginalStateList}
+
+'check if already done
+note over embedYourself
+  FOR each record r in queue
+    IF NOT (modulesToRestoreOriginalStateList.contains(record.automationName))
+    THEN remove record from queue
+end note
+
+'for all remaining entries
+note over embedYourself
+  FOR record r
+    <u>AllTransmittersOn</u>
+end note
+embedYourself -> redundantTransmittersOff: {linkId, automationName}
+redundantTransmittersOff --> embedYourself: {responseCode}
+
+'if success remove from list
+note over embedYourself
+  FOR record r
+  IF (responseCode indicates success)
+  THEN remove record from queue
+end note
+
+deactivate embedYourself
+
+@enduml

@@ -1,0 +1,75 @@
+@startuml 102_removeLinksFromStaticList
+skinparam responseMessageBelowArrow true
+
+title
+RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/remove-links-from-static-list" as removeLinks
+participant "AIPS://v1/list-links" as listLinks
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+note over requestor
+  requestor may provide linkIds which 
+  are not found in the staticList file,
+  those will be ignored
+end note
+
+requestor -> removeLinks: {linkIdList}
+activate removeLinks
+
+'get current assignments from staticList
+note over removeLinks
+  <u>GetCurrentAssignments</u>
+  capture current state before deleting linkIds
+  from staticList; required for async power saving
+  switch-off
+end note
+removeLinks -> listLinks: {linkIdList}
+listLinks --> removeLinks: {list-of-(linkId,automationNamesList)}
+
+'update staticList by deleting the linkIdList links
+note over removeLinks
+  delete the linkIds of linkIdList
+  from staticList
+end note
+
+'stop ongoing/planned power saving
+note over removeLinks
+  FOR each linkId from linkIdList
+    FOR each automationName from linkId.automationNamesList
+        build pair (linkId, automationName),
+        <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+removeLinks -> stopSimpleActivation: {linkId, automationName}
+stopSimpleActivation --> removeLinks
+
+'initiate persistentDeactivation to turn power saving off
+note over removeLinks
+  FOR each pair (linkId, automationName)
+  from previous step
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+removeLinks -> startPersistentDeactivation: {linkId, automationName, switchingOperationName="PersistentDeactivation"}
+
+
+note over removeLinks #pink
+  ggf. darf man den Link aus der staticList erst dann löschen,
+  wenn der auch wieder erfolgreich aktiviert wurde
+  aber: man kann ihn ggf. als Löschkandidaten markieren
+  (d.h. auch alle automationNames rauswerfen)
+  Sobald er wieder richtig läuft kann der Link dann gelöscht werden, 
+  das würde auch sicherstellen, dass es keine Inkonsistenzen mit dem 
+  StatusTable gibt (in dem muss der Link auf jeden Fall drin stehen bleiben, 
+  bis modulesToRestore leer ist)
+
+  nur automation löschen ist nicht kritisch, weil da beim sync von
+  statusTable & staticList keine Löschkandidaten für den statusTable
+  identifiziert werden.
+end note
+
+deactivate removeLinks
+
+@enduml

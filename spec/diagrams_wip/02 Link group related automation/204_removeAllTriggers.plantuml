@@ -1,0 +1,16 @@
+@startuml 204_removeAllTriggers
+skinparam responseMessageBelowArrow true
+
+title
+RequestForRemovingAllTriggersCausesTimeBasedPowerSavingTriggerUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/remove-all-Triggers" as removeTrigger
+
+requestor -> removeTrigger
+activate removeTrigger
+
+deactivate removeTrigger
+
+@enduml

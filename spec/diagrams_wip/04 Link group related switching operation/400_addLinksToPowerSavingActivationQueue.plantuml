@@ -1,0 +1,23 @@
+@startuml 400_addLinksToPowerSavingActivationQueue
+skinparam responseMessageBelowArrow true
+
+title
+RequestForAddingLinksToPowerSavingActivationQueueCausesQueueUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/add-links-to-power-saving-activation-queue" as addLinks
+
+requestor -> addLinks: {linkIdList, automationName, switchingOperationName}
+activate addLinks
+
+deactivate addLinks
+
+
+footer
+
+  Only queue update; cyclic operation on queue elements in own diagram
+end footer
+
+
+@enduml
