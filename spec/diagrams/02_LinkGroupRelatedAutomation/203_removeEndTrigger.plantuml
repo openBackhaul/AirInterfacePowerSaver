@@ -1,0 +1,31 @@
+@startuml 203_removeEndTrigger
+skinparam responseMessageBelowArrow true
+
+title
+RequestForRemovingEndTriggerCausesTimeBasedPowerSavingTriggerUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/remove-end-trigger" as removeTrigger
+
+requestor -> removeTrigger: {time}
+activate removeTrigger
+
+deactivate removeTrigger
+
+
+note over removeTrigger #Pink
+  consider: if the last end trigger is removed, it needs to be ensured
+  that power saving is switched off for all affected links at some point 
+  (only if TimeBasedPowerSaving is running)
+  possible approaches:
+  - either this can be done immediately, when the last time trigger is removed
+  - or there needs to be a mechanism (e.g. reconciliation module) that periodically
+    checks if links need to be brought back into original state
+  - depending on how often reconciliation would be done throughout the day (i.e. if only done
+    once), a combined approach could be best -> try to switch back on immediately, if there are any links with issues try again
+    later via reconcilation
+
+end note
+
+@enduml

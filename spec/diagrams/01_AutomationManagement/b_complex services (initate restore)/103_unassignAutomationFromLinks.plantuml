@@ -15,6 +15,8 @@ participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPer
 requestor -> unassignAutomation: {automationName, linkIdList}
 activate unassignAutomation
 
+== Get current assignment status ==
+
 'get current assignments from staticList
 note over unassignAutomation
   <u>GetCurrentAssignments</u>
@@ -25,29 +27,33 @@ end note
 unassignAutomation -> listLinks: {linkIdList}
 listLinks --> unassignAutomation: {list-of-(linkId,automationNamesList)}
 
+== Unassign automationNames ==
+
 'update staticList by removing automationName for linkIdList links
 note over unassignAutomation
-  remove automationName from assignmentList
-  of linkIds from linkIdList in staticList
+  FOR each linkId in linkIdList
+    delete automationName from linkId.automationNamesList
+    in the staticList
 end note
+unassignAutomation --> requestor: <i>"done"</i>
+
+== Initiate power saving switch-off to restore original state ==
 
 'stop ongoing/planned power saving
 note over unassignAutomation
-  FOR each linkId from linkIdList
-    IF (linkId.automationNamesList.contains(automationName))
-    THEN build pair (linkId, automationName) and
-        <u>RemoveFrom<b>Activation</b>Queue</u>
+  WITH affectedLinkIdList = linkIdList filtered
+      for linkIds from linkIdList
+      where (linkId.automationNamesList.contains(automationName))
+    <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
-unassignAutomation -> stopSimpleActivation: {linkId, automationName}
+unassignAutomation -> stopSimpleActivation: {affectedLinkIdList, automationName}
 stopSimpleActivation --> unassignAutomation
 
 'initiate persistentDeactivation to turn power saving off
 note over unassignAutomation
-  FOR each pair (linkId, automationName)
-  from previous step
   <u>AddTo<b>Deactivation</b>Queue</u>
 end note
-unassignAutomation -> startPersistentDeactivation: {linkId, automationName, switchingOperationName="PersistentDeactivation"}
+unassignAutomation -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
 
 deactivate unassignAutomation
 

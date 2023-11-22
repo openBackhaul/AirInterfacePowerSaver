@@ -24,11 +24,10 @@ listLinks --> stopPsModule: {linkIdList}
 
 'stop ongoing/planned power savings
 note over stopPsModule
-  FOR each linkId in linkIdList
-    <u>RemoveFrom<b>Activation</b>Queue</u>
+  <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
-stopPsModule -> stopSimpleActivation: {linkdId, automationName="TimeBasedPowerSaving"}
-stopSimpleActivation -> stopPsModule
+stopPsModule -> stopSimpleActivation: {linkdIdList, automationName="TimeBasedPowerSaving"}
+stopSimpleActivation --> stopPsModule
 
 'initiate power saving switch-off
 note over stopPsModule

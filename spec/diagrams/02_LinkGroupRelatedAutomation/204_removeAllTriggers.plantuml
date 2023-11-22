@@ -13,4 +13,10 @@ activate removeTrigger
 
 deactivate removeTrigger
 
+note over removeTrigger #Pink
+  if we remove all triggers, we should ensure that 
+  currently running time based power savings are switched off again
+end note
+
+
 @enduml

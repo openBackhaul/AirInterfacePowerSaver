@@ -18,7 +18,10 @@ requestor -> startPsModule
 activate startPsModule
 
 'open question:
-note over listTriggers: <b>TODO: clarify when triggers are fetched\n (periodically? with integerProfile to configure time interval?)
+note over listTriggers #Pink
+ <b>TODO: clarify when triggers are fetched 
+          (periodically? with integerProfile to configure time interval?)
+end note
 
 'get triggers
 note over startPsModule
@@ -27,38 +30,42 @@ end note
 startPsModule -> listTriggers
 listTriggers --> startPsModule: {triggerList}
 
+
 'monitor if any trigger is met
 note over startPsModule
   cyclic operation to monitor the <i>time</i>:
   IF any ((startTrigger==<i>time</i>) 
-           OR (endTrigger==<i>time</i>))
+          OR (endTrigger==<i>time</i>))
   THEN <u>GetLinkidList</u>
 end note
 startPsModule -> listLinks: {automationName="TimeBasedPowerSaving"}
 listLinks --> startPsModule: {linkIdList}
 
+
 'StartTrigger is met
 note over startPsModule
   IF (met trigger == startTrigger)
-  THEN <u>InitiatePowerSaving</u>
+  THEN <u>InitiatePowerSaving</u> and exit
 end note
 startPsModule -> startSimpleActivation: {linkIdList, automationName="TimeBasedPowerSaving", switchingOperationName="SimpleActivation"}
+startPsModule --> requestor
 
 'EndTrigger is met: stop ongoing/planned power saving
 note over startPsModule
   IF (met trigger == endTrigger)
-  FOR each linkId in linkIdList
-     <u>RemoveFrom<b>Activation</b>Queue</u>
+    <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
-startPsModule -> stopSimpleActivation: {linkdId, automationName="TimeBasedPowerSaving"}
+startPsModule -> stopSimpleActivation: {linkdIdList, automationName="TimeBasedPowerSaving"}
+stopSimpleActivation --> startPsModule
+
 
 'EndTrigger is met: initiate power saving switch-off
 note over startPsModule
   IF (met trigger == endTrigger)
-    <u>AddTo<b>Deactivation</b>Queue</u>
+    <u>AddTo<b>Deactivation</b>Queue</u> and exit
 end note
 startPsModule -> startPersistentDeactivation: {linkdIdList, automationName="TimeBasedPowerSaving", switchingOperationName="PersistentDeactivation"}
-
+startPsModule --> requestor
 
 deactivate startPsModule
 

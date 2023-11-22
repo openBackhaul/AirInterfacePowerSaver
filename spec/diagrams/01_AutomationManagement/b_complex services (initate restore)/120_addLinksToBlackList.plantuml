@@ -15,6 +15,8 @@ participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPer
 requestor -> addLinks: {linkIdList}
 activate addLinks
 
+== Get current assignment status ==
+
 'get current assignments from staticList
 note over addLinks
   <u>GetCurrentStaticListAssignments</u>
@@ -32,11 +34,15 @@ end note
 addLinks -> listBlackList
 listBlackList --> addLinks: {linkIdList_blackList}
 
+== Add links to blackList ==
+
 'add links to blackList file
 note over addLinks
   Add linkIds from linkIdList to blackList
   (if not yet included)
 end note
+
+== Initiate power saving switch-off to restore original state ==
 
 'stop ongoing/planned power saving
 note over addLinks

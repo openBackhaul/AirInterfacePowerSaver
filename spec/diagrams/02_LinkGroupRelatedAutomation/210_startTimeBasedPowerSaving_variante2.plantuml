@@ -1,0 +1,80 @@
+@startuml 210_startTimeBasedPowerSaving
+skinparam responseMessageBelowArrow true
+
+title
+RequestForStartingTimeBasedPowerSavingCausesCyclicOperation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/start-time-based-power-saving" as startPsModule
+participant "AIPS://v1/list-all-triggers" as listTriggers
+participant "AIPS://v1/list-links-with-specific-automation-assigned" as listLinks
+participant "AIPS://v1/add-links-to-power-saving-activation-queue" as startSimpleActivation
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+
+requestor -> startPsModule
+activate startPsModule
+
+'open question:
+note over listTriggers #Pink
+ TODO: clarify when triggers are fetched
+       -> (periodically? with integerProfile to configure time interval?)
+  GetTriggers & time monitoring can also be done in 1 step      
+end note
+
+
+loop get triggers and monitor time
+'get triggers
+note over startPsModule
+  <u>GetTriggers</u>
+end note
+startPsModule -> listTriggers
+listTriggers --> startPsModule: {triggerList}
+
+
+
+  'monitor if any trigger is met
+  group if any trigger==time
+    note over startPsModule
+      IF any ((startTrigger==<i>time</i>) OR (endTrigger==<i>time</i>))
+      THEN <u>GetLinkidList</u>
+    end note
+    startPsModule -> listLinks: {automationName="TimeBasedPowerSaving"}
+    listLinks --> startPsModule: {linkIdList}
+
+    alt a startTrigger is met
+      'StartTrigger is met
+      note over startPsModule
+        <u>InitiatePowerSaving</u>
+      end note
+      startPsModule -> startSimpleActivation: {linkIdList, automationName="TimeBasedPowerSaving", switchingOperationName="SimpleActivation"}
+
+    else an endTrigger is met
+      'EndTrigger is met: stop ongoing/planned power saving
+      note over startPsModule
+          <u>RemoveFrom<b>Activation</b>Queue</u>
+      end note
+      startPsModule -> stopSimpleActivation: {linkdIdList, automationName="TimeBasedPowerSaving"}
+      stopSimpleActivation --> startPsModule
+
+      'EndTrigger is met: initiate power saving switch-off
+      note over startPsModule
+          <u>AddTo<b>Deactivation</b>Queue</u>
+      end note
+      startPsModule -> startPersistentDeactivation: {linkdIdList, automationName="TimeBasedPowerSaving", switchingOperationName="PersistentDeactivation"}
+
+    end
+  end
+
+end
+
+deactivate startPsModule
+
+footer
+
+  Note: starting timeBasedPowerSaving does not mean, that power saving mode is only turned on, but also, that (if an endTrigger is met), power saving mode is also turned off again!
+end footer
+
+@enduml

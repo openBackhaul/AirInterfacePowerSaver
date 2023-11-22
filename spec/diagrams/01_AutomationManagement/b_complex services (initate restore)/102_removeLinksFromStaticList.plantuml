@@ -20,6 +20,8 @@ end note
 requestor -> removeLinks: {linkIdList}
 activate removeLinks
 
+== Get current assignment status ==
+
 'get current assignments from staticList
 note over removeLinks
   <u>GetCurrentAssignments</u>
@@ -30,44 +32,49 @@ end note
 removeLinks -> listLinks: {linkIdList}
 listLinks --> removeLinks: {list-of-(linkId,automationNamesList)}
 
+== Remove links from staticList ==
+
 'update staticList by deleting the linkIdList links
 note over removeLinks
   delete the linkIds of linkIdList
-  from staticList
+  from the staticList
 end note
+removeLinks --> requestor: <i>"done"</i>
+
+== Initiate power saving switch-off to restore original state ==
 
 'stop ongoing/planned power saving
 note over removeLinks
-  FOR each linkId from linkIdList
     FOR each automationName from linkId.automationNamesList
-        build pair (linkId, automationName),
-        <u>RemoveFrom<b>Activation</b>Queue</u>
+        - create new affectedLinkidList and add linkIds from linkIdList
+          with that assigned automationName to it
+        - for the pair (affectedLinkIdList, automationName)
+          <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
-removeLinks -> stopSimpleActivation: {linkId, automationName}
+removeLinks -> stopSimpleActivation: {affectedLinkIdList, automationName}
 stopSimpleActivation --> removeLinks
 
 'initiate persistentDeactivation to turn power saving off
 note over removeLinks
-  FOR each pair (linkId, automationName)
+  FOR each pair (affectedLinkIdList, automationName)
   from previous step
   <u>AddTo<b>Deactivation</b>Queue</u>
 end note
-removeLinks -> startPersistentDeactivation: {linkId, automationName, switchingOperationName="PersistentDeactivation"}
+removeLinks -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
 
 
 note over removeLinks #pink
-  ggf. darf man den Link aus der staticList erst dann löschen,
-  wenn der auch wieder erfolgreich aktiviert wurde
-  aber: man kann ihn ggf. als Löschkandidaten markieren
-  (d.h. auch alle automationNames rauswerfen)
-  Sobald er wieder richtig läuft kann der Link dann gelöscht werden, 
-  das würde auch sicherstellen, dass es keine Inkonsistenzen mit dem 
-  StatusTable gibt (in dem muss der Link auf jeden Fall drin stehen bleiben, 
-  bis modulesToRestore leer ist)
+  <b>To discuss and decide:</b>
+  what happens if a link is deleted, which is currently running in powerSaving mode?
+  -> this link must remain in the powerSavingStatus table until its original state is restored
+  -> restore is initiated here, but may fail
+  -> reconciliation module must try to restore until success
+     -> possibly the link gets removed from the network, etc.
+     -> then it can also be removed from the powerSavingStatus
 
-  nur automation löschen ist nicht kritisch, weil da beim sync von
-  statusTable & staticList keine Löschkandidaten für den statusTable
-  identifiziert werden.
+  -> if such a link is deleted from the staticList users must be aware that they can see
+     its status in the powerSavingStatus table;
+     but it would also be possible, to just mark the link as deletion-candidate
 end note
 
 deactivate removeLinks
