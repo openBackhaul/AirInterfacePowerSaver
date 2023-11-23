@@ -48,7 +48,7 @@ note over removeLinks
     Determine <i>listOfUniqueAutomationNames</i> from 
     all <i>automationNamesLists</i> fetched by <i>GetCurrentAssignments</i>.
 
-    FOR each <i>automationName</i> from <i>listOfUniqueAutomationNames</i> 
+    FOR EACH <i>automationName</i> from <i>listOfUniqueAutomationNames</i> 
         - create new <i>affectedLinkIdList</i> and add <i>linkIds</i> from <i>linkIdList</i>
           to it WHERE (<i>linkId.automationNamesList.contains(automationName)</i>)
         - for the pair (<i>affectedLinkIdList</i>, <i>automationName</i>)

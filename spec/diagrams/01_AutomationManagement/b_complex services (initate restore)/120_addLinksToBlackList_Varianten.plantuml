@@ -1,0 +1,105 @@
+@startuml 120_addLinksToBlackList
+skinparam responseMessageBelowArrow true
+
+title
+RequestForAddingLinksToBlackListCausesBlackListUpdateAndPersistentDeactivation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/add-links-to-black-list" as addLinks
+participant "AIPS://v1/list-links" as listLinks
+participant "AIPS://v1/list-links-in-black-list" as listBlackList
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+requestor -> addLinks: {linkIdList}
+activate addLinks
+
+== Get current assignment status ==
+
+'get current assignments from staticList
+note over addLinks
+  <u>GetCurrentStaticListAssignments</u>
+  capture current state before removing assignments
+  from staticList; required for async power saving
+  switch-off
+end note
+addLinks -> listLinks: {linkIdList}
+listLinks --> addLinks: {list-of-(linkId,automationNamesList)}
+
+'get current blackList
+note over addLinks
+  <u>GetCurrentBlackList</u>
+end note
+addLinks -> listBlackList
+listBlackList --> addLinks: {linkIdList_blackList}
+
+== Add links to blackList ==
+
+'add links to blackList file
+note over addLinks
+  Add <i>linkIds</i> from <i>linkIdList</i> to blackList
+  (if not yet included)
+end note
+
+== Initiate power saving switch-off to restore original state ==
+
+note over addLinks #Pink
+  <b>to discuss:</b>
+  Variante 1:
+    nur für neue Links in der BlackList wird ein Restore vom Original-Zustand initiiert
+  Variante 2 (die hier):
+    für ALLE Input-Links wir der Restore initiiert
+    - es kann ja sein, dass das vorher schon mal gemacht wurde, aber schief gegangen ist
+    - das macht die Bestimmung einfacher, für welche links und automationName-Kombinationen
+      das gemacht werden muss
+    - aber man erzeugt ggf. auch ein bisschen Overhead
+end note
+
+'stop ongoing/planned power saving
+note over addLinks #lightblue
+  <b>Variante 1</b>:
+  Determine <i>addedLinkIdList</i> = <i>linkIds</i> newly added to blackList
+    (i.e. <i>linkIds</i> WHERE <i>linkIdList_blackList.containsNot(linkIdList.linkId)</i>).
+  Determine <i>listOfUniqueAutomationNames</i> for newly added linkIds
+    (i.e. find unique <i>automationNames</i> from each <i>addedLinkIdList.linkId.automationNamesList</i>). 
+
+  FOR EACH <i>automationName</i> in <i>listOfUniqueAutomationNames</i>
+    build pair (<i>affectedLinkIdList</i>, <i>automationName</i>)
+      WITH <i>affectedLinkIdList</i> = find <i>linkIds</i> from <i>addedLinkIdList</i>
+        WHERE <i>linkId.automationNamesList.contains(automationName)</i>    
+    and  <u>RemoveFrom<b>Activation</b>Queue</u>
+
+  ---
+  <b>Variante 2</b>:
+    Determine <i>listOfUniqueAutomationNames</i> from 
+    all <i>automationNamesLists</i> fetched by <i>GetCurrentStaticListAssignments</i>.
+
+    FOR EACH <i>automationName</i> from <i>listOfUniqueAutomationNames</i> 
+        - create new <i>affectedLinkIdList</i> and add <i>linkIds</i> from <i>linkIdList</i>
+          to it WHERE (<i>linkId.automationNamesList.contains(automationName)</i>)
+        - for the pair (<i>affectedLinkIdList</i>, <i>automationName</i>)
+          <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+addLinks -> stopSimpleActivation: {affectedLinkIdList, automationName}
+stopSimpleActivation --> addLinks
+
+'initiate persistentDeactivation to turn power saving off
+note over addLinks
+  FOR EACH pair (affectedLinkIdList, automationName)
+  from previous step
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+addLinks -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
+
+deactivate addLinks
+
+footer
+
+
+  Note: as soon as a linkId gets newly added to the blackList, power saving for this linkId is no longer allowed.
+  Therefore, all planned/ongoing power saving activations need to be stopped and if power saving is already active, 
+  it needs to be switched off (for each automationName assigned to that linkId).
+end footer
+
+@enduml

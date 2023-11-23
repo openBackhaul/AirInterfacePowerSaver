@@ -31,7 +31,7 @@ listLinks --> unassignAutomation: {list-of-(linkId,automationNamesList)}
 
 'update staticList by removing automationName for linkIdList links
 note over unassignAutomation
-  FOR each <i>linkId</i> in <i>linkIdList</i>
+  FOR EACH <i>linkId</i> in <i>linkIdList</i>
     delete <i>automationName</i> from <i>linkId.automationNamesList</i>
     in the staticList
 end note
