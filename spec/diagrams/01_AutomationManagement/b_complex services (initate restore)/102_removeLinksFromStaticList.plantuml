@@ -12,7 +12,7 @@ participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopS
 participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
 
 note over requestor
-  requestor may provide linkIds which 
+  requestor may provide <i>linkIds</i> which 
   are not found in the staticList file,
   those will be ignored
 end note
@@ -25,7 +25,7 @@ activate removeLinks
 'get current assignments from staticList
 note over removeLinks
   <u>GetCurrentAssignments</u>
-  capture current state before deleting linkIds
+  capture current state before deleting <i>linkIds</i>
   from staticList; required for async power saving
   switch-off
 end note
@@ -36,7 +36,7 @@ listLinks --> removeLinks: {list-of-(linkId,automationNamesList)}
 
 'update staticList by deleting the linkIdList links
 note over removeLinks
-  delete the linkIds of linkIdList
+  delete all <i>linkIds</i> from <i>linkIdList</i>
   from the staticList
 end note
 removeLinks --> requestor: <i>"done"</i>
@@ -45,10 +45,13 @@ removeLinks --> requestor: <i>"done"</i>
 
 'stop ongoing/planned power saving
 note over removeLinks
-    FOR each automationName from linkId.automationNamesList
-        - create new affectedLinkidList and add linkIds from linkIdList
-          with that assigned automationName to it
-        - for the pair (affectedLinkIdList, automationName)
+    Determine <i>listOfUniqueAutomationNames</i> from 
+    all <i>automationNamesLists</i> fetched by <i>GetCurrentAssignments</i>.
+
+    FOR each <i>automationName</i> from <i>listOfUniqueAutomationNames</i> 
+        - create new <i>affectedLinkIdList</i> and add <i>linkIds</i> from <i>linkIdList</i>
+          to it WHERE (<i>linkId.automationNamesList.contains(automationName)</i>)
+        - for the pair (<i>affectedLinkIdList</i>, <i>automationName</i>)
           <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
 removeLinks -> stopSimpleActivation: {affectedLinkIdList, automationName}
@@ -56,7 +59,7 @@ stopSimpleActivation --> removeLinks
 
 'initiate persistentDeactivation to turn power saving off
 note over removeLinks
-  FOR each pair (affectedLinkIdList, automationName)
+  FOR EACH pair (<i>affectedLinkIdList</i>, <i>automationName</i>)
   from previous step
   <u>AddTo<b>Deactivation</b>Queue</u>
 end note

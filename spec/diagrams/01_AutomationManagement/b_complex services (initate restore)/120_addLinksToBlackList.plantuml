@@ -38,7 +38,7 @@ listBlackList --> addLinks: {linkIdList_blackList}
 
 'add links to blackList file
 note over addLinks
-  Add linkIds from linkIdList to blackList
+  Add <i>linkIds</i> from <i>linkIdList</i> to blackList
   (if not yet included)
 end note
 
@@ -46,22 +46,27 @@ end note
 
 'stop ongoing/planned power saving
 note over addLinks
-  FOR each linkId from linkIdList
-    IF NOT (linkIdList_blackList.contains(linkId))
-      FOR each automationName from linkId.assignedAutomationNamesList
-        build pair (linkId, automationName) and
-        <u>RemoveFrom<b>Activation</b>Queue</u>
+  Determine <i>addedLinkIdList</i> = <i>linkIds</i> newly added to blackList
+    (i.e. <i>linkIds</i> WHERE <i>linkIdList_blackList.containsNot(linkIdList.linkId)</i>).
+  Determine <i>listOfUniqueAutomationNames</i> for newly added linkIds
+    (i.e. find unique <i>automationNames</i> from each <i>addedLinkIdList.linkId.automationNamesList</i>). 
+
+  FOR EACH <i>automationName</i> in <i>listOfUniqueAutomationNames</i>
+    build pair (<i>affectedLinkIdList</i>, <i>automationName</i>)
+      WITH <i>affectedLinkIdList</i> = find <i>linkIds</i> from <i>addedLinkIdList</i>
+        WHERE <i>linkId.automationNamesList.contains(automationName)</i>    
+    and  <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
-addLinks -> stopSimpleActivation: {linkId, automationName}
+addLinks -> stopSimpleActivation: {affectedLinkIdList, automationName}
 stopSimpleActivation --> addLinks
 
 'initiate persistentDeactivation to turn power saving off
 note over addLinks
-  FOR each pair (linkId, automationName)
+  FOR EACH pair (affectedLinkIdList, automationName)
   from previous step
   <u>AddTo<b>Deactivation</b>Queue</u>
 end note
-addLinks -> startPersistentDeactivation: {linkId, automationName, switchingOperationName="PersistentDeactivation"}
+addLinks -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
 
 deactivate addLinks
 

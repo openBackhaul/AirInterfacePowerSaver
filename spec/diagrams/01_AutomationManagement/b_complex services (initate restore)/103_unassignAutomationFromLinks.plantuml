@@ -31,8 +31,8 @@ listLinks --> unassignAutomation: {list-of-(linkId,automationNamesList)}
 
 'update staticList by removing automationName for linkIdList links
 note over unassignAutomation
-  FOR each linkId in linkIdList
-    delete automationName from linkId.automationNamesList
+  FOR each <i>linkId</i> in <i>linkIdList</i>
+    delete <i>automationName</i> from <i>linkId.automationNamesList</i>
     in the staticList
 end note
 unassignAutomation --> requestor: <i>"done"</i>
@@ -41,9 +41,8 @@ unassignAutomation --> requestor: <i>"done"</i>
 
 'stop ongoing/planned power saving
 note over unassignAutomation
-  WITH affectedLinkIdList = linkIdList filtered
-      for linkIds from linkIdList
-      where (linkId.automationNamesList.contains(automationName))
+  WITH <i>affectedLinkIdList</i> = all <i>linkIds</i> from <i>linkIdList</i> 
+      WHERE (<i>linkId.automationNamesList.contains(automationName)</i>)
     <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
 unassignAutomation -> stopSimpleActivation: {affectedLinkIdList, automationName}
@@ -56,6 +55,5 @@ end note
 unassignAutomation -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
 
 deactivate unassignAutomation
-
 
 @enduml

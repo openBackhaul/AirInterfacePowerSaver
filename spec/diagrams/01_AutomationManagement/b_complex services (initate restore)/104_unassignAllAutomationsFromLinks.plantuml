@@ -38,8 +38,8 @@ listAutomations --> unassignAutomation: {uniqueAutomationNamesList}
 
 'update staticList by deleting automationNames
 note over unassignAutomation
-  FOR each linkId from linkIdList
-    set (linkId.automationNamesList = emptyList)
+  FOR each <i>linkId</i> from <i>linkIdList</i>
+    set (<i>linkId.automationNamesList</i> = emptyList)
     in the staticList
 end note
 unassignAutomation --> requestor: <i>"done"</i>
@@ -48,10 +48,10 @@ unassignAutomation --> requestor: <i>"done"</i>
 
 'stop ongoing/planned power saving (once per automationName)
 note over unassignAutomation
-  FOR each automationName in uniqueAutomationNamesList
-    FOR each affectedLinkIdList
-      WITH affectedLinkIdList = linkIdList filtered for linkIds
-        WHERE (linkId.automationNamesList.contains(automationName))
+  FOR each <i>automationName</i> in <i>uniqueAutomationNamesList</i>
+    FOR each <i>affectedLinkIdList</i>
+      WITH <i>affectedLinkIdList</i> = all <i>linkIds</i> from <i>linkIdList</i> 
+        WHERE (<i>linkId.automationNamesList.contains(automationName)</i>)
     <u>RemoveFrom<b>Activation</b>Queue</u>
 end note
 unassignAutomation -> stopSimpleActivation: {affectedLinkIdList, automationName}
@@ -60,7 +60,7 @@ stopSimpleActivation --> unassignAutomation
 
 'initiate persistentDeactivation to turn power saving off (once per automationName)
 note over unassignAutomation
-  FOR each pair (affectedLinkIdList, automationName)
+  FOR each pair (<i>affectedLinkIdList, automationName</i>)
   from previous step
   <u>AddTo<b>Deactivation</b>Queue</u>
 end note
