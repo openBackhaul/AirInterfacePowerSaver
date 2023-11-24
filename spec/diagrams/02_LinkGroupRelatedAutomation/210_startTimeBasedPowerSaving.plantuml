@@ -17,6 +17,8 @@ participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPer
 requestor -> startPsModule
 activate startPsModule
 
+== Cyclic Operation for getting triggers and time-monitoring ==
+
 'open question:
 note over listTriggers #Pink
  <b>TODO: clarify when triggers are fetched 
@@ -41,6 +43,14 @@ end note
 startPsModule -> listLinks: {automationName="TimeBasedPowerSaving"}
 listLinks --> startPsModule: {linkIdList}
 
+== StartTrigger met: initiate power-saving switch-on ==
+note over listTriggers #pink
+  <b>to discuss:</b>
+  - soll power-saving auch aktiviert werden, wenn keine EndTrigger definiert wurden?
+  - das würde gehen, wenn man a) zu einer bestimmten Uhrzeit immer wieder anschalten wurde 
+    oder b) nach einer bestimmten Zeit (ähnl. Wartungsfenster); 
+    das könnte hier im Modul gemacht werden oder Teil vom Reconciliation-Modul sein
+end note
 
 'StartTrigger is met
 note over startPsModule
@@ -50,6 +60,9 @@ end note
 startPsModule -> startSimpleActivation: {linkIdList, automationName="TimeBasedPowerSaving", switchingOperationName="SimpleActivation"}
 startPsModule --> requestor
 
+
+== EndTrigger met: initiate power-saving switch-off ==
+
 'EndTrigger is met: stop ongoing/planned power saving
 note over startPsModule
   IF (met trigger == endTrigger)
@@ -57,7 +70,6 @@ note over startPsModule
 end note
 startPsModule -> stopSimpleActivation: {linkdIdList, automationName="TimeBasedPowerSaving"}
 stopSimpleActivation --> startPsModule
-
 
 'EndTrigger is met: initiate power saving switch-off
 note over startPsModule
