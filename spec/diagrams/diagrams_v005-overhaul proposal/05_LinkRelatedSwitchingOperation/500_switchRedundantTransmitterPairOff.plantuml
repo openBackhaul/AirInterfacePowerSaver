@@ -1,0 +1,103 @@
+@startuml 500_switchRedundantTransmitterPairOff
+skinparam responseMessageBelowArrow true
+'skinparam SequenceDividerBackgroundColor mediumAquaMarine
+
+title
+RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction
+end title
+
+participant "REQUESTOR" as requestor
+participant "e.g. AIPS://v1/receive-power-saving-activation-status" as delivery
+participant "AIPS://v1/switch-redundant-transmitter-pair-off" as rto
+participant "AIPS://v1/receive-transmitter-status-of-parallel-links" as receiver
+participant "AIPS://v1/provide-transmitter-status-of-parallel-links" as provideStatus
+participant "MWDI://core-model-1-4:network-control-domain=cache/link={uuid}" as resolveAddress
+participant "MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on" as mwdg
+participant "AIPS://v1/record-power-saving-status" as recordStatus
+'participant "AIPS://<alarm-service-to-be-specified>" as alarm
+
+requestor -> rto: {linkId, automationName, own_IpAddress, own_TcpPort, /v1/receive-power-saving-activation-status}
+activate rto
+rto --> requestor: {requestId}
+
+== Get parallel link info ==
+
+note over rto
+  <u>GetInfoAboutParallelLinks</u>
+end note
+rto -> provideStatus: {linkId, own_IpAddress, own_TcpPort, /v1/receive-transmitter-status-of-parallel-links}
+provideStatus --> rto: {requestId}
+provideStatus -> receiver: {requestId, parallel-link-list(transmitter-status-list(interfaceStatus, transmissionModeMax, transmissionModeCur))}
+
+note right receiver
+Please regard, that parallel-link-list 
+includes the original link-id and transmitter status
+end note
+
+
+note over rto
+IF NOT ( (number of parallel links >= 2)
+          AND ( for both link endpoints of at least 1 Link different from the initial Link (interfaceStatus == "UP") AND (transmissionModeCur == transmissionModeMax) )
+  THEN <u>Response</u> and exit
+end note
+rto -> delivery: {requestId, statusOfLink="NotQualified"}
+
+== Sufficient parallel link exists: try transmitter-switch-off ==
+
+note over rto
+  ELSE
+  <u>DetermineLinkEndpoints</u> of initial Link
+end note
+rto -> resolveAddress: {uuid=linkId}
+resolveAddress --> rto: {2x(CC,LTP,LP)}
+
+note over rto
+  FOR both endpoints of initial Link
+  <u>SwitchBothTransmitters<b>Off</b></u>
+end note
+rto -> mwdg: {mountName-from-CC, uuid-from-LTP, localId-from-LP}
+mwdg --> rto: {responseCode}
+
+note over rto
+  IF (both SwitchTransmitters<b>Off</b>#responseCode == 204)
+    THEN <u>ReportPowerSavingStatus</u> and <u>Response</u> and exit
+end note 
+rto -> recordStatus: {linkId, addDeviationsFromOriginalState="RedundantTransmittersOff", addModulesToRestoreOriginalState="AllTransmittersOn"}
+rto -> delivery: {requestId, statusOfLink="RedundantTransmittersOff"}
+
+== Transmitter-switch-off failed: try rollback ==
+
+note over rto
+  IF (at least one SwitchTransmitters<b>Off</b>#responseCode != 204)
+    THEN FOR both endpoints of initial Link <u>SwitchBothTransmitters<b>On</b></u>
+end note
+rto -> mwdg: {mountName-from-CC, uuid-from-LTP, localId-from-LP}
+mwdg --> rto: {responseCode}
+
+note over rto
+  IF (both SwitchTransmitters<b>On</b>#responseCode == 204))
+  THEN <u>ReportPowerSavingStatus</u> and <u>Response</u> and exit
+end note
+rto -> recordStatus: {linkId, removeDeviationsFromOriginalState="RedundantTransmittersOff", removeModulesToRestoreOriginalState="AllTransmittersOn"}
+rto -> delivery: {requestId, statusOfLink="AllTransmittersOn"}
+
+== Rollback also failed: UndefinedState ==
+
+'alarms to be added with later release version
+'note over rto
+'  IF (at least one responseCode of SwitchTransmitters<b>Off</b> != 200)
+'      AND (at least one responseCode of SwitchTransmitters<b>On</b> != 200))
+'  THEN <u>ReportAlarm</u> and <u>Response</u>
+'end note 
+'rto -> alarm: {<i>to be specified</i>}
+
+note over rto
+  ELSE <u>ReportPowerSavingStatus</u> and <u>Response</u>
+end note
+rto -> recordStatus: {linkId, addModulesToRestoreOriginalState="AllTransmittersOn"}
+rto -> delivery: {requestId, statusOfLink="UndefinedState"}
+
+
+deactivate rto 
+
+@enduml

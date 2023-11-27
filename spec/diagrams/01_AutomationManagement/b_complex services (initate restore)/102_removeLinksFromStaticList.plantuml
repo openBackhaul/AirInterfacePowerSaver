@@ -1,5 +1,6 @@
 @startuml 102_removeLinksFromStaticList
 skinparam responseMessageBelowArrow true
+'skinparam SequenceDividerBackgroundColor darkgrey
 
 title
 RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation
