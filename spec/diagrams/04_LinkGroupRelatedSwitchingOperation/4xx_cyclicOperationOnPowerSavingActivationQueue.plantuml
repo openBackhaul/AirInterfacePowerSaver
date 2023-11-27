@@ -1,0 +1,66 @@
+@startuml 4xx_cyclicOperationOnPowerSavingActivationQueue
+skinparam responseMessageBelowArrow true
+
+title
+PromptForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue
+end title
+
+participant "RO" as ro
+participant "AIPS://v1/embed-yourself" as embedYourself
+participant "AIPS://v1/is-link-barred" as isLinkBarred
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as removeFromQueue
+participant "AIPS://v1/switch-redundant-transmitter-pair-off" as redundantTransmittersOff
+
+
+ro -> embedYourself
+
+'cyclic operation starts
+note over embedYourself
+  CyclicOperation iterates over power saving activation queue
+  (from SimpleActivation module)
+
+  - queue records have the following columns:
+    <i>linkId, automationName, switchingOperationName</i>
+  - records are NOT unique
+end note
+
+activate embedYourself
+
+'iterate over queue
+group FOR each record in activationQueue
+  ' get the blackList status for the link
+  note over embedYourself
+      <u>BlackListCheck</u>
+  end note
+  embedYourself -> isLinkBarred: {linkId}
+  isLinkBarred --> embedYourself: {boolean}
+
+  'if link is on blackList remove entry from queue, automationName irrelevant here
+  alt link is barred
+    note over embedYourself
+      IF (<i>record.linkId.isBarred</i>==true)
+      THEN <u>RemoveRecordFromActivationQueue</u>
+    end note
+    embedYourself -> removeFromQueue: {linkId, automationName}
+    removeFromQueue --> embedYourself
+  
+  else link is NOT barred
+    'if link is not in blackList
+    note over embedYourself
+      IF (<i>record.linkId.isBarred</i>==false)
+        <u>SwitchRedundantTransmitterOff</u>
+    end note
+    embedYourself -> redundantTransmittersOff: {linkId, automationName}
+
+    'remove record from queue (no retries)
+    note over embedYourself
+      <u>RemoveRecordFromActivationQueue</u>
+    end note
+    embedYourself -> removeFromQueue: {linkId, automationName}
+
+  end
+end
+
+deactivate embedYourself
+
+@enduml

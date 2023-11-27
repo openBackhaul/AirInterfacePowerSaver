@@ -1,0 +1,16 @@
+@startuml 411_removeLinkFromPowerSavingDeactivationQueue
+skinparam responseMessageBelowArrow true
+
+title
+RequestForRemovingLinkFromPowerSavingDeactivationQueueCausesQueueUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/remove-links-from-power-saving-deactication-queue" as removeFromQueue
+
+requestor -> removeFromQueue: {linkId, automationName}
+activate removeFromQueue
+
+deactivate removeFromQueue
+
+@enduml
