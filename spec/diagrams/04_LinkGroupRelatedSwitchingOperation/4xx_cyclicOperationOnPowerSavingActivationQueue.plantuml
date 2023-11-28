@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-PromptForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue
+RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue
 end title
 
 participant "RO" as ro

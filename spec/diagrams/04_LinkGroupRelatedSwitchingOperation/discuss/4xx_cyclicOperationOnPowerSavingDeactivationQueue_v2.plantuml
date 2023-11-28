@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-PromptForEmbeddingCausesCyclicOperationOnPowerSavingDeactivationQueue
+RequestForEmbeddingCausesCyclicOperationOnPowerSavingDeactivationQueue
 end title
 
 participant "RO" as ro
@@ -13,6 +13,17 @@ participant "AIPS://v1/reactivate-transmitters-of-link" as reactivateTransmitter
 
 ro -> embedYourself
 activate embedYourself 
+
+note over embedYourself #lightBlue
+  Variante 1: die PersistentDeactivation wird "irgendwie" angestoßen (unklar wo und wie) und arbeitet auf einer fixen Liste
+              - es gibt im aktuellen Design nur eine Liste in der PersistentDeactivation, d.h. die kann sich dann 
+                theoretisch auch zwischendrin ändern...
+  Variante 2: es gibt einen zyklischen Prozess, der immer läuft und über die Liste iteriert
+              - die Liste kann zwischendurch auch wachsen
+              - die max. runtime müsste hierbei aber ggf. pro Record betrachtet werden, nicht für die ganze Liste
+
+  hier Variante 2
+end note
 
 'cyclic operation starts
 note over embedYourself
