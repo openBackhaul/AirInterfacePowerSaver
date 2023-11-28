@@ -1,0 +1,38 @@
+@startuml 22x_cyclicOperationOnProblemLinkReconciliation
+skinparam responseMessageBelowArrow true
+
+title
+RequestForEmbeddingCausesCyclicOperationOnProblemLinkReconciliation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/embed-yourself" as embed
+participant "AIPS://v1/reconciliate-problem-links" as reconciliate
+
+
+requestor -> embed
+activate embed
+
+note over embed
+  cyclic operation calls the reconciliation service
+  in configured intervals;
+  As having different intervals for different restore
+  variants might be beneficial,
+  different moduleToRestoreOriginalState variants are
+  handled separately 
+end note
+
+note over embed #pink
+  IF certain condition met
+  <u>ReconciliateAllTransmittersOn</u>
+end note
+embed -> reconciliate: {"AllTransmittersOn"}
+
+note over embed #pink
+  <i>IF other certain condition met handle other </i>
+  <i>possible restoreModule to be added in the future</i>
+end note
+
+'deactivate embed
+
+@enduml

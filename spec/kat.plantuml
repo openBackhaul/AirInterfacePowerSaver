@@ -1,0 +1,61 @@
+
+note over embedYourself #lightBlue
+  Variante 1: die PersistentDeactivation wird "irgendwie" angestoßen (unklar wo und wie) und arbeitet auf einer fixen Liste
+              Annahme: wir haben genau 1 DeactivationQueue für das Modul
+              -> Frage: was passiert, wenn während der Bearbeitung neue Links zur PersistentDeactivation hinzugefügt werden sollen?
+              -> wird die aktuelle Liste in den Cache geholt (so dass man also 2 Listen hätte) und die Einträge aus der OriginalListe
+                 rausgelöscht? => die sollen aber erst beim Bearbeiten gelöscht werden
+              - wie soll die PersistentDeactivation getriggert werden?
+  Variante 2: es gibt einen zyklischen Prozess, der immer läuft und über die Liste iteriert
+
+  hier: Variante 1
+end note
+
+== Create current DeactivationQueue copy ==
+
+'cyclic operation starts
+note over embedYourself
+  CyclicOperation iterates over power saving deactivation queue
+  (from PersistentDeactivation module)
+  - queue records have the following columns:
+    <i>linkId, automationName, switchingOperationName</i>
+  - records are NOT unique
+  - records are only deleted here due to successful power saving switch-off
+end note
+
+note over embedYourself #Pink: include max runtime check
+
+'iterate over queue
+group FOR each record in deactivationQueue 
+  'get power saving status
+  note over embedYourself
+    <u>GetPowerSavingStatus</u>
+  end note
+  embedYourself -> listStatus: {linkId}
+  listStatus --> embedYourself: {deviationsFromOriginalStateList, modulesToRestoreOriginalStateList}
+
+  alt transmitters already switched on
+    'check if already done
+    note over embedYourself
+      IF (<i>record.modulesToRestoreOriginalStateList</i> contains not
+          <i>record.automationName</i>)
+      THEN <u>RemoveRecordFromDeactivationQueue</u>
+    end note
+    embedYourself -> removeFromQueue: {linkId, automationName}
+
+  else initiate transmitter switch-on
+    'for all remaining entries
+    note over embedYourself
+      ELSE <u>AllTransmittersOn</u>
+    end note
+    embedYourself -> reactivateTransmitters: {linkId, automationName}
+    reactivateTransmitters --> embedYourself: {responseCode}
+
+    'if success remove from list
+    note over embedYourself
+      IF (AllTransmittersOn.responseCode == 200)
+      THEN <u>RemoveRecordFromDeactivationQueue</u>        
+    end note
+    embedYourself -> removeFromQueue: {linkId, automationName}    
+  end
+end

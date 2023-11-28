@@ -36,7 +36,7 @@ group While runtime < maximum configured runtime
     <u>GetPowerSavingStatusTable</u>
   end note
   embedYourself -> listStatus
-  listStatus --> embedYourself: {list-of-(linkId, list-of(deviationsFromOriginalState), list-of(modulesToRestoreOriginalState))}
+  listStatus --> embedYourself: {list-of-(linkId, list-of(deviationsFromOriginalState))}
 
   'only keep linkIds, remove those with no powerSaving
   note over embedYourself
