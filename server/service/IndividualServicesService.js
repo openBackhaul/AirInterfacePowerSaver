@@ -12,8 +12,8 @@
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.bequeathYourDataAndDie = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -30,12 +30,12 @@ exports.bequeathYourDataAndDie = function(body,user,originator,xCorrelator,trace
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_7
  **/
-exports.deleteLinkFromPowerSavingTable = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.deleteLinkFromPowerSavingTable = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "module-to-restore-original-state-list" : [ "AllTransmittersOn" ]
-};
+      "module-to-restore-original-state-list": ["AllTransmittersOn"]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -56,12 +56,12 @@ exports.deleteLinkFromPowerSavingTable = function(body,user,originator,xCorrelat
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_5
  **/
-exports.listAffectedLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.listAffectedLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "link-id-list" : [ "link-id-list", "link-id-list" ]
-};
+      "link-id-list": ["link-id-list", "link-id-list"]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -81,18 +81,18 @@ exports.listAffectedLinks = function(body,user,originator,xCorrelator,traceIndic
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns List
  **/
-exports.listPowerSavingStatus = function(user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.listPowerSavingStatus = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
-  "link-id" : "104550001",
-  "deviation-from-original-state-list" : [ "RedundantTransmittersOff" ],
-  "module-to-restore-original-state-list" : [ "AllTransmittersOn" ]
-}, {
-  "link-id" : "200551234",
-  "deviation-from-original-state-list" : [ ],
-  "module-to-restore-original-state-list" : [ ]
-} ];
+    examples['application/json'] = [{
+      "link-id": "104550001",
+      "deviation-from-original-state-list": ["RedundantTransmittersOff"],
+      "module-to-restore-original-state-list": ["AllTransmittersOn"]
+    }, {
+      "link-id": "200551234",
+      "deviation-from-original-state-list": [],
+      "module-to-restore-original-state-list": []
+    }];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -113,12 +113,12 @@ exports.listPowerSavingStatus = function(user,originator,xCorrelator,traceIndica
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_6
  **/
-exports.listToBeRestoredLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.listToBeRestoredLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "link-id-list" : [ "link-id-list", "link-id-list" ]
-};
+      "link-id-list": ["link-id-list", "link-id-list"]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -139,13 +139,13 @@ exports.listToBeRestoredLinks = function(body,user,originator,xCorrelator,traceI
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_4
  **/
-exports.providePowerSavingStatusOfLink = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.providePowerSavingStatusOfLink = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "deviation-from-original-state-list" : [ "RedundantTransmittersOff" ],
-  "module-to-restore-original-state-list" : [ "AllTransmittersOn" ]
-};
+      "deviation-from-original-state-list": ["RedundantTransmittersOff"],
+      "module-to-restore-original-state-list": ["AllTransmittersOn"]
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -166,12 +166,12 @@ exports.providePowerSavingStatusOfLink = function(body,user,originator,xCorrelat
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_2
  **/
-exports.provideTransmitterStatusOfParallelLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.provideTransmitterStatusOfParallelLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "request-id" : "305251234-101120-1400"
-};
+      "request-id": "305251234-101120-1400"
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -192,12 +192,12 @@ exports.provideTransmitterStatusOfParallelLinks = function(body,user,originator,
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_1
  **/
-exports.reactivateTransmittersOfLink = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.reactivateTransmittersOfLink = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "request-id" : "305251234-101120-1400"
-};
+      "request-id": "305251234-101120-1400"
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -218,9 +218,15 @@ exports.reactivateTransmittersOfLink = function(body,user,originator,xCorrelator
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.receivePowerSavingActivationStatus = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.receivePowerSavingActivationStatus = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
+    try {
+      let requestId = body["request-id"];
+      let statusOfLink = body["status-of-link"];
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
@@ -236,9 +242,15 @@ exports.receivePowerSavingActivationStatus = function(body,user,originator,xCorr
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.receivePowerSavingDeactivationStatus = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.receivePowerSavingDeactivationStatus = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
+    try {
+      let requestId = body["request-id"];
+      let statusOfLink = body["status-of-link"];
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
@@ -254,8 +266,8 @@ exports.receivePowerSavingDeactivationStatus = function(body,user,originator,xCo
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.receiveTransmitterStatusOfParallelLinks = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.receiveTransmitterStatusOfParallelLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -272,8 +284,8 @@ exports.receiveTransmitterStatusOfParallelLinks = function(body,user,originator,
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.recordPowerSavingStatus = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.recordPowerSavingStatus = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
@@ -290,12 +302,12 @@ exports.recordPowerSavingStatus = function(body,user,originator,xCorrelator,trac
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200
  **/
-exports.switchRedundantTransmitterPairOff = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
-  return new Promise(function(resolve, reject) {
+exports.switchRedundantTransmitterPairOff = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "request-id" : "305251234-101120-1400"
-};
+      "request-id": "305251234-101120-1400"
+    };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

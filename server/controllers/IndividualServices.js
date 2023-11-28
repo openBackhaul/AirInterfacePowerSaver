@@ -1,7 +1,10 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
 var IndividualServices = require('../service/IndividualServicesService');
+var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+var restResponseHeader = require('onf-core-model-ap/applicationPattern/rest/server/ResponseHeader');
+var restResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
+var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 
 module.exports.bequeathYourDataAndDie = function bequeathYourDataAndDie (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   IndividualServices.bequeathYourDataAndDie(body, user, originator, xCorrelator, traceIndicator, customerJourney)
@@ -83,24 +86,42 @@ module.exports.reactivateTransmittersOfLink = function reactivateTransmittersOfL
     });
 };
 
-module.exports.receivePowerSavingActivationStatus = function receivePowerSavingActivationStatus (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  IndividualServices.receivePowerSavingActivationStatus(body, user, originator, xCorrelator, traceIndicator, customerJourney)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+module.exports.receivePowerSavingActivationStatus = async function receivePowerSavingActivationStatus (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseBodyToDocument = {};
+  await IndividualServices.receivePowerSavingActivationStatus(body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+  });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.receivePowerSavingDeactivationStatus = function receivePowerSavingDeactivationStatus (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.receivePowerSavingDeactivationStatus = async function receivePowerSavingDeactivationStatus (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseBodyToDocument = {};
   IndividualServices.receivePowerSavingDeactivationStatus(body, user, originator, xCorrelator, traceIndicator, customerJourney)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+  });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.receiveTransmitterStatusOfParallelLinks = function receiveTransmitterStatusOfParallelLinks (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
