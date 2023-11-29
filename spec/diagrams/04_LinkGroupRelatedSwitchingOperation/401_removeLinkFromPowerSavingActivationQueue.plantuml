@@ -11,6 +11,11 @@ participant "AIPS://v1/remove-links-from-power-saving-actication-queue" as remov
 requestor -> removeFromQueue: {linkId, automationName}
 activate removeFromQueue
 
+note over removeFromQueue
+  Entries in the SimpleActivationQueue are not unique.
+  All instances of the (linkId, automationName) entry must be removed.
+end note
+
 deactivate removeFromQueue
 
 @enduml
