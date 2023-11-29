@@ -11,7 +11,7 @@ participant "AIPS://v1/list-to-be-restored-links" as listLinks
 participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopActivation
 participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startDeactivation
 
-requestor -> reconciliate: {moduleToRestoreOriginalState}
+requestor -> reconciliate: {automationName, moduleToRestoreOriginalState}
 activate reconciliate
 
 'find links that need restoring
@@ -23,31 +23,20 @@ listLinks --> reconciliate: {linkIdList}
 
 'handling depends on the actual module name
 == moduleToRestoreOriginalState is AllTransmittersOn ==
-  note over stopActivation, startDeactivation #LightGrey
-    the automationName is just used for logging purposes
-  end note
 
   'stop activation
   note over reconciliate
     IF(moduleToRestoreOriginalState == "AllTransmittersOn")
     THEN <u>RemoveFrom<b>Activation</b>Queue</u>
   end note
-  reconciliate -> stopActivation: {linkIdList, automationName="Reconciliation"}
+  reconciliate -> stopActivation: {linkIdList, automationName}
   stopActivation --> reconciliate
-
-  note over reconciliate #red
-    der automationName darf beim Löschen aus der SimpleActivation NICHT
-    reconciliation sein, weil man sonst den tatsächlichen Eintrag ja gar nicht löscht
-    Man löscht auch ggf. nicht nur einen Eintrag aus der Liste, sondern mehrere,
-    weil derselbe Eintrag mehrfach vorkommen kann!!
-    Ggf. muss man einfach alle Einträge für die LinkID löschen, egal was für ein automationName
-    vorliegt
-  end note
 
   'start deactivation
   note over reconciliate
      AND <u>AddTo<b>Deactivation</b>Queue</u>
   end note
+  note over reconciliate #pink:  either use original automationName, or for better logging "reconciliation"
   reconciliate -> startDeactivation: {linkIdList, automationName="Reconciliation", switchingOperationName="PersistentDeactivation"}
 
 == other modules handled separately ==
