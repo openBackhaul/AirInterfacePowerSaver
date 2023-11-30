@@ -76,7 +76,7 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
 /**
  * This function gets the consequent operation details like op-c uuid , operation-name, field parameters.
  * @param {String} forwardingConstructName name of the forwarding construct to fetch consequent op-c uuid.
- * @return {Object} consequentOperationClientAndFieldParams that contains op-c uuid , operation-name, field parameters.
+ * @return {Object} consequentOperationClient that contains op-c uuid , operation-name.
  */
 exports.getConsequentOperationClient = async function(forwardingConstructName) {
   let consequentOperationClient= {};
@@ -84,9 +84,9 @@ exports.getConsequentOperationClient = async function(forwardingConstructName) {
     let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingConstructName);
     let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
     consequentOperationClient.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]; 
-    consequentOperationClient.operationName = await OperationClientInterface.getOperationNameAsync(consequentOperationClientAndFieldParams.operationClientUuid);
+    consequentOperationClient.operationName = await OperationClientInterface.getOperationNameAsync(consequentOperationClient.operationClientUuid);
   } catch(error) {
-    console.log(`getConsequentOperationClientAndFieldParams is not success with ${error}`);
+    console.log(`consequentOperationClient is not success with ${error}`);
     return new createHttpError.InternalServerError();
   }
   return consequentOperationClient;
@@ -95,7 +95,7 @@ exports.getConsequentOperationClient = async function(forwardingConstructName) {
 /**
  * This function generates the request-id
  * @param {String} linkId Identifier of the microwave link for which user requested data.
- * @return {requestId} consequentOperationClientAndFieldParams that contains op-c uuid , operation-name, field parameters.
+ * @return {requestId} requestId that is generated in the format "linkId-CurrentDate-CurrentTime".
  */
 exports.generateRequestID = async function(linkId) {
     let requestId = '';
