@@ -3491,6 +3491,7 @@ paths:
             example:
               link-id: "305551234"
               requestor-protocol: HTTP
+              automation-name: "dummyApplication"
               requestor-address:
                 ip-address:
                   ipv-4-address: 1.1.4.7
@@ -21985,6 +21986,7 @@ components:
         - add-module-to-restore-original-state
         - link-id
         type: object
+        additionalProperties: false
         properties:
           link-id:
             type: string
