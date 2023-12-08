@@ -16,8 +16,8 @@ forwardings:
       - server-name: /v1/register-yourself
         uuid: aips-0-0-9-op-s-bm-000
     consequent-requests:
-      - client-name: RO://v1/register-application
-        uuid: aips-0-0-9-op-c-bm-ro-2-0-1-000
+      - client-name: RO://v2/register-application
+        uuid: aips-0-0-9-op-c-bm-ro-2.0.2-000
 
   - forwarding-name: PromptForEmbeddingCausesRequestForBequeathingData
     uuid: aips-0-0-9-op-fc-bm-001
@@ -228,7 +228,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-im-000
     consequent-requests:
       - client-name: RO://v1/relay-server-replacement
-        uuid: aips-0-0-9-op-c-bm-ro-2-0-1-001
+        uuid: aips-0-0-9-op-c-bm-ro-2.0.2-001
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOR
     uuid: aips-0-0-9-op-fc-bm-106
@@ -247,7 +247,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-im-000
     consequent-requests:
       - client-name: RO://v1/deregister-application
-        uuid: aips-0-0-9-op-c-bm-ro-2-0-1-002
+        uuid: aips-0-0-9-op-c-bm-ro-2.0.2-002
 
   - forwarding-name: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
     uuid: aips-0-0-9-op-fc-bm-107
@@ -266,7 +266,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-bm-007
     consequent-requests:
       - client-name: RO://v1/relay-operation-update
-        uuid: aips-0-0-9-op-c-bm-ro-2-0-1-003
+        uuid: aips-0-0-9-op-c-bm-ro-2.0.2-003
 
   - forwarding-name: ServiceRequestCausesLtpUpdateRequest
     uuid: aips-0-0-9-op-fc-bm-006
@@ -301,7 +301,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-im-000
     consequent-requests:
       - client-name: ALT://v1/update-ltp
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-2-001
+        uuid: aips-0-0-9-op-c-bm-alt-2-0-2.0.2
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
     uuid: aips-0-0-9-op-fc-bm-007
@@ -388,7 +388,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/update-ltp
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-2-001
+        uuid: aips-0-0-9-op-c-bm-alt-2-0-2.0.2
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
     uuid: aips-0-0-9-op-fc-bm-012
