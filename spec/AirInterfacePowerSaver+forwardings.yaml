@@ -127,7 +127,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-is-205
       - server-name: /v1/start-time-based-power-saving
         uuid: aips-0-0-9-op-s-is-210
-      - server-name: /v1/end-time-based-power-saving
+      - server-name: /v1/stop-time-based-power-saving
         uuid: aips-0-0-9-op-s-is-211
       - server-name: /v1/sync-power-saving-status-with-static-list
         uuid: aips-0-0-9-op-s-is-220
@@ -729,7 +729,7 @@ forwardings:
       - client-name: /v1/list-all-triggers
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-201
 
-  - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.GetLinkidList
+  - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.GetLinkIdList
     uuid: aips-1-0-0-op-fc-is-201
     forwarding-type: InvariantProcessSnippet
     management-requests:

@@ -94,7 +94,7 @@ servers:
           uuid: aips-0-0-9-op-s-is-205
         - operation-name: /v1/start-time-based-power-saving
           uuid: aips-0-0-9-op-s-is-210
-        - operation-name: /v1/end-time-based-power-saving
+        - operation-name: /v1/stop-time-based-power-saving
           uuid: aips-0-0-9-op-s-is-211
 
         ## 04: Link Group related switching operation

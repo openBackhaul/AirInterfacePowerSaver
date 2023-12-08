@@ -454,9 +454,96 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        #RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue:
+          #BlackListCheck:
+          #SwitchRedundantTransmitterOff:
+          #RemoveRecordFromActivationQueue:
+
+  ## 01 Automation management
+  ### StaticListAutomationManagement
+
+  #/v1/add-links-to-static-list:
+  #/v1/assign-automation-to-links:
+  #/v1/remove-links-from-static-list:
+    #callbacks:
+      #RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation:
+        #GetCurrentAssignments:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+
+  #/v1/unassign-automation-from-links:
+    #callbacks:
+      #RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation:
+        #GetCurrentAssignments:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+
+  #/v1/unassign-all-automations-from-links:
+    #callbacks:
+      #RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation:
+        #GetCurrentAssignments:
+        #GetAutomationNames:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+
+  #/v1/unassign-automation-from-all-links:
+    #callbacks:
+      #RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation:
+        #GetCurrentAssignments:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+
+  #/v1/list-links:
+  #/v1/list-automation-names:
+  #/v1/list-assignments-for-specific-link:
+  #/v1/list-links-with-specific-number-of-assignments:
+  #/v1/list-links-with-specific-automation-assigned:
+
+  ### BlackListManagement
+
+  #/v1/add-links-to-black-list:
+    #callbacks:
+      #RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation:
+        #GetCurrentAssignments:
+        #GetCurrentBlackList:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+
+  #/v1/remove-links-from-black-list:
+  #/v1/list-links-in-black-list:
+  #/v1/is-link-barred:
+
+  ## 02 Link group related management
+  ### TimeBasedPowerSaving
+
+  #/v1/add-start-trigger:
+  #/v1/add-end-trigger:
+  #/v1/remove-start-trigger:
+  #/v1/remove-end-trigger:
+  #/v1/remove-all-triggers:
+  #/v1/list-all-triggers:
+  #/v1/start-time-based-power-saving:
+    #callbacks:
+      #RequestForStartingTimeBasedPowerSavingCausesCyclicOperation:
+        #GetTriggers:
+        #GetLinkIdList:
+        #InitiatePowerSaving:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+
+  #/v1/stop-time-based-power-saving:
+    #callbacks:
+      #RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving:
+        #GetLinkList:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+
 
   ## 04: Link Group related switching operation
   ### SimpleActivation
+  #/v1/add-links-to-power-saving-activation-queue:
+  #/v1/remove-links-from-power-saving-activation-queue:
+  #/v1/purge-power-saving-activation-queue:
   /v1/receive-power-saving-activation-status:
     parameters:
       - $ref: '#/components/parameters/user'
@@ -534,7 +621,11 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+
   ### PersistentDeactivation
+  #/v1/add-links-to-power-saving-deactivation-queue:
+  #/v1/remove-links-from-power-saving-activation-queue:
+  #/v1/purge-power-saving-deactivation-queue:  
   /v1/receive-power-saving-deactivation-status:
     parameters:
       - $ref: '#/components/parameters/user'

@@ -39,7 +39,7 @@ listTriggers --> startPsModule: {triggerList}
   group if any trigger==time
     note over startPsModule
       IF any ((startTrigger==<i>time</i>) OR (endTrigger==<i>time</i>))
-      THEN <u>GetLinkidList</u>
+      THEN <u>GetLinkIdList</u>
     end note
     startPsModule -> listLinks: {automationName="TimeBasedPowerSaving"}
     listLinks --> startPsModule: {linkIdList}
