@@ -714,6 +714,129 @@ forwardings:
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-123
 
 
+  - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.GetTriggers
+    uuid: aips-1-0-0-op-fc-is-200
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/start-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-210
+    consequent-requests:
+      - client-name: /v1/list-all-triggers
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-201
+
+  - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.GetLinkidList
+    uuid: aips-1-0-0-op-fc-is-201
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/start-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-210
+    consequent-requests:
+      - client-name: /v1/list-links-with-specific-automation-assigned
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-200
+
+  - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.InitiatePowerSaving
+    uuid: aips-1-0-0-op-fc-is-202
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/start-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-210
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-203
+
+  - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.RemoveFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-203
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/start-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-210
+    consequent-requests:
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-203
+
+  - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.AddToDeactivationQueue
+    uuid: aips-1-0-0-op-fc-is-204
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/start-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-210
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-204
+
+  - forwarding-name: RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.GetLinkList
+    uuid: aips-1-0-0-op-fc-is-205
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/stop-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-211
+    consequent-requests:
+      - client-name: /v1/list-links-with-specific-automation-assigned
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-200
+
+  - forwarding-name: RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.RemoveFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-206
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/stop-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-211
+    consequent-requests:
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-203
+
+  - forwarding-name: RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.AddToDeactivationQueue
+    uuid: aips-1-0-0-op-fc-is-207
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/stop-time-based-power-saving
+        uuid: aips-1-0-0-op-s-is-211
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-204
+
+
+
+
 
 
 
