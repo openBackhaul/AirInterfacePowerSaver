@@ -429,7 +429,7 @@ forwardings:
         uuid: aips-1-0-0-op-s-is-500
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
-        uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-500
+        uuid: aips-1-0-0-op-c-is-mwdi-1-1-1-500
 
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOff
     uuid: aips-1-0-0-op-fc-is-503
@@ -520,7 +520,7 @@ forwardings:
         uuid: aips-1-0-0-op-s-is-510
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
-        uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-510
+        uuid: aips-1-0-0-op-c-is-mwdi-1-1-1-510
 
   - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn
     uuid: aips-1-0-0-op-fc-is-513
@@ -580,7 +580,7 @@ forwardings:
         uuid: aips-1-0-0-op-s-is-600
     consequent-requests:
       - client-name: MWDI://v1/provide-list-of-parallel-links
-        uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-601
+        uuid: aips-1-0-0-op-c-is-mwdi-1-1-1-601
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.Response
     uuid: aips-1-0-0-op-fc-is-601
@@ -610,7 +610,7 @@ forwardings:
         uuid: aips-1-0-0-op-s-is-600
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
-        uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-602
+        uuid: aips-1-0-0-op-c-is-mwdi-1-1-1-602
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
     uuid: aips-1-0-0-op-fc-is-603
@@ -625,7 +625,7 @@ forwardings:
         uuid: aips-1-0-0-op-s-is-600
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration?fields=transmission-mode-max
-        uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-603
+        uuid: aips-1-0-0-op-c-is-mwdi-1-1-1-603
 
   - forwarding-name: RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
     uuid: aips-1-0-0-op-fc-is-604
@@ -640,4 +640,4 @@ forwardings:
         uuid: aips-1-0-0-op-s-is-600
     consequent-requests:
       - client-name: MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status?fields=interface-status;transmission-mode-cur
-        uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-604
+        uuid: aips-1-0-0-op-c-is-mwdi-1-1-1-604
