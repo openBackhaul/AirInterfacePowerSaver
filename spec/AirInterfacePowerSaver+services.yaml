@@ -4,93 +4,173 @@ servers:
     own-oam:
       basic:
         - operation-name: /v1/register-yourself
-          uuid: aips-0-0-5-op-s-bm-000
+          uuid: aips-1-0-0-op-s-bm-000
         - operation-name: /v1/embed-yourself
-          uuid: aips-0-0-5-op-s-bm-001
+          uuid: aips-1-0-0-op-s-bm-001
         - operation-name: /v1/redirect-service-request-information
-          uuid: aips-0-0-5-op-s-bm-002
+          uuid: aips-1-0-0-op-s-bm-002
         - operation-name: /v1/redirect-oam-request-information
-          uuid: aips-0-0-5-op-s-bm-003
+          uuid: aips-1-0-0-op-s-bm-003
         - operation-name: /v1/end-subscription
-          uuid: aips-0-0-5-op-s-bm-004
+          uuid: aips-1-0-0-op-s-bm-004
         - operation-name: /v1/inquire-oam-request-approvals
-          uuid: aips-0-0-5-op-s-bm-005
+          uuid: aips-1-0-0-op-s-bm-005
         - operation-name: /v1/update-client
-          uuid: aips-0-0-5-op-s-bm-007
+          uuid: aips-1-0-0-op-s-bm-007
         - operation-name: /v1/list-ltps-and-fcs
-          uuid: aips-0-0-5-op-s-bm-008
+          uuid: aips-1-0-0-op-s-bm-008
         - operation-name: /v1/redirect-topology-change-information
-          uuid: aips-0-0-5-op-s-bm-009
+          uuid: aips-1-0-0-op-s-bm-009
         - operation-name: /v1/update-operation-key
-          uuid: aips-0-0-5-op-s-bm-010
+          uuid: aips-1-0-0-op-s-bm-010
         - operation-name: /v1/update-operation-client
-          uuid: aips-0-0-5-op-s-bm-011
+          uuid: aips-1-0-0-op-s-bm-011
       individual:
         - operation-name: /v1/bequeath-your-data-and-die
-          uuid: aips-0-0-5-op-s-im-000
+          uuid: aips-1-0-0-op-s-im-000
     service:
       basic:
         - operation-name: /v1/start-application-in-generic-representation
-          uuid: aips-0-0-5-op-s-bs-000
+          uuid: aips-1-0-0-op-s-bs-000
         - operation-name: /v1/inform-about-application
-          uuid: aips-0-0-5-op-s-bs-001
+          uuid: aips-1-0-0-op-s-bs-001
         - operation-name: /v1/inform-about-application-in-generic-representation
-          uuid: aips-0-0-5-op-s-bs-002
+          uuid: aips-1-0-0-op-s-bs-002
         - operation-name: /v1/inform-about-release-history
-          uuid: aips-0-0-5-op-s-bs-003
+          uuid: aips-1-0-0-op-s-bs-003
         - operation-name: /v1/inform-about-release-history-in-generic-representation
-          uuid: aips-0-0-5-op-s-bs-004
+          uuid: aips-1-0-0-op-s-bs-004
         - operation-name: /docs
-          uuid: aips-0-0-5-op-s-bs-005
+          uuid: aips-1-0-0-op-s-bs-005
       individual:
+        ## 01 Automation management ------------------------------------------------------------ 
+        ## StaticListAutomationManagement
+        - operation-name: /v1/add-links-to-static-list
+          uuid: aips-1-0-0-op-s-is-100
+        - operation-name: /v1/assign-automation-to-links
+          uuid: aips-1-0-0-op-s-is-101
+        - operation-name: /v1/remove-links-from-static-list
+          uuid: aips-1-0-0-op-s-is-102
+        - operation-name: /v1/unassign-automation-from-links
+          uuid: aips-1-0-0-op-s-is-103
+        - operation-name: /v1/unassign-all-automations-from-links
+          uuid: aips-1-0-0-op-s-is-104
+        - operation-name: /v1/unassign-automation-from-all-links
+          uuid: aips-1-0-0-op-s-is-105
+        - operation-name: /v1/list-links
+          uuid: aips-1-0-0-op-s-is-106
+        - operation-name: /v1/list-automation-names
+          uuid: aips-1-0-0-op-s-is-107
+        - operation-name: /v1/list-assignments-for-specific-link
+          uuid: aips-1-0-0-op-s-is-108
+        - operation-name: /v1/list-links-with-specific-number-of-assignments
+          uuid: aips-1-0-0-op-s-is-109
+        - operation-name: /v1/list-links-with-specific-automation-assigned
+          uuid: aips-1-0-0-op-s-is-110
+
+        ## BlackListManagement
+        - operation-name: /v1/add-links-to-black-list
+          uuid: aips-1-0-0-op-s-is-120
+        - operation-name: /v1/remove-links-from-black-list
+          uuid: aips-1-0-0-op-s-is-121
+        - operation-name: /v1/list-links-in-black-list
+          uuid: aips-1-0-0-op-s-is-122
+        - operation-name: /v1/is-link-barred
+          uuid: aips-1-0-0-op-s-is-123
+
+        ## 02 Link group related management ----------------------------------------------------
+        ## TimeBasedPowerSaving
+        - operation-name: /v1/add-start-trigger
+          uuid: aips-1-0-0-op-s-is-200
+        - operation-name: /v1/add-end-trigger
+          uuid: aips-1-0-0-op-s-is-201
+        - operation-name: /v1/remove-start-trigger
+          uuid: aips-1-0-0-op-s-is-202
+        - operation-name: /v1/remove-end-trigger
+          uuid: aips-1-0-0-op-s-is-203
+        - operation-name: /v1/remove-all-triggers
+          uuid: aips-1-0-0-op-s-is-204
+        - operation-name: /v1/list-all-triggers
+          uuid: aips-1-0-0-op-s-is-205
+        - operation-name: /v1/start-time-based-power-saving
+          uuid: aips-1-0-0-op-s-is-210
+        - operation-name: /v1/end-time-based-power-saving
+          uuid: aips-1-0-0-op-s-is-211
+        ## Reconciliation
+        #  ---> soll die mit rein?
+        - operation-name: /v1/sync-power-saving-status-with-static-list
+          uuid: aips-1-0-0-op-s-is-220
+        - operation-name: /v1/reconciliate-problem-links
+          uuid: aips-1-0-0-op-s-is-221
+
+        ## 03 Link related automation: ---------------------------------------------------------
+        ## DroppedFramesInitiatedRestoration
+        # --> hier fehlen jede Menge Infos; ggf. brauchen wir auch noch einen Service in Modul 6 LinkAnalysis
+        - operation-name: /v1/start-dropped-frames-monitoring
+          uuid: aips-1-0-0-op-s-is-300
+        - operation-name: /v1/stop-dropped-frames-monitoring
+          uuid: aips-1-0-0-op-s-is-301
+
         ## 04: Link Group related switching operation
         ## SimpleActivation
+        - operation-name: /v1/add-links-to-power-saving-activation-queue
+          uuid: aips-1-0-0-op-s-is-400
+        - operation-name: /v1/remove-links-from-power-saving-activation-queue
+          uuid: aips-1-0-0-op-s-is-401
+        - operation-name: /v1/purge-power-saving-activation-queue
+          uuid: aips-1-0-0-op-s-is-402
         - operation-name: /v1/receive-power-saving-activation-status
-          uuid: aips-0-0-5-op-s-is-405
+          uuid: aips-1-0-0-op-s-is-405
         ## PersistentDeactivation
+        - operation-name: /v1/add-links-to-power-saving-deactivation-queue
+          uuid: aips-1-0-0-op-s-is-410
+        - operation-name: /v1/remove-links-from-power-saving-activation-queue
+          uuid: aips-1-0-0-op-s-is-411
+        - operation-name: /v1/purge-power-saving-deactivation-queue
+          uuid: aips-1-0-0-op-s-is-412
         - operation-name: /v1/receive-power-saving-deactivation-status
-          uuid: aips-0-0-5-op-s-is-415
+          uuid: aips-1-0-0-op-s-is-415
 
         ## 05: Link related switching operation ------------------------------------------------
         ## RedundantTransmittersOff
         - operation-name: /v1/switch-redundant-transmitter-pair-off
-          uuid: aips-0-0-5-op-s-is-500
+          uuid: aips-1-0-0-op-s-is-500
         - operation-name: /v1/receive-transmitter-status-of-parallel-links
-          uuid: aips-0-0-5-op-s-is-501
+          uuid: aips-1-0-0-op-s-is-501
         ## AllTransmittersOn
         - operation-name: /v1/reactivate-transmitters-of-link
-          uuid: aips-0-0-5-op-s-is-510
+          uuid: aips-1-0-0-op-s-is-510
 
         ## 06: Link analysis -------------------------------------------------------------------
         ## BasicLinkAnalysis
         - operation-name: /v1/provide-transmitter-status-of-parallel-links
-          uuid: aips-0-0-5-op-s-is-600
+          uuid: aips-1-0-0-op-s-is-600
 
         ## 07: Power saving status -------------------------------------------------------------
         ## BasicPowerSavingStatus
         - operation-name: /v1/record-power-saving-status
-          uuid: aips-0-0-5-op-s-is-700
+          uuid: aips-1-0-0-op-s-is-700
         - operation-name: /v1/list-power-saving-status
-          uuid: aips-0-0-5-op-s-is-701
+          uuid: aips-1-0-0-op-s-is-701
         - operation-name: /v1/provide-power-saving-status-of-link
-          uuid: aips-0-0-5-op-s-is-702
+          uuid: aips-1-0-0-op-s-is-702
         - operation-name: /v1/list-affected-links
-          uuid: aips-0-0-5-op-s-is-703
+          uuid: aips-1-0-0-op-s-is-703
         - operation-name: /v1/list-to-be-restored-links
-          uuid: aips-0-0-5-op-s-is-704
+          uuid: aips-1-0-0-op-s-is-704
         - operation-name: /v1/delete-link-from-power-saving-status-table
-          uuid: aips-0-0-5-op-s-is-705
+          uuid: aips-1-0-0-op-s-is-705
 
   http-server:
     own-application-name: AirInterfacePowerSaver
-    own-release-number: 0.0.5
-    uuid: aips-0-0-5-http-s-000
+    own-release-number: 1.0.0
+    uuid: aips-1-0-0-http-s-000
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
       own-ip-address: 1.1.4.7
       own-tcp-port: 4007
-      uuid: aips-0-0-5-tcp-s-000
+      uuid: aips-1-0-0-tcp-s-000
 
 
 clients:
@@ -98,30 +178,30 @@ clients:
   - http-client:
       application-name: ElasticSearch
       release-number: 1.0.0
-      uuid: aips-0-0-5-http-c-es-1-0-0-000
+      uuid: aips-1-0-0-http-c-es-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.15
       tcp-port: 3015
-      uuid: aips-0-0-5-tcp-c-es-1-0-0-000
+      uuid: aips-1-0-0-tcp-c-es-1-0-0-000
     elasticsearch-client:
-      uuid: aips-0-0-5-es-c-es-1-0-0-000
+      uuid: aips-1-0-0-es-c-es-1-0-0-000
       index-alias: 8
 
   - http-client:
       application-name: OldRelease
       release-number: 0.0.5
-      uuid: aips-0-0-5-http-c-or-0-0-5-000
+      uuid: aips-1-0-0-http-c-or-0-0-5-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.7
       tcp-port: 4007
-      uuid: aips-0-0-5-tcp-c-or-0-0-5-000
+      uuid: aips-1-0-0-tcp-c-or-0-0-5-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/bequeath-your-data-and-die
-            uuid: aips-0-0-5-op-c-bm-or-0-0-5-000
+            uuid: aips-1-0-0-op-c-bm-or-0-0-5-000
         individual:
       service:
         basic:
@@ -130,12 +210,12 @@ clients:
   - http-client:
       application-name: NewRelease
       release-number: 0.0.5
-      uuid: aips-0-0-5-http-c-nr-0-0-5-000
+      uuid: aips-1-0-0-http-c-nr-0-0-5-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.7
       tcp-port: 4007
-      uuid: aips-0-0-5-tcp-c-nr-0-0-5-000
+      uuid: aips-1-0-0-tcp-c-nr-0-0-5-000
     operation-clients:
       own-oam:
         basic:
@@ -151,23 +231,23 @@ clients:
   - http-client:
       application-name: RegistryOffice
       release-number: 2.0.2
-      uuid: aips-0-0-5-http-c-ro-2-0-2-000
+      uuid: aips-1-0-0-http-c-ro-2-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.17
       tcp-port: 3017
-      uuid: aips-0-0-5-tcp-c-ro-2-0-2-000
+      uuid: aips-1-0-0-tcp-c-ro-2-0-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/register-application
-            uuid: aips-0-0-5-op-c-bm-ro-2-0-2-000
+            uuid: aips-1-0-0-op-c-bm-ro-2-0-2-000
           - operation-name: /v1/relay-server-replacement
-            uuid: aips-0-0-5-op-c-bm-ro-2-0-2-001
+            uuid: aips-1-0-0-op-c-bm-ro-2-0-2-001
           - operation-name: /v1/deregister-application
-            uuid: aips-0-0-5-op-c-bm-ro-2-0-2-002
+            uuid: aips-1-0-0-op-c-bm-ro-2-0-2-002
           - operation-name: /v1/relay-operation-update
-            uuid: aips-0-0-5-op-c-bm-ro-2-0-2-003
+            uuid: aips-1-0-0-op-c-bm-ro-2-0-2-003
         individual:
       service:
         basic:
@@ -176,12 +256,12 @@ clients:
   - http-client:
       application-name: TypeApprovalRegister
       release-number: 2.0.2
-      uuid: aips-0-0-5-http-c-tar-2-0-2-000
+      uuid: aips-1-0-0-http-c-tar-2-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.18
       tcp-port: 3018
-      uuid: aips-0-0-5-tcp-c-tar-2-0-2-000
+      uuid: aips-1-0-0-tcp-c-tar-2-0-2-000
     operation-clients:
       own-oam:
         basic:
@@ -193,17 +273,17 @@ clients:
   - http-client:
       application-name: ExecutionAndTraceLog
       release-number: 2.0.2
-      uuid: aips-0-0-5-http-c-eatl-2-0-2-000
+      uuid: aips-1-0-0-http-c-eatl-2-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.19
       tcp-port: 3019
-      uuid: aips-0-0-5-tcp-c-eatl-2-0-2-000
+      uuid: aips-1-0-0-tcp-c-eatl-2-0-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/record-service-request
-            uuid: aips-0-0-5-op-c-bs-eatl-2-0-2-000
+            uuid: aips-1-0-0-op-c-bs-eatl-2-0-2-000
         individual:
       service:
         basic:
@@ -212,17 +292,17 @@ clients:
   - http-client:
       application-name: OamLog
       release-number: 2.0.2
-      uuid: aips-0-0-5-http-c-ol-2-0-2-000
+      uuid: aips-1-0-0-http-c-ol-2-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.20
       tcp-port: 3020
-      uuid: aips-0-0-5-tcp-c-ol-2-0-2-000
+      uuid: aips-1-0-0-tcp-c-ol-2-0-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/record-oam-request
-            uuid: aips-0-0-5-op-c-bs-ol-2-0-2-000
+            uuid: aips-1-0-0-op-c-bs-ol-2-0-2-000
         individual:
       service:
         basic:
@@ -231,17 +311,17 @@ clients:
   - http-client:
       application-name: AdministratorAdministration
       release-number: 2.0.2
-      uuid: aips-0-0-5-http-c-aa-2-0-2-000
+      uuid: aips-1-0-0-http-c-aa-2-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.21
       tcp-port: 3021
-      uuid: aips-0-0-5-tcp-c-aa-2-0-2-000
+      uuid: aips-1-0-0-tcp-c-aa-2-0-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/approve-oam-request
-            uuid: aips-0-0-5-op-c-bs-aa-2-0-2-000
+            uuid: aips-1-0-0-op-c-bs-aa-2-0-2-000
         individual:
       service:
         basic:
@@ -250,27 +330,27 @@ clients:
   - http-client:
       application-name: ApplicationLayerTopology
       release-number: 2.0.2
-      uuid: aips-0-0-5-http-c-alt-2-0-2-000
+      uuid: aips-1-0-0-http-c-alt-2-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.22
       tcp-port: 3022
-      uuid: aips-0-0-5-tcp-c-alt-2-0-2-000
+      uuid: aips-1-0-0-tcp-c-alt-2-0-2-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/update-all-ltps-and-fcs
-            uuid: aips-0-0-5-op-c-bm-alt-2-0-2-000
+            uuid: aips-1-0-0-op-c-bm-alt-2-0-2-000
           - operation-name: /v1/update-ltp
-            uuid: aips-0-0-5-op-c-bm-alt-2-0-2-001
+            uuid: aips-1-0-0-op-c-bm-alt-2-0-2-001
           - operation-name: /v1/delete-ltp-and-dependents
-            uuid: aips-0-0-5-op-c-bm-alt-2-0-2-002
+            uuid: aips-1-0-0-op-c-bm-alt-2-0-2-002
           - operation-name: /v1/update-fc
-            uuid: aips-0-0-5-op-c-bm-alt-2-0-2-003
+            uuid: aips-1-0-0-op-c-bm-alt-2-0-2-003
           - operation-name: /v1/update-fc-port
-            uuid: aips-0-0-5-op-c-bm-alt-2-0-2-004
+            uuid: aips-1-0-0-op-c-bm-alt-2-0-2-004
           - operation-name: /v1/delete-fc-port
-            uuid: aips-0-0-5-op-c-bm-alt-2-0-2-005
+            uuid: aips-1-0-0-op-c-bm-alt-2-0-2-005
         individual:
       service:
         basic:
@@ -279,12 +359,12 @@ clients:
   - http-client:
       application-name: OperationKeyManagement
       release-number: 2.0.2
-      uuid: aips-0-0-5-http-c-okm-2-0-2-000
+      uuid: aips-1-0-0-http-c-okm-2-0-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.23
       tcp-port: 3023
-      uuid: aips-0-0-5-tcp-c-okm-2-0-2-000
+      uuid: aips-1-0-0-tcp-c-okm-2-0-2-000
     operation-clients:
       own-oam:
         basic:
@@ -296,12 +376,12 @@ clients:
   - http-client:
       application-name: MicroWaveDeviceInventory
       release-number: 1.1.0
-      uuid: aips-0-0-5-http-c-mwdi-1-0-1-000
+      uuid: aips-1-0-0-http-c-mwdi-1-0-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.15
       tcp-port: 4015
-      uuid: aips-0-0-5-tcp-c-mwdi-1-0-1-000
+      uuid: aips-1-0-0-tcp-c-mwdi-1-0-1-000
     operation-clients:
       own-oam:
         basic:
@@ -311,31 +391,31 @@ clients:
         individual:
           ## RedundantTransmittersOff
           - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
-            uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-500
+            uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-500
 
           ## AllTransmittersOn
           - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
-            uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-510
+            uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-510
 
           ## BasicLinkAnalysis
           - operation-name: /v1/provide-list-of-parallel-links
-            uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-601
+            uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-601
           - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
-            uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-602
+            uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-602
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration
-            uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-603
+            uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-603
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status
-            uuid: aips-0-0-5-op-c-is-mwdi-1-0-1-604
+            uuid: aips-1-0-0-op-c-is-mwdi-1-0-1-604
 
   - http-client:
       application-name: MicroWaveDeviceGatekeeper
       release-number: 1.0.0
-      uuid: aips-0-0-5-http-c-mwdg-1-0-0-000
+      uuid: aips-1-0-0-http-c-mwdg-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.14
       tcp-port: 4014
-      uuid: aips-0-0-5-tcp-c-mwdg-1-0-0-000
+      uuid: aips-1-0-0-tcp-c-mwdg-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -345,21 +425,21 @@ clients:
         individual:
           ## RedundantTransmittersOff
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
-            uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-500
+            uuid: aips-1-0-0-op-c-is-mwdg-1-0-0-500
 
           ## AllTransmittersOn
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
-            uuid: aips-0-0-5-op-c-is-mwdg-1-0-0-510
+            uuid: aips-1-0-0-op-c-is-mwdg-1-0-0-510
 
   - http-client:
       application-name: AirInterfacePowerSaver
       release-number: 0.0.5
-      uuid: aips-0-0-5-http-c-aips-0-0-5-000
+      uuid: aips-1-0-0-http-c-aips-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.7
       tcp-port: 4007
-      uuid: aips-0-0-5-tcp-c-aips-0-0-5-000
+      uuid: aips-1-0-0-tcp-c-aips-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -369,12 +449,12 @@ clients:
         individual:
           ## RedundantTransmittersOff
           - operation-name: /v1/provide-transmitter-status-of-parallel-links
-            uuid: aips-0-0-5-op-c-is-aips-0-0-5-500
+            uuid: aips-1-0-0-op-c-is-aips-1-0-0-500
           - operation-name: /v1/record-power-saving-status
-            uuid: aips-0-0-5-op-c-is-aips-0-0-5-501
+            uuid: aips-1-0-0-op-c-is-aips-1-0-0-501
 
           ## AllTransmittersOn
           - operation-name: /v1/provide-power-saving-status-of-link
-            uuid: aips-0-0-5-op-c-is-aips-0-0-5-510
+            uuid: aips-1-0-0-op-c-is-aips-1-0-0-510
           - operation-name: /v1/record-power-saving-status
-            uuid: aips-0-0-5-op-c-is-aips-0-0-5-511
+            uuid: aips-1-0-0-op-c-is-aips-1-0-0-511
