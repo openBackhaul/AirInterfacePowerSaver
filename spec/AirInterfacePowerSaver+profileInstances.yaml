@@ -114,8 +114,6 @@ profile-instances:
       file-description: 'staticLinkList'
     configuration:
       file-path: '../application-data/application-data.json'
-      user-name: 'AirInterfacePowerSaver'
-      password: 'Operations to add password'
       operation: 'write'
 
   - profile-name: 'FileProfile'
@@ -125,8 +123,6 @@ profile-instances:
       file-description: 'blackLinkList'
     configuration:
       file-path: '../application-data/application-data.json'
-      user-name: 'AirInterfacePowerSaver'
-      password: 'Operations to add password'
       operation: 'write'
 
   - profile-name: 'StringProfile'
