@@ -66,9 +66,8 @@ note over removeLinks
 end note
 removeLinks -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
 
-
 note over removeLinks #pink
-  <b>To discuss and decide:</b>
+  <b>To discuss and decide for v1-0-0:</b>
   what happens if a link is deleted, which is currently running in powerSaving mode?
   -> this link must remain in the powerSavingStatus table until its original state is restored
   -> restore is initiated here, but may fail
@@ -80,6 +79,7 @@ note over removeLinks #pink
      its status in the powerSavingStatus table;
      but it would also be possible, to just mark the link as deletion-candidate
 end note
+
 
 deactivate removeLinks
 

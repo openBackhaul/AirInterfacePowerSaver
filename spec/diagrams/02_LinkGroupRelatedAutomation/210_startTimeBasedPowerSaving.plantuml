@@ -19,6 +19,7 @@ activate startPsModule
 
 'open question:
 note over listTriggers #Pink
+ discuss for v1-0-0
  TODO: clarify when triggers are fetched
        -> (periodically? with integerProfile to configure time interval?)
   GetTriggers & time monitoring can also be done in 1 step      

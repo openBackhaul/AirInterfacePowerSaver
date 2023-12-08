@@ -13,8 +13,8 @@ activate removeTrigger
 
 deactivate removeTrigger
 
-
 note over removeTrigger #Pink
+  discuss for v1-0-0
   consider: if the last end trigger is removed, it needs to be ensured
   that power saving is switched off for all affected links at some point 
   (only if TimeBasedPowerSaving is running)
@@ -27,5 +27,6 @@ note over removeTrigger #Pink
     later via reconcilation
 
 end note
+
 
 @enduml
