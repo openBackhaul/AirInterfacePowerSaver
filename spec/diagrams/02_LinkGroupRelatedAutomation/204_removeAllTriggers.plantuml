@@ -1,0 +1,23 @@
+@startuml 204_removeAllTriggers
+skinparam responseMessageBelowArrow true
+
+title
+RequestForRemovingAllTriggersCausesTimeBasedPowerSavingTriggerUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/remove-all-Triggers" as removeTrigger
+
+requestor -> removeTrigger
+activate removeTrigger
+
+deactivate removeTrigger
+
+note over removeTrigger #Pink
+  discuss for v1-0-0
+  if we remove all triggers, we should ensure that 
+  currently running time based power savings are switched off again
+end note
+
+
+@enduml

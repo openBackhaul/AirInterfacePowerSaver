@@ -1,0 +1,18 @@
+@startuml 122_listLinksInBlackList
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingLinksInBlackListCausesListing
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-links-in-black-list" as listLinks
+
+requestor -> listLinks
+activate listLinks
+
+listLinks --> requestor: {linkIdList}
+
+deactivate listLinks
+
+@enduml

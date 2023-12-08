@@ -1,0 +1,57 @@
+@startuml 105_unassignAutomationFromAllLinks
+skinparam responseMessageBelowArrow true
+
+title
+RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/unassign-automation-from-all-links" as unassignAutomation
+participant "AIPS://v1/list-links-with-specific-automation-assigned" as listLinks
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+
+requestor -> unassignAutomation: {automationName}
+activate unassignAutomation
+
+== Get current assignment status ==
+
+'get current assignments from staticList
+note over unassignAutomation
+  <u>GetLinksFromCurrentAssignments</u>
+  capture current state before removing assignments
+  from staticList; required for async power saving
+  switch-off
+end note
+unassignAutomation -> listLinks: {automationName}
+listLinks --> unassignAutomation: {affectedLinkIdList}
+
+== Unassign automationName ==
+
+'update staticList by removing automationName assignment for all links
+note over unassignAutomation
+  FOR EACH <i>linkId</i> in <i>affectedLinkIdList</i>
+    remove <i>automationName</i> from <i>linkId.automationNamesList</i>
+    in the staticList
+end note
+unassignAutomation --> requestor: <i>"done"</i>
+
+== Initiate power saving switch-off to restore original state ==
+
+'stop ongoing/planned power saving
+note over unassignAutomation
+  <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+unassignAutomation -> stopSimpleActivation: {affectedLinkIdList, automationName}
+stopSimpleActivation --> unassignAutomation
+
+'initiate persistentDeactivation to turn power saving off
+note over unassignAutomation
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+unassignAutomation -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
+
+deactivate unassignAutomation
+
+@enduml

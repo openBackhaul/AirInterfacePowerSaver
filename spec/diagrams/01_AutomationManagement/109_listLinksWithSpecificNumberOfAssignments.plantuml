@@ -1,0 +1,23 @@
+@startuml 109_listLinksWithSpecificNumberOfAssignments
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingLinksWithSpecificNumberOfAssignmentsCausesListing
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-links-with-specific-number-of-assignments" as listLinks
+
+requestor -> listLinks: {integerNumber}
+activate listLinks
+
+note over listLinks
+  filter for linkIds where
+  (assignedAutomationNamesList.size()==integerNumber)
+end note
+
+listLinks --> requestor: {linkIdList}
+
+deactivate listLinks
+
+@enduml

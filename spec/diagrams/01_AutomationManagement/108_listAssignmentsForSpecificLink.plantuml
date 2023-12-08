@@ -1,0 +1,17 @@
+@startuml 108_listAssignmentsForSpecificLink
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingAssignmentsOfSpecificLinkCausesListing
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-assignments-for-specific-link" as listAssignments
+
+requestor -> listAssignments: {linkId}
+activate listAssignments
+listAssignments --> requestor: {automationNameList}
+
+deactivate listAssignments
+
+@enduml

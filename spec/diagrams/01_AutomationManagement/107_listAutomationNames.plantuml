@@ -1,0 +1,18 @@
+@startuml 107_listAutomationNames
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingAutomationNamesCausesListing
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-automation-names" as listAutomations
+
+requestor -> listAutomations
+activate listAutomations
+
+listAutomations --> requestor: {list-of-unique-automationNames}
+
+deactivate listAutomations
+
+@enduml
