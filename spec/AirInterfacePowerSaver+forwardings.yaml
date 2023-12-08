@@ -458,6 +458,268 @@ forwardings:
       - client-name: ALT://v1/delete-fc-port
         uuid: aips-0-0-9-op-c-bm-alt-2-0-2-005
 
+  - forwarding-name: RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
+    uuid: aips-1-0-0-op-fc-is-100
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/remove-links-from-static-list
+        uuid: aips-1-0-0-op-s-is-102
+    consequent-requests:
+      - client-name: /v1/list-links
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-100
+
+  - forwarding-name: RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-101
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/remove-links-from-static-list
+        uuid: aips-1-0-0-op-s-is-102
+    consequent-requests: 
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
+
+  - forwarding-name: RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
+    uuid: aips-1-0-0-op-fc-is-102
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/remove-links-from-static-list
+        uuid: aips-1-0-0-op-s-is-102
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-104
+
+  - forwarding-name: RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
+    uuid: aips-1-0-0-op-fc-is-103
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-automation-from-links
+        uuid: aips-1-0-0-op-s-is-103
+    consequent-requests:
+      - client-name: /v1/list-links
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-100
+
+  - forwarding-name: RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-104
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-automation-from-links
+        uuid: aips-1-0-0-op-s-is-103
+    consequent-requests: 
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
+
+  - forwarding-name: RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
+    uuid: aips-1-0-0-op-fc-is-105
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-automation-from-links
+        uuid: aips-1-0-0-op-s-is-103
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-104
+
+  - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
+    uuid: aips-1-0-0-op-fc-is-106
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-all-automations-from-links
+        uuid: aips-1-0-0-op-s-is-104
+    consequent-requests:
+      - client-name: /v1/list-links
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-100
+
+  - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetAutomationNames
+    uuid: aips-1-0-0-op-fc-is-107
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-all-automations-from-links
+        uuid: aips-1-0-0-op-s-is-104
+    consequent-requests:
+      - client-name: /v1/list-automation-names
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-107
+
+  - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-108
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-all-automations-from-links
+        uuid: aips-1-0-0-op-s-is-104
+    consequent-requests: 
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
+
+  - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
+    uuid: aips-1-0-0-op-fc-is-109
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-all-automations-from-links
+        uuid: aips-1-0-0-op-s-is-104
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-104
+
+  - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
+    uuid: aips-1-0-0-op-fc-is-110
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-automation-from-all-links
+        uuid: aips-1-0-0-op-s-is-105
+    consequent-requests:
+      - client-name: /v1/list-links-with-specific-automation-assigned
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-110
+
+  - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-111
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-automation-from-all-links
+        uuid: aips-1-0-0-op-s-is-105
+    consequent-requests: 
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
+
+  - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
+    uuid: aips-1-0-0-op-fc-is-112
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/unassign-automation-from-all-links
+        uuid: aips-1-0-0-op-s-is-105
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-105
+
+  - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
+    uuid: aips-1-0-0-op-fc-is-120
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/add-links-to-black-list
+        uuid: aips-1-0-0-op-s-is-120
+    consequent-requests:
+      - client-name: /v1/list-links
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-120
+
+  - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentBlackList
+    uuid: aips-1-0-0-op-fc-is-121
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/add-links-to-black-list
+        uuid: aips-1-0-0-op-s-is-120
+    consequent-requests:
+      - client-name: /v1/list-links-in-black-list
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-121
+
+  - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-122
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/add-links-to-black-list
+        uuid: aips-1-0-0-op-s-is-120
+    consequent-requests: 
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-122
+
+  - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
+    uuid: aips-1-0-0-op-fc-is-123
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/add-links-to-black-list
+        uuid: aips-1-0-0-op-s-is-120
+    consequent-requests:
+      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-123
+
+
+
+
+
+
+
+
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
     uuid: aips-0-0-9-op-fc-is-500
     forwarding-type: InvariantProcessSnippet
@@ -547,7 +809,6 @@ forwardings:
     consequent-requests:
       - client-name: MWDG://core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-configuration/transmitter-is-on
         uuid: aips-0-0-9-op-c-is-mwdg-1-0-0-500
-
 
   - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.ReadPowerSavingStatusOfLink
     uuid: aips-0-0-9-op-fc-is-510
