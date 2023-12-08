@@ -35,30 +35,21 @@ group FOR each record in activationQueue
   embedYourself -> isLinkBarred: {linkId}
   isLinkBarred --> embedYourself: {boolean}
 
-  'if link is on blackList remove entry from queue, automationName irrelevant here
-  alt link is barred
-    note over embedYourself
-      IF (<i>record.linkId.isBarred</i>==true)
-      THEN <u>RemoveRecordFromActivationQueue</u>
-    end note
-    embedYourself -> removeFromQueue: {linkId, automationName}
-    removeFromQueue --> embedYourself
-  
-  else link is NOT barred
-    'if link is not in blackList
-    note over embedYourself
-      IF (<i>record.linkId.isBarred</i>==false)
-        <u>SwitchRedundantTransmitterOff</u>
-    end note
-    embedYourself -> redundantTransmittersOff: {linkId, automationName}
 
-    'remove record from queue (no retries)
-    note over embedYourself
-      <u>RemoveRecordFromActivationQueue</u>
-    end note
-    embedYourself -> removeFromQueue: {linkId, automationName}
+  'if link is not in blackList
+  note over embedYourself
+    IF (<i>record.linkId.isBarred</i>==false)
+      <u>SwitchRedundantTransmitterOff</u>
+  end note
+  embedYourself -> redundantTransmittersOff: {linkId, automationName}
 
-  end
+
+  'remove from the activationQueue anyway (i.e. if link is in blackList or not)
+  note over embedYourself
+    <u>RemoveRecordFromActivationQueue</u>
+  end note
+  embedYourself -> removeFromQueue: {linkId, automationName}
+
 end
 
 deactivate embedYourself

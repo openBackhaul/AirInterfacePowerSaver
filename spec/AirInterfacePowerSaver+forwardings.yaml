@@ -834,14 +834,50 @@ forwardings:
       - client-name: /v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-204
 
+  - forwarding-name: RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.BlackListCheck
+    uuid: aips-1-0-0-op-fc-is-400
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: aips-0-0-9-op-s-bm-001
+    consequent-requests:
+      - client-name: /v1/is-link-barred
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-400
 
+  - forwarding-name: RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.SwitchRedundantTransmitterOff
+    uuid: aips-1-0-0-op-fc-is-401
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: aips-0-0-9-op-s-bm-001
+    consequent-requests:
+      - client-name: /v1/switch-redundant-transmitter-pair-off
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-402
 
-
-
-
-
-
-
+  - forwarding-name: RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.RemoveRecordFromActivationQueue
+    uuid: aips-1-0-0-op-fc-is-402
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: aips-0-0-9-op-s-bm-001
+    consequent-requests:
+      - client-name: /v1/remove-links-from-power-saving-activation-queue
+        uuid: aips-0-0-9-op-c-is-aips-0-0-9-401
 
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
     uuid: aips-0-0-9-op-fc-is-500
