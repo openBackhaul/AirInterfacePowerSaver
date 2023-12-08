@@ -96,20 +96,6 @@ servers:
           uuid: aips-0-0-9-op-s-is-210
         - operation-name: /v1/end-time-based-power-saving
           uuid: aips-0-0-9-op-s-is-211
-        ## Reconciliation
-        #  ---> soll die mit rein?
-        - operation-name: /v1/sync-power-saving-status-with-static-list
-          uuid: aips-0-0-9-op-s-is-220
-        - operation-name: /v1/reconciliate-problem-links
-          uuid: aips-0-0-9-op-s-is-221
-
-        ## 03 Link related automation: ---------------------------------------------------------
-        ## DroppedFramesInitiatedRestoration
-        # --> hier fehlen jede Menge Infos; ggf. brauchen wir auch noch einen Service in Modul 6 LinkAnalysis
-        - operation-name: /v1/start-dropped-frames-monitoring
-          uuid: aips-0-0-9-op-s-is-300
-        - operation-name: /v1/stop-dropped-frames-monitoring
-          uuid: aips-0-0-9-op-s-is-301
 
         ## 04: Link Group related switching operation
         ## SimpleActivation
@@ -389,12 +375,6 @@ clients:
       service:
         basic:
         individual:
-
-          ## DroppedFramesInitiatedRestoration
-          - operation-name: /v1/provide-list-of-parallel-links
-            uuid: aips-0-0-9-op-c-is-mwdi-1-1-1-300
-          # others not known, yet
-
           ## RedundantTransmittersOff
           - operation-name: /core-model-1-4:network-control-domain=cache/link={uuid}
             uuid: aips-0-0-9-op-c-is-mwdi-1-1-1-500
@@ -412,7 +392,6 @@ clients:
             uuid: aips-0-0-9-op-c-is-mwdi-1-1-1-603
           - operation-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/air-interface-2-0:air-interface-pac/air-interface-status
             uuid: aips-0-0-9-op-c-is-mwdi-1-1-1-604
-          # possibly additional service used for DroppedFramesInitiatedRestoration to be added 
 
 
   - http-client:
@@ -490,38 +469,6 @@ clients:
           - operation-name: /v1/add-links-to-power-saving-deactivation-queue
             uuid: aips-0-0-9-op-c-is-aips-0-0-9-204
 
-          ## Reconciliation
-          - operation-name: /v1/list-links
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-220
-          - operation-name: /v1/sync-power-saving-status-with-static-list
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-221
-          - operation-name: /v1/reconciliate-problem-links
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-222
-          - operation-name: /v1/remove-links-from-power-saving-activation-queue
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-223
-          - operation-name: /v1/add-links-to-power-saving-deactivation-queue
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-224
-          - operation-name: /v1/list-power-saving-status
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-225
-          - operation-name: /v1/list-to-be-restored-links
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-226
-          - operation-name: /v1/delete-link-from-power-saving-status-table
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-227
-
-          ## DroppedFramesInitiatedRestoration
-          - operation-name: /v1/list-assignments-for-specific-link
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-300
-          - operation-name: /v1/list-links-with-specific-automation-assigned
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-301
-          - operation-name: /v1/remove-links-from-power-saving-activation-queue
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-302
-          - operation-name: /v1/add-links-to-power-saving-deactivation-queue
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-303
-          - operation-name: /v1/reactivate-transmitters-of-link 
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-304
-          - operation-name: /v1/provide-power-saving-status-of-link
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-305
-
           ## SimpleActivation
           - operation-name: /v1/is-link-barred
             uuid: aips-0-0-9-op-c-is-aips-0-0-9-400
@@ -529,14 +476,6 @@ clients:
             uuid: aips-0-0-9-op-c-is-aips-0-0-9-401
           - operation-name: /v1/switch-redundant-transmitter-pair-off
             uuid: aips-0-0-9-op-c-is-aips-0-0-9-402
-
-          ## PersistentDeactivation
-          - operation-name: /v1/remove-links-from-power-saving-deactivation-queue
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-410
-          - operation-name: /v1/reactivate-transmitters-of-link
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-411
-          - operation-name: tbdecided # /v1/provide-power-saving-status-of-link or /v1/list-power-saving-status
-            uuid: aips-0-0-9-op-c-is-aips-0-0-9-412
             
           ## RedundantTransmittersOff
           - operation-name: /v1/provide-transmitter-status-of-parallel-links
