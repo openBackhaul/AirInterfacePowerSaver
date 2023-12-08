@@ -225,23 +225,23 @@ clients:
   - http-client:
       application-name: RegistryOffice
       release-number: 2.1.0
-      uuid: aips-0-0-9-http-c-ro-2-0-1-000
+      uuid: aips-0-0-9-http-c-ro-2-1-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 3024
-      uuid: aips-0-0-9-tcp-c-ro-2-0-1-000
+      uuid: aips-0-0-9-tcp-c-ro-2-1-0-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v2/register-application
-            uuid: aips-0-0-9-op-c-bm-ro-2-0-1-000
+            uuid: aips-0-0-9-op-c-bm-ro-2-1-0-000
           - operation-name: /v1/relay-server-replacement
-            uuid: aips-0-0-9-op-c-bm-ro-2-0-1-001
+            uuid: aips-0-0-9-op-c-bm-ro-2-1-0-001
           - operation-name: /v1/deregister-application
-            uuid: aips-0-0-9-op-c-bm-ro-2-0-1-002
+            uuid: aips-0-0-9-op-c-bm-ro-2-1-0-002
           - operation-name: /v1/relay-operation-update
-            uuid: aips-0-0-9-op-c-bm-ro-2-0-1-003
+            uuid: aips-0-0-9-op-c-bm-ro-2-1-0-003
         individual:
       service:
         basic:
