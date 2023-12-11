@@ -513,7 +513,7 @@ paths:
   #/v1/list-links-in-black-list:
   #/v1/is-link-barred:
 
-  ## 02 Link group related management
+  ## 02 Link group related automation
   ### TimeBasedPowerSaving
 
   #/v1/add-start-trigger:
@@ -776,7 +776,7 @@ paths:
                 requestor-protocol: 'HTTP'
                 requestor-address:
                   ip-address:
-                    ipv-4-address: '1.1.4.7'
+                    ipv-4-address: '127.0.0.1'
                 requestor-port: 4017
                 requestor-receive-operation: '/v1/receive-power-saving-activation-status'
       responses:
@@ -1579,7 +1579,7 @@ paths:
               requestor-protocol: 'HTTP'
               requestor-address:
                 ip-address:
-                  ipv-4-address: '1.1.4.7'
+                  ipv-4-address: '127.0.0.1'
               requestor-port: 4017
               requestor-receive-operation: '/v1/receive-power-saving-deactivation-status'
       responses:
@@ -2222,7 +2222,7 @@ paths:
                 requestor-protocol: 'HTTP'
                 requestor-address:
                   ip-address:
-                    ipv-4-address: '1.1.4.7'
+                    ipv-4-address: '127.0.0.1'
                 requestor-port: 4017
                 requestor-receive-operation: '/v1/receive-transmitter-status-of-parallel-links'
       responses:
@@ -3595,8 +3595,8 @@ paths:
                           - protocol: 'HTTP'
                             address:
                               ip-address:
-                                ipv-4-address: '1.1.3.9'
-                            port: 3009
+                                ipv-4-address: '127.0.0.1'
+                            port: 3025
                           - protocol: 'HTTPS'
                             address:
                               ip-address:
@@ -4798,8 +4798,8 @@ paths:
                 oam-approval-protocol: 'HTTP'
                 oam-approval-address:
                   ip-address:
-                    ipv-4-address: '1.1.3.12'
-                oam-approval-port: 3012
+                    ipv-4-address: '127.0.0.1'
+                oam-approval-port: 3028
       responses:
         '204':
           description: 'Informed about where to inquire for approval of OaM requests'
