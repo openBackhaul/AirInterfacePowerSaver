@@ -18,7 +18,7 @@ Changes between 0.0.5 and 0.0.9 on module level:
 
 .  
 
-The following excerpt of the OAS describes the existing services and callbacks (black) and the ones that get added with the 0.0.9 release (commented in green).  
+The following excerpt of the OAS describes the existing services and callbacks (black) and the ones that get added with the 0.0.9 release (commented in green, but not to be mixed with headlines).  
 
 ![AIPS_0.0.9_module#1](../pictures/AIPS_v0.0.9_module1_new.png)  
 ![AIPS_0.0.9_module#2+4](../pictures/AIPS_v0.0.9_module2+4_new.png)  
