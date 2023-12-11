@@ -1,0 +1,19 @@
+@startuml 123_isLinkBarred
+skinparam responseMessageBelowArrow true
+
+title
+RequestForCheckingLinkBarringStatusCausesStatusListing
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/is-link-barred" as linkCheck
+
+
+requestor -> linkCheck: {linkId}
+activate linkCheck
+
+linkCheck --> requestor: {boolean}
+
+deactivate linkCheck
+
+@enduml

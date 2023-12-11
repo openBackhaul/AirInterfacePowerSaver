@@ -1,0 +1,24 @@
+@startuml 110_listLinksWithSpecificAutomationAssigned
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingLinksWithSpecificAutomationAssignedCausesListing
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-links-with-specific-automation-assigned" as listLinks
+
+
+requestor -> listLinks: {automationName}
+activate listLinks
+
+note over listLinks
+  filter for linkIds with automationName
+  in linkId.(assignedAutomationNamesList)
+end note
+
+listLinks --> requestor: {linkIdList}
+
+deactivate listLinks
+
+@enduml

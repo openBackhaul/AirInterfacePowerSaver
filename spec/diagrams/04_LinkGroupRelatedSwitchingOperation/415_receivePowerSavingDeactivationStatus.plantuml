@@ -1,0 +1,25 @@
+@startuml 415_receivePowerSavingDeactivationStatus
+skinparam responseMessageBelowArrow true
+
+title
+RequestForReceivingPowerSavingDeactivationStatusCausesDelivery
+end title
+
+participant "external \ne.g. AIPS://v1/reactivate-all-transmitters-of-link" as requestor
+participant "AIPS://v1/receive-power-saving-deactivation-status" as delivery
+
+
+note over delivery
+  requestId is the indentifier of the initial request,
+  statusOfLink is one of:
+    - NotQualified
+    - AllTransmittersOn
+    - RedundantTransmittersOff
+    - UndefinedState
+end note
+requestor -> delivery: {requestId, statusOfLink}
+activate delivery
+
+deactivate delivery
+
+@enduml

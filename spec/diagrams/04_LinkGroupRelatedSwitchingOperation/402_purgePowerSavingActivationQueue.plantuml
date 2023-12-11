@@ -1,0 +1,16 @@
+@startuml 402_purgePowerSavingActivationQueue
+skinparam responseMessageBelowArrow true
+
+title
+RequestForPurgingPowerSavingActivationQueueCausesQueuePurge
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/purge-power-saving-activation-queue" as purgeQueue
+
+requestor -> purgeQueue
+activate purgeQueue
+
+deactivate purgeQueue
+
+@enduml

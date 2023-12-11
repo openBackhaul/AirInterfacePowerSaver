@@ -1,0 +1,72 @@
+@startuml 104_unassignAllAutomationsFromLinks
+skinparam responseMessageBelowArrow true
+
+title
+RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/unassign-all-automations-from-links" as unassignAutomation
+participant "AIPS://v1/list-links" as listLinks
+participant "AIPS://v1/list-automation-names" as listAutomations
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+requestor -> unassignAutomation: {linkIdList}
+activate unassignAutomation
+
+== Get current assignment status ==
+
+'get current assignments from staticList
+note over unassignAutomation
+  <u>GetCurrentAssignments</u>
+  capture current state before deleting assignments
+  from staticList; required for async power saving
+  switch-off
+end note
+unassignAutomation -> listLinks: {linkIdList}
+listLinks --> unassignAutomation: {list-of-(linkId,automationNamesList)}
+
+'get automationNames
+note over unassignAutomation
+  <u>GetAutomationNames</u>
+end note
+unassignAutomation -> listAutomations
+listAutomations --> unassignAutomation: {uniqueAutomationNamesList}
+
+== Unassign automationNames ==
+
+'update staticList by deleting automationNames
+note over unassignAutomation
+  FOR EACH <i>linkId</i> from <i>linkIdList</i>
+    set (<i>linkId.automationNamesList</i> = emptyList)
+    in the staticList
+end note
+unassignAutomation --> requestor: <i>"done"</i>
+
+== Initiate power saving switch-off to restore original state ==
+
+'stop ongoing/planned power saving (once per automationName)
+note over unassignAutomation
+  FOR EACH <i>automationName</i> in <i>uniqueAutomationNamesList</i>
+    FOR EACH <i>affectedLinkIdList</i>
+      WITH <i>affectedLinkIdList</i> = all <i>linkIds</i> from <i>linkIdList</i> 
+        WHERE (<i>linkId.automationNamesList.contains(automationName)</i>)
+    <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+unassignAutomation -> stopSimpleActivation: {affectedLinkIdList, automationName}
+stopSimpleActivation --> unassignAutomation
+
+
+'initiate persistentDeactivation to turn power saving off (once per automationName)
+note over unassignAutomation
+  FOR EACH pair (<i>affectedLinkIdList, automationName</i>)
+  from previous step
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+unassignAutomation -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
+
+
+deactivate unassignAutomation
+
+@enduml

@@ -1,0 +1,86 @@
+@startuml 102_removeLinksFromStaticList
+skinparam responseMessageBelowArrow true
+'skinparam SequenceDividerBackgroundColor darkgrey
+
+title
+RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/remove-links-from-static-list" as removeLinks
+participant "AIPS://v1/list-links" as listLinks
+participant "AIPS://v1/remove-links-from-power-saving-activation-queue" as stopSimpleActivation
+participant "AIPS://v1/add-links-to-power-saving-deactivation-queue" as startPersistentDeactivation
+
+note over requestor
+  requestor may provide <i>linkIds</i> which 
+  are not found in the staticList file,
+  those will be ignored
+end note
+
+requestor -> removeLinks: {linkIdList}
+activate removeLinks
+
+== Get current assignment status ==
+
+'get current assignments from staticList
+note over removeLinks
+  <u>GetCurrentAssignments</u>
+  capture current state before deleting <i>linkIds</i>
+  from staticList; required for async power saving
+  switch-off
+end note
+removeLinks -> listLinks: {linkIdList}
+listLinks --> removeLinks: {list-of-(linkId,automationNamesList)}
+
+== Remove links from staticList ==
+
+'update staticList by deleting the linkIdList links
+note over removeLinks
+  delete all <i>linkIds</i> from <i>linkIdList</i>
+  from the staticList
+end note
+removeLinks --> requestor: <i>"done"</i>
+
+== Initiate power saving switch-off to restore original state ==
+
+'stop ongoing/planned power saving
+note over removeLinks
+    Determine <i>listOfUniqueAutomationNames</i> from 
+    all <i>automationNamesLists</i> fetched by <i>GetCurrentAssignments</i>.
+
+    FOR EACH <i>automationName</i> from <i>listOfUniqueAutomationNames</i> 
+        - create new <i>affectedLinkIdList</i> and add <i>linkIds</i> from <i>linkIdList</i>
+          to it WHERE (<i>linkId.automationNamesList.contains(automationName)</i>)
+        - for the pair (<i>affectedLinkIdList</i>, <i>automationName</i>)
+          <u>RemoveFrom<b>Activation</b>Queue</u>
+end note
+removeLinks -> stopSimpleActivation: {affectedLinkIdList, automationName}
+stopSimpleActivation --> removeLinks
+
+'initiate persistentDeactivation to turn power saving off
+note over removeLinks
+  FOR EACH pair (<i>affectedLinkIdList</i>, <i>automationName</i>)
+  from previous step
+  <u>AddTo<b>Deactivation</b>Queue</u>
+end note
+removeLinks -> startPersistentDeactivation: {affectedLinkIdList, automationName, switchingOperationName="PersistentDeactivation"}
+
+note over removeLinks #pink
+  <b>To discuss and decide for v1-0-0:</b>
+  what happens if a link is deleted, which is currently running in powerSaving mode?
+  -> this link must remain in the powerSavingStatus table until its original state is restored
+  -> restore is initiated here, but may fail
+  -> reconciliation module must try to restore until success
+     -> possibly the link gets removed from the network, etc.
+     -> then it can also be removed from the powerSavingStatus
+
+  -> if such a link is deleted from the staticList users must be aware that they can see
+     its status in the powerSavingStatus table;
+     but it would also be possible, to just mark the link as deletion-candidate
+end note
+
+
+deactivate removeLinks
+
+@enduml

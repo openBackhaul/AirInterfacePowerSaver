@@ -1,0 +1,16 @@
+@startuml 200_addStartTrigger
+skinparam responseMessageBelowArrow true
+
+title
+RequestForAddingStartTriggerCausesTimeBasedPowerSavingTriggerUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/add-start-trigger" as addTrigger
+
+requestor -> addTrigger: {time}
+activate addTrigger
+
+deactivate addTrigger
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml 121_removeLinksFromBlackList
+skinparam responseMessageBelowArrow true
+
+title
+RequestForRemovingLinksFromBlackListCausesListUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/remove-links-from-black-list" as removeLinks
+
+note over removeLinks
+for each linkId in linkIdList
+- skip if not found in blackList 
+- otherwise delete from blackList
+end note
+
+requestor -> removeLinks: {linkIdList}
+activate removeLinks
+deactivate removeLinks
+
+@enduml

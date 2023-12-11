@@ -1,0 +1,19 @@
+@startuml 205_listAllTriggers
+skinparam responseMessageBelowArrow true
+
+title
+RequestForListingAllTriggersCausesListingOfTimeBasedPowerSavingTriggers
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/list-all-triggers" as listTriggers
+
+
+requestor -> listTriggers
+activate listTriggers
+
+listTriggers --> requestor: {triggerList}
+
+deactivate listTriggers
+
+@enduml

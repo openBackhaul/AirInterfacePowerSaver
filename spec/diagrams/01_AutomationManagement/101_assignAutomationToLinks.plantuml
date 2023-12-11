@@ -1,0 +1,23 @@
+@startuml 101_assignAutomationToLinks
+skinparam responseMessageBelowArrow true
+
+title
+RequestForAssigningAutomationToLinksCausesListUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/assign-automation-to-links" as assignAutomation
+
+note over assignAutomation
+- add automationName for all links in linkIdList
+- if automationName already assigned for an 
+  individual link, entry is not changed
+- if new links are seen: add them together 
+  with the provided automationName 
+end note
+requestor -> assignAutomation: {automationName, linkIdList}
+activate assignAutomation
+
+deactivate assignAutomation
+
+@enduml

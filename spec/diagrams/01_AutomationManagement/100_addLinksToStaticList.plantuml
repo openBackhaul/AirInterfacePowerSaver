@@ -1,0 +1,22 @@
+@startuml 100_addLinksToStaticList
+skinparam responseMessageBelowArrow true
+
+title
+RequestForAddingLinksToStaticListCausesListUpdate
+end title
+
+participant "external" as requestor
+participant "AIPS://v1/add-links-to-static-list" as addLinks
+
+note over addLinks
+  write new link-IDs to file 
+  (without automations);
+  no changes to already existing 
+  entries
+end note
+requestor -> addLinks: {linkIdList}
+activate addLinks
+
+deactivate addLinks
+
+@enduml
