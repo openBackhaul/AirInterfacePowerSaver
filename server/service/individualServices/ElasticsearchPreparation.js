@@ -1,11 +1,28 @@
 const { elasticsearchService, getIndexAliasAsync, operationalStateEnum } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
+const logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
+const LayerProtocol = require('onf-core-model-ap/applicationPattern/onfModel/models/LayerProtocol');
+
+module.exports = {
+    prepareElasticsearch,
+    getCorrectEsUuid
+}
+
+/**
+ * Returns Elasticsearch client UUID (decision made upon links param). CC UUID ends with '000', LINKS UUID ends with '001'.
+ * @param {boolean} links if true, return LINKS ES UUID, if false, return CC ES UUID
+ * @returns {Promise<String>} LINKS ES UUID or CC ES UUID
+ */
+async function getCorrectEsUuid(links) {
+    let uuids = await logicalTerminationPoint.getUuidListForTheProtocolAsync(LayerProtocol.layerProtocolNameEnum.ES_CLIENT);
+    return links ? uuids.find(uuid => uuid.endsWith('001')) : uuids.find(uuid => uuid.endsWith('000'));
+}
 
 /**
  * @description Elasticsearch preparation. Checks if ES instance is configured properly.
  * As first step, tries pinging the ES instance. If this doesn't work, ES
  * is considered not reachable or configured with wrong connection parameters.
  *
- * AIPS application will still run and allow the operator to properly configure
+ * ALT application will still run and allow the operator to properly configure
  * ES connection parameters through REST API.
  *
  * If the ES instance is reachable, as next steps it will try to find existing or
@@ -13,36 +30,47 @@ const { elasticsearchService, getIndexAliasAsync, operationalStateEnum } = requi
  *
  * @returns {Promise<void>}
  */
-module.exports = async function prepareElasticsearch() {
+async function prepareElasticsearch() {
     console.log("Configuring Elasticsearch...");
-    let ping = await elasticsearchService.getElasticsearchClientOperationalStateAsync();
-    if (ping === operationalStateEnum.UNAVAILABLE) {
-        console.error(`Elasticsearch unavailable. Skipping Elasticsearch configuration.`);
-        return;
+    let uuids = await logicalTerminationPoint.getUuidListForTheProtocolAsync(LayerProtocol.layerProtocolNameEnum.ES_CLIENT);
+    for (let uuid of uuids) {
+        let ping = await elasticsearchService.getElasticsearchClientOperationalStateAsync(uuid);
+        if (ping === operationalStateEnum.UNAVAILABLE) {
+           let err = new Error(`Elasticsearch unavailable. Skipping Elasticsearch configuration.`);
+           throw err;
+        }
+        if (uuid === await getCorrectEsUuid(false)) {
+            await configureControlConstructIndexTemplate(uuid);
+        } else if (uuid === await getCorrectEsUuid(true)) {
+            await configureLinksIndexTemplate(uuid);
+        }
+        await elasticsearchService.createAlias(uuid);
     }
-    await createIndexTemplate();
-    await elasticsearchService.createAlias();
     console.log('Elasticsearch is properly configured!');
 }
 
 /**
- * @description Creates/updates index-template with AIPS proprietary mapping.
+ * @description Creates/updates index-template for control-construct index.
  *
- * Proprietary mapping is needed for the field 'link-id' which is only
- * searchable if it's field is 'keyword'. By default ES denotes string fields
- * as 'text'.
+ * ALT stores entire control-construct objects for all applications. The design
+ * here is to have one document (control-construct) per application. The top
+ * level fields should be uuid, logical-termination-point, profile-collection
+ * and forwarding-domain.
  *
- * This template serves as binding between service policy and index.
+ * UUID field is a structured one and ES would split it by '-' if stored
+ * as text, therefore we will store it as keyword.
+ * The rest of the fields will ES store as objects by default, but objects are
+ * not searchable, therefore 'flattened' will be used as type. This allows for
+ * nested UUID search, which will return the entire control-construct.
+ *
  * If index-alias is changed, this index-template will be rewritten to reflect
- * the change, as we do not wish to continue applying service policy on an
- * index-alias that does not exist.
+ * the change.
  *
- * Service policy is not set at this point in the index-template.
  * @returns {Promise<void>}
  */
-async function createIndexTemplate() {
-    let indexAlias = await getIndexAliasAsync();
-    let client = await elasticsearchService.getClient(false);
+async function configureControlConstructIndexTemplate(uuid) {
+    let indexAlias = await getIndexAliasAsync(uuid);
+    let client = await elasticsearchService.getClient(false, uuid);
     // disable creation of index, if it's not yet created by the app
     await client.cluster.putSettings({
         body: {
@@ -51,9 +79,9 @@ async function createIndexTemplate() {
             }
         }
     });
-    let found = await elasticsearchService.getExistingIndexTemplate();
+    let found = await elasticsearchService.getExistingIndexTemplate(uuid);
     let iTemplate = found ? found : {
-        name: 'aips-index-template',
+        name: 'alt-cc-index-template',
         body: {
             index_patterns: `${indexAlias}-*`,
             template: {
@@ -64,19 +92,77 @@ async function createIndexTemplate() {
         }
     }
     await client.cluster.putComponentTemplate({
-        name: 'aips-pss-mappings',
+        name: 'alt-cc-mappings',
         body: {
             template: {
                 mappings: {
                     properties: {
-                        'link-id': { type: 'keyword' },
-                        'deviation-from-original-state': { type: 'text' },
-                        'module-to-restore-original-state': { type: 'text' }
+                        'uuid': { type: 'keyword' },
+                        'logical-termination-point': { type: 'flattened' },
+                        'forwarding-domain': { type: 'flattened' }
                     }
                 }
             }
         }
     });
-    iTemplate.body.composed_of = ['aips-pss-mappings'];
+    iTemplate.body.composed_of = ['alt-cc-mappings'];
+    await client.indices.putIndexTemplate(iTemplate);
+}
+
+/**
+ * @description Creates/updates index-template for links index.
+ *
+ * In this index ALT will store links (point to multi-point). The design
+ * here is to have one document per link.
+ *
+ * UUID field is a structured one and ES would split it by '-' if stored
+ * as text, therefore we will store it as keyword.
+ * The 'link-port' field will ES store as object by default, but object is
+ * not searchable and the inner relationship could be lost, therefore 'nested'
+ * will be used as type. This allows for nested UUID search, which will return
+ * the entire link. Also all inner fields are mapped explicitly, since we also
+ * need logical-termination-point to be mapped as keyword too.
+ *
+ * If index-alias is changed, this index-template will be rewritten to reflect
+ * the change.
+ *
+ * @returns {Promise<void>}
+ */
+async function configureLinksIndexTemplate(uuid) {
+    let indexAlias = await getIndexAliasAsync(uuid);
+    let client = await elasticsearchService.getClient(false, uuid);
+    let found = await elasticsearchService.getExistingIndexTemplate(uuid);
+    let iTemplate = found ? found : {
+        name: 'alt-links-index-template',
+        body: {
+            index_patterns: `${indexAlias}-*`,
+            template: {
+                settings: {
+                    'index.lifecycle.rollover_alias': indexAlias
+                }
+            }
+        }
+    }
+    await client.cluster.putComponentTemplate({
+        name: 'alt-links-mappings',
+        body: {
+            template: {
+                mappings: {
+                    properties: {
+                        uuid: { type: 'keyword' },
+                        'link-port': {
+                            type: 'nested',
+                            properties: {
+                                'local-id': { type: 'short' },
+                                'port-direction': { type: 'keyword' },
+                                'logical-termination-point': { type: 'keyword' }
+                              }
+                        }
+                    }
+                }
+            }
+        }
+    });
+    iTemplate.body.composed_of = ['alt-links-mappings'];
     await client.indices.putIndexTemplate(iTemplate);
 }

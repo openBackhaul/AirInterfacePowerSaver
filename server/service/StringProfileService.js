@@ -1,5 +1,6 @@
 'use strict';
 
+const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 
 /**
  * Returns the enumeration values of the String
@@ -7,16 +8,21 @@
  * uuid String 
  * returns inline_response_200_34
  **/
-exports.getStringProfileEnumeration = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:enumeration" : [ "string-profile-1-0:STRING_VALUE_TYPE_REACTIVE", "string-profile-1-0:STRING_VALUE_TYPE_PROTECTION", "string-profile-1-0:STRING_VALUE_TYPE_OFF" ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getStringProfileEnumeration = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "http-client-interface-1-0:release-number": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -28,16 +34,21 @@ exports.getStringProfileEnumeration = function(uuid) {
  * uuid String 
  * returns inline_response_200_35
  **/
-exports.getStringProfilePattern = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:pattern" : "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getStringProfilePattern = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "string-profile-1-0:pattern": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -49,16 +60,21 @@ exports.getStringProfilePattern = function(uuid) {
  * uuid String 
  * returns inline_response_200_33
  **/
-exports.getStringProfileStringName = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:string-name" : "operationMode"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getStringProfileStringName = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "string-profile-1-0:string-name": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -70,16 +86,21 @@ exports.getStringProfileStringName = function(uuid) {
  * uuid String 
  * returns inline_response_200_36
  **/
-exports.getStringProfileStringValue = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "string-profile-1-0:string-value" : "string-profile-1-0:STRING_VALUE_TYPE_OFF"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getStringProfileStringValue = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "string-profile-1-0:string-value": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -92,9 +113,14 @@ exports.getStringProfileStringValue = function(uuid) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putStringProfileStringValue = function(body,uuid) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.putStringProfileStringValue = async function(body,url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      console.log(body);
+      await fileOperation.writeToDatabaseAsync(url, body, false);
+      resolve();
+    } catch (error) {
+      reject();
+    }
   });
 }
-

@@ -1,64 +1,84 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
 var GenericResponseProfile = require('../service/GenericResponseProfileService');
+var ResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
+var ResponseCode = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+var OamLogService = require('onf-core-model-ap/applicationPattern/services/OamLogService');
 
-module.exports.getGenericResponseProfileDatatype = function getGenericResponseProfileDatatype (req, res, next, uuid) {
-  GenericResponseProfile.getGenericResponseProfileDatatype(uuid)
+module.exports.getGenericResponseProfileDatatype = async function getGenericResponseProfileDatatype (req, res, next, uuid) {
+  let responseCode = ResponseCode.code.OK;
+  await GenericResponseProfile.getGenericResponseProfileDatatype(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      ResponseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = ResponseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  OamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getGenericResponseProfileDescription = function getGenericResponseProfileDescription (req, res, next, uuid) {
-  GenericResponseProfile.getGenericResponseProfileDescription(uuid)
+module.exports.getGenericResponseProfileDescription = async function getGenericResponseProfileDescription (req, res, next, uuid) {
+  let responseCode = ResponseCode.code.OK;
+  await GenericResponseProfile.getGenericResponseProfileDescription(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      ResponseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = ResponseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  OamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getGenericResponseProfileFieldName = function getGenericResponseProfileFieldName (req, res, next, uuid) {
-  GenericResponseProfile.getGenericResponseProfileFieldName(uuid)
+module.exports.getGenericResponseProfileFieldName = async function getGenericResponseProfileFieldName (req, res, next, uuid) {
+  let responseCode = ResponseCode.code.OK;
+  await GenericResponseProfile.getGenericResponseProfileFieldName(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      ResponseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = ResponseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  OamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getGenericResponseProfileOperationName = function getGenericResponseProfileOperationName (req, res, next, uuid) {
-  GenericResponseProfile.getGenericResponseProfileOperationName(uuid)
+module.exports.getGenericResponseProfileOperationName = async function getGenericResponseProfileOperationName (req, res, next, uuid) {
+  let responseCode = ResponseCode.code.OK;
+  await GenericResponseProfile.getGenericResponseProfileOperationName(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      ResponseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = ResponseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  OamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getGenericResponseProfileValue = function getGenericResponseProfileValue (req, res, next, uuid) {
-  GenericResponseProfile.getGenericResponseProfileValue(uuid)
+module.exports.getGenericResponseProfileValue = async function getGenericResponseProfileValue (req, res, next, uuid) {
+  let responseCode = ResponseCode.code.OK;
+  await GenericResponseProfile.getGenericResponseProfileValue(req.url)
     .then(function (response) {
-      utils.writeJson(res, response);
+      ResponseBuilder.buildResponse(res, responseCode, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      let sentResp = ResponseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
+  OamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putGenericResponseProfileValue = function putGenericResponseProfileValue (req, res, next, body, uuid) {
-  GenericResponseProfile.putGenericResponseProfileValue(body, uuid)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+module.exports.putGenericResponseProfileValue = async function putGenericResponseProfileValue (req, res, next, body, uuid) {
+  let responseCode = ResponseCode.code.NO_CONTENT;
+    await GenericResponseProfile.putGenericResponseProfileValue(req.url, body)
+        .then(function (response) {
+          ResponseBuilder.buildResponse(res, responseCode, response);
+        })
+        .catch(function (response) {
+            let sentResp = ResponseBuilder.buildResponse(res, undefined, response);
+            responseCode = sentResp.code;
+        });
+    OamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };

@@ -6,10 +6,10 @@ var http = require('http');
 var oas3Tools = require('openbackhaul-oas3-tools');
 var serverPort = 4007;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
-const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
+const ElasticsearchPreparation = require('./service/individualServices/ElasticsearchPreparation');
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
- //appCommons.openApiValidatorOptions.validateSecurity = false;
+ appCommons.openApiValidatorOptions.validateSecurity = false;
 
 // swaggerRouter configuration
 var options = {
@@ -26,7 +26,7 @@ appCommons.setupExpressApp(app);
 //setting the path to the database 
 global.databasePath = './database/load.json'
 
-prepareElasticsearch(false).catch(err => {
+ElasticsearchPreparation.prepareElasticsearch(false).catch(err => {
     console.error(`Error preparing Elasticsearch : ${err}`);
 }).finally(() => {
     // Initialize the Swagger middleware

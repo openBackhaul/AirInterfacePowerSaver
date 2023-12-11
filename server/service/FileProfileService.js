@@ -1,5 +1,6 @@
 'use strict';
 
+var fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 
 /**
  * Returns the description of the file
@@ -7,16 +8,21 @@
  * uuid String 
  * returns inline_response_200_25
  **/
-exports.getFileProfileFileDescription = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "file-profile-1-0:file-description" : "Holds administrator-names, user-names, authorization codes and allowed-methods."
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getFileProfileFileDescription = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "file-profile-1-0:file-description": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -28,16 +34,21 @@ exports.getFileProfileFileDescription = function(uuid) {
  * uuid String 
  * returns inline_response_200_24
  **/
-exports.getFileProfileFileIdentifier = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "file-profile-1-0:file-identifier" : "applicationData"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getFileProfileFileIdentifier = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "file-profile-1-0:file-identifier": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -49,16 +60,21 @@ exports.getFileProfileFileIdentifier = function(uuid) {
  * uuid String 
  * returns inline_response_200_26
  **/
-exports.getFileProfileFileName = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "file-profile-1-0:file-name" : "application-data.json"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getFileProfileFileName = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "file-profile-1-0:file-name": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -70,16 +86,21 @@ exports.getFileProfileFileName = function(uuid) {
  * uuid String 
  * returns inline_response_200_27
  **/
-exports.getFileProfileOperation = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "file-profile-1-0:operation" : "file-profile-1-0:OPERATION_TYPE_READ_ONLY"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getFileProfileOperation = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "file-profile-1-0:operation": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -92,9 +113,15 @@ exports.getFileProfileOperation = function(uuid) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putFileProfileFileName = function(body,uuid) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.putFileProfileFileName = function(url, body) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      console.log(body);
+      await fileOperation.writeToDatabaseAsync(url, body, false);
+      resolve();
+    } catch (error) {
+      reject();
+    }
   });
 }
 
@@ -106,9 +133,15 @@ exports.putFileProfileFileName = function(body,uuid) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putFileProfileOperation = function(body,uuid) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.putFileProfileOperation = function(url, body) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      console.log(body);
+      await fileOperation.writeToDatabaseAsync(url, body, false);
+      resolve();
+    } catch (error) {
+      reject();
+    }
   });
 }
 
