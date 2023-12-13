@@ -4,6 +4,9 @@ const PowerSavingStatus = require("./individualServices/powerSavingStatus");
 const PssAttributes = require('./individualServices/powerSavingAttributes');
 var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+
 
 /**
  * Initiates process of embedding a new release
@@ -16,10 +19,17 @@ var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
-  });
+exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
+
+  let newApplicationDetails = body;
+  let currentReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+  let newReleaseNumber = body["new-application-release"];
+
+  if (newReleaseNumber !== currentReleaseNumber) {
+
+    softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
+      .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+  }
 }
 
 
