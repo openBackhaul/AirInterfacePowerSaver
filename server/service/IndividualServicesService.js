@@ -2,7 +2,9 @@
 const createHttpError = require('http-errors');
 const PowerSavingStatus = require("./individualServices/powerSavingStatus");
 const PssAttributes = require('./individualServices/powerSavingAttributes');
-var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
+const ReactivateTransmittersOfLink = require('./individualServices/ReactivateTransmittersOfLink');
 
 
 /**
@@ -190,10 +192,11 @@ exports.providePowerSavingStatusOfLink = function (body) {
        ****************************************************************************************/
       if (powerSavingStatusEntryResponse.powerSavingStatusEntry == undefined || Object.keys(powerSavingStatusEntryResponse.powerSavingStatusEntry).length == 0) {
         let powerSavingStatusEntry = {};
-        powerSavingStatusEntry[PssAttributes.LINK.LINK_ID] = linkId;
         powerSavingStatusEntry[PssAttributes.DEVIATION_FROM_ORIGINAL_STATE.LIST] = [];
         powerSavingStatusEntry[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.LIST] = [];
         powerSavingStatusEntryResponse.powerSavingStatusEntry = powerSavingStatusEntry;
+      } else {
+        delete powerSavingStatusEntryResponse.powerSavingStatusEntry[PssAttributes.LINK.LINK_ID];
       }
       responseBody.response = powerSavingStatusEntryResponse.powerSavingStatusEntry;
       responseBody.took = powerSavingStatusEntryResponse.took;
@@ -241,18 +244,36 @@ exports.provideTransmitterStatusOfParallelLinks = function (body, user, originat
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * returns inline_response_200_1
+ * returns requestId Identifier of the request for all transmitters reactivation
  **/
 exports.reactivateTransmittersOfLink = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "request-id": "305251234-101120-1400"
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+      /****************************************************************************************
+       * forms and responds with generated request-id for user reference
+       ****************************************************************************************/
+      let linkId = body[PssAttributes.LINK.LINK_ID];
+      let requestId = await IndividualServiceUtility.generateRequestID(linkId);
+      let response = {
+        'request-id': requestId
+      };
+      /****************************************************************************************
+       * triggers further callbacks to happen in background 
+       *      RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction
+       ****************************************************************************************/
+      ReactivateTransmittersOfLink.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction(body, requestId, requestHeaders);
+      resolve(response);
+      
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }

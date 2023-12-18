@@ -5,7 +5,10 @@ const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/con
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
-
+const OnfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
+const restClient = require('onf-core-model-ap/applicationPattern/rest/client/Client');
+const createHttpError = require('http-errors');
+const Qs = require('qs');
 
 /**
  * This function fetches the string value from the string profile based on the expected string name.
@@ -35,7 +38,7 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
 
   } catch (error) {
     console.log(`getStringProfileInstanceValue is not success with ${error}`);
-    return new createHttpError.InternalServerError();  
+    return new createHttpError.InternalServerError();
   }
 }
 
@@ -69,7 +72,8 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
 
   } catch (error) {
     console.log(`getQueryAndPathParameter is not success with ${error}`);
-    return new createHttpError.InternalServerError();    }
+    return new createHttpError.InternalServerError();
+  }
 }
 
 
@@ -78,14 +82,14 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
  * @param {String} forwardingConstructName name of the forwarding construct to fetch consequent op-c uuid.
  * @return {Object} consequentOperationClient that contains op-c uuid , operation-name.
  */
-exports.getConsequentOperationClient = async function(forwardingConstructName) {
-  let consequentOperationClient= {};
+exports.getConsequentOperationClient = async function (forwardingConstructName) {
+  let consequentOperationClient = {};
   try {
     let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingConstructName);
     let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
-    consequentOperationClient.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]; 
+    consequentOperationClient.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
     consequentOperationClient.operationName = await OperationClientInterface.getOperationNameAsync(consequentOperationClient.operationClientUuid);
-  } catch(error) {
+  } catch (error) {
     console.log(`consequentOperationClient is not success with ${error}`);
     return new createHttpError.InternalServerError();
   }
@@ -97,20 +101,89 @@ exports.getConsequentOperationClient = async function(forwardingConstructName) {
  * @param {String} linkId Identifier of the microwave link for which user requested data.
  * @return {requestId} requestId that is generated in the format "linkId-CurrentDate-CurrentTime".
  */
-exports.generateRequestID = async function(linkId) {
-    let requestId = '';
-    try {
-      let currentDate = new Date();
-      let formattedDate = currentDate.getDate().toString() + 
-             (currentDate.getMonth() + 1).toString() + 
-                     currentDate.getFullYear().toString() + '-' 
-                     + currentDate.getHours().toString() + 
-                     currentDate.getMinutes().toString() + 
-                     currentDate.getSeconds().toString();
-      requestId = linkId + '-' + formattedDate;
-      return requestId;
-    } catch (error) {
-      console.log(error);
-      return (new createHttpError.InternalServerError(`${err}`));
-    }
+exports.generateRequestID = async function (linkId) {
+  let requestId = '';
+  try {
+    let currentDate = new Date();
+    let formattedDate = currentDate.getDate().toString() +
+      (currentDate.getMonth() + 1).toString() +
+      currentDate.getFullYear().toString() + '-'
+      + currentDate.getHours().toString() +
+      currentDate.getMinutes().toString() +
+      currentDate.getSeconds().toString();
+    requestId = linkId + '-' + formattedDate;
+    return requestId;
+  } catch (error) {
+    console.log(error);
+    return (new createHttpError.InternalServerError(`${error}`));
   }
+}
+
+/**
+ * This function triggers the rest request based on data given. 
+ * @param {String} httpMethod http method of the request.
+ * @param {String} remoteProtocol remote protocol for trigerring the request.
+ * @param {Object} remoteAddress remote address for trigerring the request
+ * @param {String} remotePort remote port for trigerring the request 
+ * @param {String} operationName operation name to which the request shall be trigerred.
+ * @param {Object} requestHeader Holds information about all required header parameters to be sent in request.
+ * @param {Object} requestBody request body to be sent in request
+ * @param {Object} params path and query parameters
+ * @return response Response receiving from the request
+ */
+exports.triggerRestRequest = async function (httpMethod, remoteProtocol, remoteAddress, remotePort, operationName, requestHeader, requestBody, params) {
+  try {
+    let pathParams = new Map();
+    let queryParams = {};
+    if (params) {
+      queryParams = params.query;
+      pathParams = params.path;
+      if (pathParams) {
+        pathParams.forEach((value, param) => {
+          operationName = operationName.replace(param, value)
+        });
+      }
+    }
+    remoteAddress = await exports.getConfiguredRemoteAddress(remoteAddress);
+    let remotePath = remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
+    if (operationName.indexOf("/") !== 0) {
+      operationName = "/" + operationName
+    }
+    let url = remotePath + operationName;
+    requestHeader = OnfAttributeFormatter.modifyJsonObjectKeysToKebabCase(requestHeader);
+    let request = {
+      method: httpMethod,
+      url: url,
+      headers: requestHeader,
+      data: requestBody,
+      paramsSerializer: function (params) {
+        return Qs.stringify(params, { arrayFormat: 'brackets' })
+      }
+    }
+    let response = await restClient.post(request);
+    console.log("\n callback : " + httpMethod + " " + url + " header :" + JSON.stringify(requestHeader) +
+      "body :" + JSON.stringify(requestBody) + "response code:" + response.status)
+    return response;
+  } catch (error) {
+    console.log(error);
+    return (new createHttpError.InternalServerError(`${error}`));
+  }
+}
+
+/**
+ * This function gets the configured remote address from the given object.
+ * @param {Object} remoteAddress remote address object that contains actual ip-address/domain-name
+ * @return {String} filtered remote-address
+ */
+exports.getConfiguredRemoteAddress = async function (remoteAddress) {
+    let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
+    if (domainName in remoteAddress) {
+      remoteAddress = remoteAddress["domain-name"];
+    } else {
+      remoteAddress = remoteAddress[
+        onfAttributes.TCP_CLIENT.IP_ADDRESS][
+        onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
+      ];
+    }
+  return remoteAddress;
+}

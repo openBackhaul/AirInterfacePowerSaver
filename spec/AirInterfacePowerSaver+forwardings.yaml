@@ -71,6 +71,12 @@ forwardings:
         uuid: aips-0-0-9-op-s-bm-011
       - server-name: /v1/inquire-basic-auth-approvals
         uuid: aips-0-0-9-op-s-bm-012
+      - server-name: /v1/dispose-remainders-of-deregistered-application
+        uuid: aips-0-0-9-op-s-bm-013
+      - server-name: /v1/inform-about-preceding-release
+        uuid: aips-0-0-9-op-s-bm-014
+      - server-name: /v1/update-client-of-subsequent-release
+        uuid: aips-0-0-9-op-s-bm-015
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aips-0-0-9-op-s-im-000
       - server-name: /v1/start-application-in-generic-representation
@@ -177,7 +183,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-is-705
     consequent-requests:
       - client-name: EATL://v1/record-service-request
-        uuid: aips-0-0-9-op-c-bs-eatl-2-0-1-000
+        uuid: aips-0-0-9-op-c-bs-eatl-2-1-0-000
 
   - forwarding-name: OamRequestCausesLoggingRequest
     uuid: aips-0-0-9-op-fc-bm-003
@@ -194,7 +200,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: OL://v1/record-oam-request
-        uuid: aips-0-0-9-op-c-bs-ol-2-0-1-000
+        uuid: aips-0-0-9-op-c-bs-ol-2-1-0-000
 
   - forwarding-name: BasicAuthRequestCausesInquiryForAuthentication
     uuid: aips-0-0-9-op-fc-bm-005
@@ -310,7 +316,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-im-000
     consequent-requests:
       - client-name: ALT://v1/update-ltp
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-001
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-001
 
   - forwarding-name: ServiceRequestCausesLtpDeletionRequest
     uuid: aips-0-0-9-op-fc-bm-007
@@ -329,7 +335,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-bm-013
     consequent-requests:
       - client-name: ALT://v1/delete-ltp-and-dependents
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-002
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-002
 
   - forwarding-name: ServiceRequestCausesFcUpdateRequest
     uuid: aips-0-0-9-op-fc-bm-008
@@ -346,7 +352,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/update-fc
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-003
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-003
 
   - forwarding-name: ServiceRequestCausesFcPortUpdateRequest
     uuid: aips-0-0-9-op-fc-bm-009
@@ -363,7 +369,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/update-fc-port
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-004
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-004
 
   - forwarding-name: ServiceRequestCausesFcPortDeletionRequest
     uuid: aips-0-0-9-op-fc-bm-010
@@ -382,7 +388,7 @@ forwardings:
         uuid: aips-0-0-9-op-s-bm-004
     consequent-requests:
       - client-name: ALT://v1/delete-fc-port
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-005
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-005
 
   - forwarding-name: OamRequestCausesLtpUpdateRequest
     uuid: aips-0-0-9-op-fc-bm-011
@@ -399,7 +405,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/update-ltp
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-001
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-001
 
   - forwarding-name: OamRequestCausesLtpDeletionRequest
     uuid: aips-0-0-9-op-fc-bm-012
@@ -416,7 +422,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/delete-ltp-and-dependents
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-002
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-002
 
   - forwarding-name: OamRequestCausesFcUpdateRequest
     uuid: aips-0-0-9-op-fc-bm-013
@@ -433,7 +439,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/update-fc
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-003
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-003
 
   - forwarding-name: OamRequestCausesFcPortUpdateRequest
     uuid: aips-0-0-9-op-fc-bm-014
@@ -450,7 +456,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/update-fc-port
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-004
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-004
 
   - forwarding-name: OamRequestCausesFcPortDeletionRequest
     uuid: aips-0-0-9-op-fc-bm-015
@@ -467,7 +473,7 @@ forwardings:
     initiating-requests:
     consequent-requests:
       - client-name: ALT://v1/delete-fc-port
-        uuid: aips-0-0-9-op-c-bm-alt-2-0-1-005
+        uuid: aips-0-0-9-op-c-bm-alt-2-1-0-005
 
   - forwarding-name: RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
     uuid: aips-1-0-0-op-fc-is-100
@@ -481,7 +487,7 @@ forwardings:
       - server-name: /v1/remove-links-from-static-list
         uuid: aips-1-0-0-op-s-is-102
     consequent-requests:
-      - client-name: /v1/list-links
+      - client-name: AIPS://v1/list-links
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-100
 
   - forwarding-name: RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
@@ -496,7 +502,7 @@ forwardings:
       - server-name: /v1/remove-links-from-static-list
         uuid: aips-1-0-0-op-s-is-102
     consequent-requests: 
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
 
   - forwarding-name: RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
@@ -511,7 +517,7 @@ forwardings:
       - server-name: /v1/remove-links-from-static-list
         uuid: aips-1-0-0-op-s-is-102
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-104
 
   - forwarding-name: RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
@@ -526,7 +532,7 @@ forwardings:
       - server-name: /v1/unassign-automation-from-links
         uuid: aips-1-0-0-op-s-is-103
     consequent-requests:
-      - client-name: /v1/list-links
+      - client-name: AIPS://v1/list-links
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-100
 
   - forwarding-name: RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
@@ -541,7 +547,7 @@ forwardings:
       - server-name: /v1/unassign-automation-from-links
         uuid: aips-1-0-0-op-s-is-103
     consequent-requests: 
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
 
   - forwarding-name: RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
@@ -556,7 +562,7 @@ forwardings:
       - server-name: /v1/unassign-automation-from-links
         uuid: aips-1-0-0-op-s-is-103
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-104
 
   - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
@@ -571,7 +577,7 @@ forwardings:
       - server-name: /v1/unassign-all-automations-from-links
         uuid: aips-1-0-0-op-s-is-104
     consequent-requests:
-      - client-name: /v1/list-links
+      - client-name: AIPS://v1/list-links
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-100
 
   - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetAutomationNames
@@ -586,7 +592,7 @@ forwardings:
       - server-name: /v1/unassign-all-automations-from-links
         uuid: aips-1-0-0-op-s-is-104
     consequent-requests:
-      - client-name: /v1/list-automation-names
+      - client-name: AIPS://v1/list-automation-names
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-107
 
   - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
@@ -601,7 +607,7 @@ forwardings:
       - server-name: /v1/unassign-all-automations-from-links
         uuid: aips-1-0-0-op-s-is-104
     consequent-requests: 
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
 
   - forwarding-name: RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
@@ -616,7 +622,7 @@ forwardings:
       - server-name: /v1/unassign-all-automations-from-links
         uuid: aips-1-0-0-op-s-is-104
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-104
 
   - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
@@ -631,7 +637,7 @@ forwardings:
       - server-name: /v1/unassign-automation-from-all-links
         uuid: aips-1-0-0-op-s-is-105
     consequent-requests:
-      - client-name: /v1/list-links-with-specific-automation-assigned
+      - client-name: AIPS://v1/list-links-with-specific-automation-assigned
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-110
 
   - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
@@ -646,7 +652,7 @@ forwardings:
       - server-name: /v1/unassign-automation-from-all-links
         uuid: aips-1-0-0-op-s-is-105
     consequent-requests: 
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-103
 
   - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
@@ -661,7 +667,7 @@ forwardings:
       - server-name: /v1/unassign-automation-from-all-links
         uuid: aips-1-0-0-op-s-is-105
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-105
 
   - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments
@@ -676,7 +682,7 @@ forwardings:
       - server-name: /v1/add-links-to-black-list
         uuid: aips-1-0-0-op-s-is-120
     consequent-requests:
-      - client-name: /v1/list-links
+      - client-name: AIPS://v1/list-links
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-120
 
   - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentBlackList
@@ -691,7 +697,7 @@ forwardings:
       - server-name: /v1/add-links-to-black-list
         uuid: aips-1-0-0-op-s-is-120
     consequent-requests:
-      - client-name: /v1/list-links-in-black-list
+      - client-name: AIPS://v1/list-links-in-black-list
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-121
 
   - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue
@@ -706,7 +712,7 @@ forwardings:
       - server-name: /v1/add-links-to-black-list
         uuid: aips-1-0-0-op-s-is-120
     consequent-requests: 
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-122
 
   - forwarding-name: RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue
@@ -721,7 +727,7 @@ forwardings:
       - server-name: /v1/add-links-to-black-list
         uuid: aips-1-0-0-op-s-is-120
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-123
 
 
@@ -737,7 +743,7 @@ forwardings:
       - server-name: /v1/start-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-210
     consequent-requests:
-      - client-name: /v1/list-all-triggers
+      - client-name: AIPS://v1/list-all-triggers
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-201
 
   - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.GetLinkIdList
@@ -752,7 +758,7 @@ forwardings:
       - server-name: /v1/start-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-210
     consequent-requests:
-      - client-name: /v1/list-links-with-specific-automation-assigned
+      - client-name: AIPS://v1/list-links-with-specific-automation-assigned
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-200
 
   - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.InitiatePowerSaving
@@ -767,7 +773,7 @@ forwardings:
       - server-name: /v1/start-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-210
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-activation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-203
 
   - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.RemoveFromActivationQueue
@@ -782,7 +788,7 @@ forwardings:
       - server-name: /v1/start-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-210
     consequent-requests:
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-203
 
   - forwarding-name: RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.AddToDeactivationQueue
@@ -797,7 +803,7 @@ forwardings:
       - server-name: /v1/start-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-210
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-204
 
   - forwarding-name: RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.GetLinkList
@@ -812,7 +818,7 @@ forwardings:
       - server-name: /v1/stop-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-211
     consequent-requests:
-      - client-name: /v1/list-links-with-specific-automation-assigned
+      - client-name: AIPS://v1/list-links-with-specific-automation-assigned
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-200
 
   - forwarding-name: RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.RemoveFromActivationQueue
@@ -827,7 +833,7 @@ forwardings:
       - server-name: /v1/stop-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-211
     consequent-requests:
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-203
 
   - forwarding-name: RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.AddToDeactivationQueue
@@ -842,7 +848,7 @@ forwardings:
       - server-name: /v1/stop-time-based-power-saving
         uuid: aips-1-0-0-op-s-is-211
     consequent-requests:
-      - client-name: /v1/add-links-to-power-saving-deactivation-queue
+      - client-name: AIPS://v1/add-links-to-power-saving-deactivation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-204
 
   - forwarding-name: RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.BlackListCheck
@@ -857,7 +863,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: aips-0-0-9-op-s-bm-001
     consequent-requests:
-      - client-name: /v1/is-link-barred
+      - client-name: AIPS://v1/is-link-barred
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-400
 
   - forwarding-name: RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.SwitchRedundantTransmitterOff
@@ -872,7 +878,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: aips-0-0-9-op-s-bm-001
     consequent-requests:
-      - client-name: /v1/switch-redundant-transmitter-pair-off
+      - client-name: AIPS://v1/switch-redundant-transmitter-pair-off
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-402
 
   - forwarding-name: RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.RemoveRecordFromActivationQueue
@@ -887,7 +893,7 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: aips-0-0-9-op-s-bm-001
     consequent-requests:
-      - client-name: /v1/remove-links-from-power-saving-activation-queue
+      - client-name: AIPS://v1/remove-links-from-power-saving-activation-queue
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-401
 
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
@@ -902,7 +908,7 @@ forwardings:
       - server-name: /v1/switch-redundant-transmitter-pair-off
         uuid: aips-0-0-9-op-s-is-500
     consequent-requests:
-      - client-name: /v1/provide-transmitter-status-of-parallel-links
+      - client-name: AIPS://v1/provide-transmitter-status-of-parallel-links
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-500
 
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.Response
@@ -962,7 +968,7 @@ forwardings:
       - server-name: /v1/switch-redundant-transmitter-pair-off
         uuid: aips-0-0-9-op-s-is-500
     consequent-requests:
-      - client-name: /v1/record-power-saving-status
+      - client-name: AIPS://v1/record-power-saving-status
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-501
 
   - forwarding-name: RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOn
@@ -992,7 +998,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-9-op-s-is-510
     consequent-requests:
-      - client-name: /v1/provide-power-saving-status-of-link
+      - client-name: AIPS://v1/provide-power-saving-status-of-link
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-510
 
   - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.Response
@@ -1052,7 +1058,7 @@ forwardings:
       - server-name: /v1/reactivate-transmitters-of-link
         uuid: aips-0-0-9-op-s-is-510
     consequent-requests:
-      - client-name: /v1/record-power-saving-status
+      - client-name: AIPS://v1/record-power-saving-status
         uuid: aips-0-0-9-op-c-is-aips-0-0-9-511
 
   - forwarding-name: RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchBothTransmittersOff
