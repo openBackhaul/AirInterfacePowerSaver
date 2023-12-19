@@ -12,14 +12,18 @@ exports.getStringProfileEnumeration = function(url) {
   return new Promise(async function (resolve, reject) {
     try {
       var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
-      response['application/json'] = {
-        "http-client-interface-1-0:release-number": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
+      if (value != undefined) {
+        var response = {};
+        response['application/json'] = {
+          "string-profile-1-0:enumeration": value
+        };
+        if (Object.keys(response).length > 0) {
+          resolve(response[Object.keys(response)[0]]);
+        } else {
+          resolve();
+        }
+      }else{
+        throw "Requested attribute is not available";
       }
     } catch (error) {
       reject();
@@ -34,18 +38,22 @@ exports.getStringProfileEnumeration = function(url) {
  * uuid String 
  * returns inline_response_200_35
  **/
-exports.getStringProfilePattern = function(url) {
+exports.getStringProfilePattern = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
       var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
-      response['application/json'] = {
-        "string-profile-1-0:pattern": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
+      if (value != undefined) {
+        var response = {};
+        response['application/json'] = {
+          "string-profile-1-0:pattern": value
+        };
+        if (Object.keys(response).length > 0) {
+          resolve(response[Object.keys(response)[0]]);
+        } else {
+          resolve();
+        }
+      }else{
+        throw "Requested attribute is not available";
       }
     } catch (error) {
       reject();

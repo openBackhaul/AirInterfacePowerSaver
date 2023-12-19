@@ -158,7 +158,7 @@ exports.putElasticsearchClientApiKey = async function(url, body, uuid) {
     await fileOperation.writeToDatabaseAsync(url, body, false);
     // recreate the client with new connection data
     await elasticsearchService.getClient(true, uuid);
-    await ElasticsearchPreparation.prepareElasticsearch();
+    await ElasticsearchPreparation();
   }
 }
 
@@ -174,7 +174,7 @@ exports.putElasticsearchClientIndexAlias = async function(url, body, uuid) {
   let oldValue = await getIndexAliasAsync(uuid);
   if (oldValue !== body['elasticsearch-client-interface-1-0:index-alias']) {
     await fileOperation.writeToDatabaseAsync(url, body, false);
-    await ElasticsearchPreparation.prepareElasticsearch();
+    await ElasticsearchPreparation();
   }
 }
 
