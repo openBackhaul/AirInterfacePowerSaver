@@ -101,14 +101,14 @@ exports.getConsequentOperationClient = async function (forwardingConstructName) 
  * @param {String} linkId Identifier of the microwave link for which user requested data.
  * @return {requestId} requestId that is generated in the format "linkId-CurrentDate-CurrentTime".
  */
-exports.generateRequestID = async function (linkId) {
+exports.generateRequestId = async function (linkId) {
   let requestId = '';
   try {
     let currentDate = new Date();
     let formattedDate = currentDate.getDate().toString() +
       (currentDate.getMonth() + 1).toString() +
-      currentDate.getFullYear().toString() + '-'
-      + currentDate.getHours().toString() +
+      currentDate.getFullYear().toString() + '-' +
+      currentDate.getHours().toString() +
       currentDate.getMinutes().toString() +
       currentDate.getSeconds().toString();
     requestId = linkId + '-' + formattedDate;
@@ -157,7 +157,9 @@ exports.triggerRestRequest = async function (httpMethod, remoteProtocol, remoteA
       headers: requestHeader,
       data: requestBody,
       paramsSerializer: function (params) {
-        return Qs.stringify(params, { arrayFormat: 'brackets' })
+        return Qs.stringify(params, {
+          arrayFormat: 'brackets'
+        })
       }
     }
     let response = await restClient.post(request);
@@ -176,14 +178,14 @@ exports.triggerRestRequest = async function (httpMethod, remoteProtocol, remoteA
  * @return {String} filtered remote-address
  */
 exports.getConfiguredRemoteAddress = async function (remoteAddress) {
-    let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
-    if (domainName in remoteAddress) {
-      remoteAddress = remoteAddress["domain-name"];
-    } else {
-      remoteAddress = remoteAddress[
-        onfAttributes.TCP_CLIENT.IP_ADDRESS][
-        onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
-      ];
-    }
+  let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
+  if (domainName in remoteAddress) {
+    remoteAddress = remoteAddress["domain-name"];
+  } else {
+    remoteAddress = remoteAddress[
+      onfAttributes.TCP_CLIENT.IP_ADDRESS][
+      onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
+    ];
+  }
   return remoteAddress;
 }

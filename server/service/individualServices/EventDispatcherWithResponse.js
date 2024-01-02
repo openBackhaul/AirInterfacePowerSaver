@@ -8,6 +8,8 @@ const OnfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
 const RestRequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
 const ExecutionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
+const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
+const restClient = require('onf-core-model-ap/applicationPattern/rest/client/Client');
 
 /**
  * This function formulates the request body based on the operation name and application 
@@ -20,40 +22,40 @@ const ExecutionAndTraceService = require('onf-core-model-ap/applicationPattern/s
  * @param {String} httpMethod method of the request if undefined defaults to POST
  * @param {Object} params path and query parameters
  */
-exports.dispatchEvent = async function(operationClientUuid, httpRequestBody, user, xCorrelator, traceIndicator, customerJourney, httpMethod, params) {
+exports.dispatchEvent = async function (operationClientUuid, httpRequestBody, user, xCorrelator, traceIndicator, customerJourney, httpMethod, params) {
     let responseData = {};
     let operationKey = await OperationClientInterface.getOperationKeyAsync(
         operationClientUuid);
     let operationName = await OperationClientInterface.getOperationNameAsync(
         operationClientUuid);
- 
+
     let httpClientUuid = await LogicalTerminationPoint.getServerLtpListAsync(operationClientUuid);
     let serverApplicationName = await HttpClientInterface.getApplicationNameAsync(httpClientUuid[0]);
     let serverApplicationReleaseNumber = await HttpClientInterface.getReleaseNumberAsync(httpClientUuid[0]);
     let originator = await HttpServerInterface.getApplicationNameAsync();
 
     let httpRequestHeader = new RequestHeader(
-        user, 
+        user,
         originator,
-        xCorrelator, 
-        traceIndicator, 
-        customerJourney, 
+        xCorrelator,
+        traceIndicator,
+        customerJourney,
         operationKey
-        );
+    );
     httpRequestHeader = OnfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeader);
-    
+
     let response = await RestRequestBuilder.BuildAndTriggerRestRequest(
         operationClientUuid,
-        httpMethod, 
-        httpRequestHeader, 
-        httpRequestBody, 
+        httpMethod,
+        httpRequestHeader,
+        httpRequestBody,
         params
-        );
+    );
     let responseCode = response.status;
     if (responseCode.toString().startsWith("2")) {
         responseData = response.data;
-        if("code" in responseData){
-            if(!(responseData[code].toString().startsWith("2"))){
+        if ("code" in responseData) {
+            if (!(responseData[code].toString().startsWith("2"))) {
                 responseData = {};
             }
         }
@@ -73,4 +75,45 @@ exports.dispatchEvent = async function(operationClientUuid, httpRequestBody, use
             })} failed with error: ${error.message}`));
     }
     return responseData;
+}
+
+/**
+ * This function Builds and trigger request to the requestor 
+ * @param {String} requestorProtocol protocol to address the requestor
+ * @param {String} requestorAddress address of the requestor
+ * @param {String} requestorPort port to address the requestor 
+ * @param {String} requestorReceiveOperation operation name to address the requestor. 
+ * @param {Object} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc. 
+ * @param {Object} requestBody request body for the operation
+ * @param {String} httpMethod method of the request
+ * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
+ */
+exports.BuildAndTriggerRestRequestToRequestor = async function (requestorProtocol, requestorAddress, requestorPort, requestorReceiveOperation, requestHeaders, requestBody, httpMethod, traceIndicatorIncrementer) {
+    let url = requestorProtocol.toLowerCase() + "://" + requestorAddress + ":" + requestorPort +
+        requestorReceiveOperation;
+
+    /******************************************************************************************************************
+     *  Fetching of Operation key to be updated based on the decision made on issue
+     *****************************************************************************************************************/
+
+    let operationUuid = await OperationServerInterface.getOperationServerUuidAsync(requestorReceiveOperation);
+    let operationKey = await OperationServerInterface.getOperationKeyAsync(operationUuid);
+    let originator = await HttpServerInterface.getApplicationNameAsync();
+    let httpRequestHeader = new RequestHeader(
+        requestHeaders.user,
+        originator,
+        requestHeaders.xCorrelator,
+        requestHeaders.traceIndicator + "." + traceIndicatorIncrementer,
+        requestHeaders.customerJourney,
+        operationKey
+    );
+    httpRequestHeader = OnfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeader);
+    let request = {
+        method: httpMethod,
+        url: url,
+        headers: httpRequestHeader,
+        data: requestBody
+    }
+    let responseBody = await restClient.post(request);
+    return responseBody;
 }

@@ -22,7 +22,7 @@ module.exports.bequeathYourDataAndDie = async function bequeathYourDataAndDie(re
       responseCode = sentResp.code;
       responseBodyToDocument = sentResp.body;
     });
-    executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.deleteLinkFromPowerSavingTable = async function deleteLinkFromPowerSavingTable(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -32,7 +32,7 @@ module.exports.deleteLinkFromPowerSavingTable = async function deleteLinkFromPow
   await IndividualServices.deleteLinkFromPowerSavingTable(body)
     .then(async function (responseBody) {
       responseCode = responseBody.responseCode;
-      responseBodyToDocument = responseBody.responseBody; 
+      responseBodyToDocument = responseBody.responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url, responseBody.took);
       restResponseBuilder.buildResponse(res, responseCode, responseBodyToDocument, responseHeader);
     }).catch(async function (responseBody) {
@@ -118,14 +118,30 @@ module.exports.providePowerSavingStatusOfLink = async function providePowerSavin
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.provideTransmitterStatusOfParallelLinks = function provideTransmitterStatusOfParallelLinks(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  IndividualServices.provideTransmitterStatusOfParallelLinks(body, user, originator, xCorrelator, traceIndicator, customerJourney)
-    .then(function (response) {
-      utils.writeJson(res, response);
+module.exports.provideTransmitterStatusOfParallelLinks = async function provideTransmitterStatusOfParallelLinks(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  let requestHeaders = {
+    user,
+    originator,
+    xCorrelator,
+    traceIndicator,
+    customerJourney
+  };
+  await IndividualServices.provideTransmitterStatusOfParallelLinks(body, requestHeaders)
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      restResponseBuilder.buildResponse(res, responseCode, responseBodyToDocument, responseHeader);
     })
-    .catch(function (response) {
-      utils.writeJson(res, response);
+    .catch(async function (responseBody) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
     });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.reactivateTransmittersOfLink = async function reactivateTransmittersOfLink(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -133,17 +149,17 @@ module.exports.reactivateTransmittersOfLink = async function reactivateTransmitt
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
   await IndividualServices.reactivateTransmittersOfLink(body, user, originator, xCorrelator, traceIndicator, customerJourney)
-  .then(async function (responseBody) {
-    responseBodyToDocument = responseBody;
-    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-    restResponseBuilder.buildResponse(res, responseCode, responseBodyToDocument, responseHeader);  
-  }).catch(async function (responseBody) {
-    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
-    responseCode = sentResp.code;
-    responseBodyToDocument = sentResp.body;
-  });
-executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      restResponseBuilder.buildResponse(res, responseCode, responseBodyToDocument, responseHeader);
+    }).catch(async function (responseBody) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+    });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.receivePowerSavingActivationStatus = async function receivePowerSavingActivationStatus(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -184,14 +200,30 @@ module.exports.receivePowerSavingDeactivationStatus = async function receivePowe
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.receiveTransmitterStatusOfParallelLinks = function receiveTransmitterStatusOfParallelLinks(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  IndividualServices.receiveTransmitterStatusOfParallelLinks(body, user, originator, xCorrelator, traceIndicator, customerJourney)
-    .then(function (response) {
-      utils.writeJson(res, response);
+module.exports.receiveTransmitterStatusOfParallelLinks = async function receiveTransmitterStatusOfParallelLinks(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseBodyToDocument = undefined;
+  let requestHeaders = {
+    user,
+    originator,
+    xCorrelator,
+    traceIndicator,
+    customerJourney
+  };
+  await IndividualServices.receiveTransmitterStatusOfParallelLinks(body, requestHeaders)
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      restResponseBuilder.buildResponse(res, responseCode, responseBodyToDocument, responseHeader);
     })
-    .catch(function (response) {
-      utils.writeJson(res, response);
+    .catch(async function (responseBody) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
     });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
 module.exports.recordPowerSavingStatus = async function recordPowerSavingStatus(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
@@ -211,12 +243,27 @@ module.exports.recordPowerSavingStatus = async function recordPowerSavingStatus(
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.switchRedundantTransmitterPairOff = function switchRedundantTransmitterPairOff(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  IndividualServices.switchRedundantTransmitterPairOff(body, user, originator, xCorrelator, traceIndicator, customerJourney)
-    .then(function (response) {
-      utils.writeJson(res, response);
+module.exports.switchRedundantTransmitterPairOff = async function switchRedundantTransmitterPairOff(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  let requestHeaders = {
+    user,
+    xCorrelator,
+    traceIndicator,
+    customerJourney
+  };
+  await IndividualServices.switchRedundantTransmitterPairOff(body, requestHeaders)
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      restResponseBuilder.buildResponse(res, responseCode, responseBodyToDocument, responseHeader);
     })
-    .catch(function (response) {
-      utils.writeJson(res, response);
+    .catch(async function (responseBody) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
     });
+  executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
