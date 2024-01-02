@@ -182,6 +182,11 @@ async function formulateStatusOfLink(parallelLinks, intialLinkId, requestHeaders
             if (linkId != intialLinkId) {
                 let transmitterStatusList = parallelLinks[i]["transmitter-status-list"];
                 let listOfStatusLinks = [];
+                /******************************************************************************************************************
+                 * To be updated based on the decision made on issue
+                 *  https://github.com/openBackhaul/AirInterfacePowerSaver/issues/77
+                 *****************************************************************************************************************/
+
                 for (let j = 0; j < transmitterStatusList.length; j++) {
                     let transmissionModeMax = transmitterStatusList[j]["transmission-mode-max"];
                     let interfaceStatus = transmitterStatusList[j]["interface-status"];

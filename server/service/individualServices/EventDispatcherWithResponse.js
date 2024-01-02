@@ -94,6 +94,7 @@ exports.BuildAndTriggerRestRequestToRequestor = async function (requestorProtoco
 
     /******************************************************************************************************************
      *  Fetching of Operation key to be updated based on the decision made on issue
+     *  https://github.com/openBackhaul/AirInterfacePowerSaver/issues/114
      *****************************************************************************************************************/
 
     let operationUuid = await OperationServerInterface.getOperationServerUuidAsync(requestorReceiveOperation);
