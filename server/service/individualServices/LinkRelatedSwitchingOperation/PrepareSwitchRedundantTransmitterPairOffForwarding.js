@@ -8,7 +8,7 @@ const EventDispatcherWithResponse = require('../EventDispatcherWithResponse');
 const onfFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface')
 const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
-const linkAnalysisUtility = require("./linkAnalysisUtility")
+const linkRelatedSwitchingOperationUtility = require("./linkRelatedSwitchingOperationUtility")
 const switchOffTXPairRequestMap = new Map();
 const switchOffTXPairTransactionMap = new Map();
 
@@ -67,7 +67,7 @@ async function getInfoAboutParallelLinks(linkId, requestHeaders, traceIndicatorI
     /******************************************************************************************************************
      * Prepare request and send to callback
      *  RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.GetInfoAboutParallelLinks
-     *  MWDI://v1/provide-transmitter-status-of-parallel-links
+     *  AIPS://v1/provide-transmitter-status-of-parallel-links
      *****************************************************************************************************************/
 
     getInfoAboutParallelLinksRequestBody.linkId = linkId;
@@ -166,9 +166,9 @@ exports.receiveTransmitterStatusOfParallelLinks = async function (provideTransmi
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
  */
 async function formulateStatusOfLink(parallelLinks, intialLinkId, requestHeaders, traceIndicatorIncrementer) {
-    let statusOfLink = "UndefinedState";
+    let statusOfLink = "NotQualified";
     let statusOfLinkAndTraceIndicatorIncrementer = {};
-    if (parallelLinks.length === 2) {
+    if (parallelLinks.length >= 2) {
 
         /******************************************************************************************************************
          * For each parallel link get the link if linkId != intialLinkId then
@@ -181,7 +181,6 @@ async function formulateStatusOfLink(parallelLinks, intialLinkId, requestHeaders
             let linkId = parallelLinks[i]["link-id"];
             if (linkId != intialLinkId) {
                 let transmitterStatusList = parallelLinks[i]["transmitter-status-list"];
-                let listOfStatusLinks = [];
                 /******************************************************************************************************************
                  * To be updated based on the decision made on issue
                  *  https://github.com/openBackhaul/AirInterfacePowerSaver/issues/77
@@ -191,16 +190,11 @@ async function formulateStatusOfLink(parallelLinks, intialLinkId, requestHeaders
                     let transmissionModeMax = transmitterStatusList[j]["transmission-mode-max"];
                     let interfaceStatus = transmitterStatusList[j]["interface-status"];
                     let transmissionModeCur = transmitterStatusList[j]["transmission-mode-cur"];
-                    if (interfaceStatus === "INTERFACE_STATUS_TYPE_UP" && transmissionModeMax === transmissionModeCur) {
-                        listOfStatusLinks.push("NotQualified");
-                    } else {
-                        listOfStatusLinks.push("");
+                    if (!(interfaceStatus === "INTERFACE_STATUS_TYPE_UP" && transmissionModeMax === transmissionModeCur)) {
+                        statusOfLinkAndTraceIndicatorIncrementer.statusOfLink = statusOfLink;
+                        statusOfLinkAndTraceIndicatorIncrementer.traceIndicatorIncrementer = traceIndicatorIncrementer;
+                        return statusOfLinkAndTraceIndicatorIncrementer;
                     }
-                }
-                if (!(listOfStatusLinks.includes(""))) {
-                    statusOfLinkAndTraceIndicatorIncrementer.statusOfLink = statusOfLink;
-                    statusOfLinkAndTraceIndicatorIncrementer.traceIndicatorIncrementer = traceIndicatorIncrementer;
-                    return statusOfLinkAndTraceIndicatorIncrementer;
                 }
             }
         }
@@ -208,9 +202,8 @@ async function formulateStatusOfLink(parallelLinks, intialLinkId, requestHeaders
          *  Prepare request and send to callback
          *  RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints
          *****************************************************************************************************************/
-
         let forwardingNameForDetermineLinkEndpoints = "RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints";
-        let endPointList = await linkAnalysisUtility.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, intialLinkId, requestHeaders, traceIndicatorIncrementer++);
+        let endPointList = await linkRelatedSwitchingOperationUtility.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, intialLinkId, requestHeaders, traceIndicatorIncrementer++);
         if (endPointList && endPointList.length !== 0) {
             statusOfLinkAndTraceIndicatorIncrementer = await getStatusOfLink(intialLinkId, endPointList, requestHeaders, traceIndicatorIncrementer);
             return statusOfLinkAndTraceIndicatorIncrementer;
@@ -244,7 +237,7 @@ async function getStatusOfLink(linkId, endPointList, requestHeaders, traceIndica
     traceIndicatorIncrementer = switchBothTransmittersOffResponse.traceIndicatorIncrementer;
     let atleastOneSwitchTransmittersOffFailed = switchBothTransmittersOffResponse.atleastOneSwitchTransmittersOffFailed;
     if (!atleastOneSwitchTransmittersOffFailed) {
-        await linkAnalysisUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, {
+        await linkRelatedSwitchingOperationUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, {
             linkId: linkId,
             addDeviationFromOriginalState: 'RedundantTransmittersOff',
             addModuleToRestoreOriginalState: 'AllTransmittersOn'
@@ -267,7 +260,7 @@ async function getStatusOfLink(linkId, endPointList, requestHeaders, traceIndica
         traceIndicatorIncrementer = switchBothTransmittersOnResponse.traceIndicatorIncrementer;
         let atleastOneSwitchTransmittersOnFailed = switchBothTransmittersOnResponse.atleastOneSwitchTransmittersOnFailed;
         if (!atleastOneSwitchTransmittersOnFailed) {
-            await linkAnalysisUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, {
+            await linkRelatedSwitchingOperationUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, {
                 linkId: linkId,
                 removeDeviationFromOriginalState: 'RedundantTransmittersOff',
                 removeModuleToRestoreOriginalState: 'AllTransmittersOn'
@@ -276,7 +269,7 @@ async function getStatusOfLink(linkId, endPointList, requestHeaders, traceIndica
             statusOfLinkAndTraceIndicatorIncrementer.traceIndicatorIncrementer = traceIndicatorIncrementer;
             return statusOfLinkAndTraceIndicatorIncrementer;
         } else {
-            await linkAnalysisUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, {
+            await linkRelatedSwitchingOperationUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, {
                 linkId: linkId,
                 addModuleToRestoreOriginalState: 'AllTransmittersOn'
             }, requestHeaders, traceIndicatorIncrementer++);
@@ -309,7 +302,7 @@ async function switchBothTransmittersOff(endPointList, requestHeaders, traceIndi
         let mountName = endPoint["control-construct"];;
         let uuid = endPoint["logical-termination-point"];
         let localId = endPoint["layer-protocol"];
-        let switchBothTransmittersOffResponseCode = await linkAnalysisUtility.SwitchTransmittersOff(
+        let switchBothTransmittersOffResponseCode = await linkRelatedSwitchingOperationUtility.SwitchTransmittersOff(
             forwardingName,
             mountName,
             uuid,
@@ -318,12 +311,12 @@ async function switchBothTransmittersOff(endPointList, requestHeaders, traceIndi
             traceIndicatorIncrementer++
         )
         if (!switchBothTransmittersOffResponseCode || !switchBothTransmittersOffResponseCode.toString().startsWith("2")) {
-            switchBothTransmittersOff.atleastOneSwitchTransmittersOffFailed = atleastOneSwitchTransmittersOffFailed;
-            switchBothTransmittersOff.traceIndicatorIncrementer = traceIndicatorIncrementer;
-            return switchBothTransmittersOff;
+            atleastOneSwitchTransmittersOffFailed = true;
+            break;
+        } else {
+            atleastOneSwitchTransmittersOffFailed = false;
         }
     }
-    atleastOneSwitchTransmittersOffFailed = false;
     switchBothTransmittersOff.atleastOneSwitchTransmittersOffFailed = atleastOneSwitchTransmittersOffFailed;
     switchBothTransmittersOff.traceIndicatorIncrementer = traceIndicatorIncrementer;
     return switchBothTransmittersOff;
@@ -350,7 +343,7 @@ async function switchBothTransmittersOn(endPointList, requestHeaders, traceIndic
         let mountName = endPoint["control-construct"];
         let uuid = endPoint["logical-termination-point"];
         let localId = endPoint["layer-protocol"];
-        let switchBothTransmittersOnResponseCode = await linkAnalysisUtility.SwitchTransmittersOn(
+        let switchBothTransmittersOnResponseCode = await linkRelatedSwitchingOperationUtility.SwitchTransmittersOn(
             forwardingName,
             mountName,
             uuid,
@@ -359,12 +352,12 @@ async function switchBothTransmittersOn(endPointList, requestHeaders, traceIndic
             traceIndicatorIncrementer++
         )
         if (!switchBothTransmittersOnResponseCode || !switchBothTransmittersOnResponseCode.toString().startsWith("2")) {
-            switchBothTransmittersOn.atleastOneSwitchTransmittersOnFailed = atleastOneSwitchTransmittersOnFailed;
-            switchBothTransmittersOn.traceIndicatorIncrementer = traceIndicatorIncrementer;
-            return switchBothTransmittersOn;
+            atleastOneSwitchTransmittersOnFailed = true;
+            break;
+        } else {
+            atleastOneSwitchTransmittersOnFailed = false;
         }
     }
-    atleastOneSwitchTransmittersOnFailed = false;
     switchBothTransmittersOn.atleastOneSwitchTransmittersOnFailed = atleastOneSwitchTransmittersOnFailed;
     switchBothTransmittersOn.traceIndicatorIncrementer = traceIndicatorIncrementer;
     return switchBothTransmittersOn;

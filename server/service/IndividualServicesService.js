@@ -4,9 +4,11 @@ const PowerSavingStatus = require("./individualServices/powerSavingStatus");
 const PssAttributes = require('./individualServices/powerSavingAttributes');
 const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
-const ReactivateTransmittersOfLink = require('./individualServices/LinkAnalysis/ReactivateTransmittersOfLink');
-const prepareSwitchRedundantTransmitterPairOffForwarding = require('./individualServices/LinkAnalysis/PrepareSwitchRedundantTransmitterPairOffForwarding');
-const prepareProvideTransmitterStatusOfParallelLinksForwarding = require('./individualServices/LinkRelatedSwitchingOperation/PrepareProvideTransmitterStatusOfParallelLinksForwarding');
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+const ReactivateTransmittersOfLink = require('./individualServices/LinkRelatedSwitchingOperation/ReactivateTransmittersOfLink');
+const prepareSwitchRedundantTransmitterPairOffForwarding = require('./individualServices/LinkRelatedSwitchingOperation/PrepareSwitchRedundantTransmitterPairOffForwarding');
+const prepareProvideTransmitterStatusOfParallelLinksForwarding = require('./individualServices/LinkAnalysis/PrepareProvideTransmitterStatusOfParallelLinksForwarding');
 
 
 /**

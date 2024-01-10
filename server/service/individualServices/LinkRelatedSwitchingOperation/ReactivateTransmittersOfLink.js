@@ -3,10 +3,9 @@
 const createHttpError = require("http-errors");
 const PssAttributes = require('../powerSavingAttributes');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
-const linkAnalysisUtility = require("./linkAnalysisUtility")
+const linkRelatedSwitchingOperationUtility = require("./linkRelatedSwitchingOperationUtility")
 const eventDispatcher = require('../EventDispatcherWithResponse');
-const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
-const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
+const EventDispatcherWithResponse = require('../EventDispatcherWithResponse');
 
 var requestorDataMap = new Map();
 
@@ -55,7 +54,7 @@ exports.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction = async 
                      * If module-to-restore-original-state-list contain "AllTransmittersOn", then DetermineLinkEndpoints
                      *****************************************************************************************************/
                     let forwardingNameForDetermineLinkEndpoints = "RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints";
-                    let linkEndPointsData = await linkAnalysisUtility.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, linkId, requestHeaders, traceIndicatorIncrementer++);
+                    let linkEndPointsData = await linkRelatedSwitchingOperationUtility.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, linkId, requestHeaders, traceIndicatorIncrementer++);
                     let mountName;
                     let uuid;
                     let localId;
@@ -66,7 +65,7 @@ exports.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction = async 
                             mountName = linkEndPointsData[i]["control-construct"];
                             uuid = linkEndPointsData[i]["logical-termination-point"];
                             localId = linkEndPointsData[i]["layer-protocol"];
-                            let responseCode = await linkAnalysisUtility.SwitchTransmittersOn(forwardingNameForSwitchTransmitterOn, mountName, uuid, localId, requestHeaders, traceIndicatorIncrementer++);
+                            let responseCode = await linkRelatedSwitchingOperationUtility.SwitchTransmittersOn(forwardingNameForSwitchTransmitterOn, mountName, uuid, localId, requestHeaders, traceIndicatorIncrementer++);
                             if (responseCode != 204) {
                                 IfSwitchTransmittersOnFailedForAtleastOneEndPoint = true;
                                 break;
@@ -82,7 +81,7 @@ exports.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction = async 
                                 mountName = linkEndPointsData[j]["control-construct"];
                                 uuid = linkEndPointsData[j]["logical-termination-point"];
                                 localId = linkEndPointsData[j]["layer-protocol"];
-                                let responseCode = await linkAnalysisUtility.SwitchTransmittersOff(forwardingNameForSwitchTransmitterOff, mountName, uuid, localId, requestHeaders, traceIndicatorIncrementer++);
+                                let responseCode = await linkRelatedSwitchingOperationUtility.SwitchTransmittersOff(forwardingNameForSwitchTransmitterOff, mountName, uuid, localId, requestHeaders, traceIndicatorIncrementer++);
                                 if (responseCode != 204) {
                                     IfSwitchTransmittersOffFailedForAtleastOneEndPoint = true;
                                     break;
@@ -99,7 +98,7 @@ exports.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction = async 
                                 let requestBodyForDocumemtMeasure = {};
                                 requestBodyForDocumemtMeasure[PssAttributes.LINK.LINK_ID] = linkId;
                                 requestBodyForDocumemtMeasure[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.ADD] = "AllTransmittersOn";
-                                linkAnalysisUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, requestBodyForDocumemtMeasure, requestHeaders, traceIndicatorIncrementer++);
+                                linkRelatedSwitchingOperationUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, requestBodyForDocumemtMeasure, requestHeaders, traceIndicatorIncrementer++);
                             } else {
                                 /****************************************************************************************************
                                  * If both odlResponseCode of SwitchTransmittersOff = 204, 
@@ -111,7 +110,7 @@ exports.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction = async 
                                 requestBodyForAddDeviation[PssAttributes.LINK.LINK_ID] = linkId;
                                 requestBodyForAddDeviation[PssAttributes.DEVIATION_FROM_ORIGINAL_STATE.ADD] = "RedundantTransmittersOff";
                                 requestBodyForAddDeviation[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.ADD] = "AllTransmittersOn";
-                                linkAnalysisUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, requestBodyForAddDeviation, requestHeaders, traceIndicatorIncrementer++);
+                                linkRelatedSwitchingOperationUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, requestBodyForAddDeviation, requestHeaders, traceIndicatorIncrementer++);
                             }
                         } else {
                             /****************************************************************************************************
@@ -124,7 +123,7 @@ exports.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction = async 
                             requestBodyForRemovingDeviation[PssAttributes.LINK.LINK_ID] = linkId;
                             requestBodyForRemovingDeviation[PssAttributes.DEVIATION_FROM_ORIGINAL_STATE.REMOVE] = "RedundantTransmittersOff";
                             requestBodyForRemovingDeviation[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.REMOVE] = "AllTransmittersOn";
-                            linkAnalysisUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, requestBodyForRemovingDeviation, requestHeaders, traceIndicatorIncrementer++);
+                            linkRelatedSwitchingOperationUtility.ReportPowerSavingStatus(forwardingNameForReportPowerSavingStatus, requestBodyForRemovingDeviation, requestHeaders, traceIndicatorIncrementer++);
                         }
                     }
                 }
@@ -203,24 +202,15 @@ async function ReactivateTransmitterOfLinkResponse(statusOfLink, requestorData, 
          *   RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.Response
          *     request.body#requestor-receive-operation
          *****************************************************************************************************/
-        let operationServerUuid = await OperationServerInterface.getOperationServerUuidAsync(requestorData["requestor-receive-operation"]);
-        let operationKey = await OperationServerInterface.getOperationKeyAsync(operationServerUuid);
-        let httpRequestHeader = new RequestHeader(
-            requestHeaders.user,
-            requestHeaders.originator,
-            requestHeaders.xCorrelator,
-            requestHeaders.traceIndicator + "." + traceIndicatorIncrementer,
-            requestHeaders.customerJourney,
-            operationKey
-        );
-        response = await IndividualServiceUtility.triggerRestRequest(
-            "POST",
+        response = await EventDispatcherWithResponse.BuildAndTriggerRestRequestToRequestor(
             requestorData["requestor-protocol"],
             requestorData["requestor-address"],
             requestorData["requestor-port"],
             requestorData["requestor-receive-operation"],
-            httpRequestHeader,
-            requestBody, {}
+            requestHeaders,
+            requestBody,
+            "POST",
+            traceIndicatorIncrementer
         );
         return response;
     } catch (error) {
