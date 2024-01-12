@@ -8,7 +8,8 @@ const EventDispatcherWithResponse = require('../EventDispatcherWithResponse');
 const onfFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface')
 const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
-const linkRelatedSwitchingOperationUtility = require("./linkRelatedSwitchingOperationUtility")
+const linkRelatedSwitchingOperationUtility = require("./linkRelatedSwitchingOperationUtility");
+const prepareForwardingAutomation = require("../PrepareForwardingAutomation");
 const switchOffTXPairRequestMap = new Map();
 const switchOffTXPairTransactionMap = new Map();
 
@@ -203,7 +204,7 @@ async function formulateStatusOfLink(parallelLinks, intialLinkId, requestHeaders
          *  RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints
          *****************************************************************************************************************/
         let forwardingNameForDetermineLinkEndpoints = "RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.DetermineLinkEndpoints";
-        let endPointList = await linkRelatedSwitchingOperationUtility.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, intialLinkId, requestHeaders, traceIndicatorIncrementer++);
+        let endPointList = await prepareForwardingAutomation.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, intialLinkId, requestHeaders, traceIndicatorIncrementer++);
         if (endPointList && endPointList.length !== 0) {
             statusOfLinkAndTraceIndicatorIncrementer = await getStatusOfLink(intialLinkId, endPointList, requestHeaders, traceIndicatorIncrementer);
             return statusOfLinkAndTraceIndicatorIncrementer;

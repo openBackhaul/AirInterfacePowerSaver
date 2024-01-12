@@ -6,6 +6,7 @@
 const individualServiceUtility = require('../IndividualServiceUtility');
 const EventDispatcherWithResponse = require('../EventDispatcherWithResponse')
 const onfFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
+const prepareForwardingAutomation = require("../PrepareForwardingAutomation");
 
 /**
  * This method performs the set of procedure to provide transmitter status of parallel links.
@@ -145,13 +146,14 @@ async function formulateRequestBodyforResponse(parallelLinks, requestHeaders, tr
             if (parallelLinks.length > 1) {
 
                 /****************************************************************************************
-                 *  Fetching linkEndPointsDetails mountName , uuid , localId 
+                 *  Fetching endPointList mountName , uuid , localId 
                  ****************************************************************************************/
 
-                let linkEndPointsDetailsList = await determineLinkEndPoints(linkId, requestHeaders, traceIndicatorIncrementer++);
-                if (linkEndPointsDetailsList) {
-                    for (let j = 0; j < linkEndPointsDetailsList.length; j++) {
-                        let linkEndPoint = linkEndPointsDetailsList[j];
+                let forwardingNameForDetermineLinkEndpoints = "RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints";
+                let endPointList = await prepareForwardingAutomation.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, linkId, requestHeaders, traceIndicatorIncrementer++);
+                if (endPointList) {
+                    for (let j = 0; j < endPointList.length; j++) {
+                        let endPoint = endPointList[j];
                         let transmitterStatus = {
                             "transmissionModeMax": "",
                             "interfaceStatus": "",
@@ -163,8 +165,8 @@ async function formulateRequestBodyforResponse(parallelLinks, requestHeaders, tr
                          *       and formulating transmitter-status-list
                          ****************************************************************************************/
 
-                        let airInterfaceConfigFromCache = await getAirInterfaceConfigFromCache(linkEndPoint, requestHeaders, traceIndicatorIncrementer++);
-                        let airInterfaceStatusFromLive = await getAirInterfaceStatusFromLive(linkEndPoint, requestHeaders, traceIndicatorIncrementer++);
+                        let airInterfaceConfigFromCache = await getAirInterfaceConfigFromCache(endPoint, requestHeaders, traceIndicatorIncrementer++);
+                        let airInterfaceStatusFromLive = await getAirInterfaceStatusFromLive(endPoint, requestHeaders, traceIndicatorIncrementer++);
                         if (airInterfaceConfigFromCache && airInterfaceStatusFromLive) {
                             if (airInterfaceConfigFromCache["transmission-mode-max"]) {
                                 transmitterStatus.transmissionModeMax = airInterfaceConfigFromCache["transmission-mode-max"];
@@ -191,68 +193,14 @@ async function formulateRequestBodyforResponse(parallelLinks, requestHeaders, tr
 }
 
 /**
- * This method Receives end-point-list of link
- * @param {Object} linkId Identifier of the microwave link for which transmitters shall be reactivated
- * @param {String} requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
- * @param {Object} traceIndicatorIncrementer to increment the trace indicator
- * @returns {List} linkEndPointDetails 
- **/
-async function determineLinkEndPoints(linkId, requestHeaders, traceIndicatorIncrementer) {
-    let linkEndPointDetails = {};
-    let linkEndPointDetailsList = [];
-    let forwardingName = "RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.DetermineLinkEndpoints";
-    let consequentOperationClient = await individualServiceUtility.getConsequentOperationClient(forwardingName);
-    /****************************************************************************************************
-     *   Prepare request and send to
-     *  RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi
-     *                                                                            .DetermineLinkEndpoints
-     *     MWDI://core-model-1-4:network-control-domain=cache/link={uuid}
-     *****************************************************************************************************/
-    let pathParamList = [];
-    pathParamList.push(linkId);
-    let params = {};
-    params = await individualServiceUtility.getQueryAndPathParameter(
-        consequentOperationClient.operationName,
-        pathParamList
-    )
-    let linkEndPointsResponse = await EventDispatcherWithResponse.dispatchEvent(
-        consequentOperationClient.operationClientUuid, {},
-        requestHeaders.user,
-        requestHeaders.xCorrelator,
-        requestHeaders.traceIndicator + "." + traceIndicatorIncrementer,
-        requestHeaders.customerJourney,
-        "GET",
-        params
-    )
-    if (linkEndPointsResponse && Object.keys(linkEndPointsResponse) !== 0) {
-        let linkEndPoints = linkEndPointsResponse["core-model-1-4:link"];
-        if (linkEndPoints && linkEndPoints.length !== 0) {
-            let endPointsList = linkEndPoints[0]["end-point-list"];
-            if (endPointsList) {
-                for (let i = 0; i < endPointsList.length; i++) {
-                    let endPoint = endPointsList[i];
-                    if (Object.keys(endPoint) !== 0) {
-                        linkEndPointDetails.mountName = endPoint["control-construct"];
-                        linkEndPointDetails.uuid = endPoint["logical-termination-point"];
-                        linkEndPointDetails.localId = endPoint["layer-protocol"];
-                        linkEndPointDetailsList.push(linkEndPointDetails);
-                    }
-                }
-            }
-        }
-    }
-    return linkEndPointDetailsList;
-}
-
-/**
  * Prepare attributes and automate  
  * RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive
- * @param {Object}  linkEndPointsDetails contains link end point details mountname , uuid, localId.
+ * @param {Object}  endPoint contains link end point details mountname , uuid, localId.
  * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
- * @returns {Object} returns airInterfaceStatusFromLive for linkEndPointsDetails
+ * @returns {Object} returns airInterfaceStatusFromLive for endPoint
  */
-async function getAirInterfaceStatusFromLive(linkEndPointsDetails, requestHeaders, traceIndicatorIncrementer) {
+async function getAirInterfaceStatusFromLive(endPoint, requestHeaders, traceIndicatorIncrementer) {
     let airInterfaceStatusFromLive = {};
     let forwardingName = "RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceStatusFromLive";
     let consequentOperationClient = await individualServiceUtility.getConsequentOperationClient(forwardingName);
@@ -267,11 +215,10 @@ async function getAirInterfaceStatusFromLive(linkEndPointsDetails, requestHeader
      *****************************************************************************************************/
 
     let pathParamList = [];
-    linkEndPointsDetails = undefined;
-    if (linkEndPointsDetails) {
-        pathParamList.push(linkEndPointsDetails.mountName);
-        pathParamList.push(linkEndPointsDetails.uuid);
-        pathParamList.push(linkEndPointsDetails.localId);
+    if (endPoint) {
+        pathParamList.push(endPoint["control-construct"]);
+        pathParamList.push(endPoint["logical-termination-point"]);
+        pathParamList.push(endPoint["layer-protocol"]);
     }
     let params = {};
     let fields = await individualServiceUtility.getStringProfileInstanceValue(forwardingName);
@@ -298,12 +245,12 @@ async function getAirInterfaceStatusFromLive(linkEndPointsDetails, requestHeader
 /**
  * Prepare attributes and automate  
  * RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache
- * @param {Object}  linkEndPointsDetails contains link end point details mountname , uuid, localId.
+ * @param {Object}  endPoint contains link end point details mountname , uuid, localId.
  * @param {Object}  requestHeaders Holds information of the requestHeaders like Xcorrelator , CustomerJourney,User etc.
  * @param {Integer} traceIndicatorIncrementer traceIndicatorIncrementer to increment the trace indicator
- * @returns {Object} returns airInterfaceConfiguration for linkEndPointsDetails
+ * @returns {Object} returns airInterfaceConfiguration for endPoint
  */
-async function getAirInterfaceConfigFromCache(linkEndPointsDetails, requestHeaders, traceIndicatorIncrementer) {
+async function getAirInterfaceConfigFromCache(endPoint, requestHeaders, traceIndicatorIncrementer) {
     let airInterfaceConfigFromCache = {};
     let forwardingName = "RequestForProvidingTransmitterStatusOfParallelLinksCausesReadingTransmitterStatusFromMwdi.GetAirInterfaceConfigFromCache";
     let consequentOperationClient = await individualServiceUtility.getConsequentOperationClient(forwardingName);
@@ -318,11 +265,10 @@ async function getAirInterfaceConfigFromCache(linkEndPointsDetails, requestHeade
      *****************************************************************************************************/
 
     let pathParamList = [];
-    linkEndPointsDetails = undefined;
-    if (linkEndPointsDetails) {
-        pathParamList.push(linkEndPointsDetails.mountName);
-        pathParamList.push(linkEndPointsDetails.uuid);
-        pathParamList.push(linkEndPointsDetails.localId);
+    if (endPoint) {
+        pathParamList.push(endPoint["control-construct"]);
+        pathParamList.push(endPoint["logical-termination-point"]);
+        pathParamList.push(endPoint["layer-protocol"]);
     }
     let params = {};
     let fields = await individualServiceUtility.getStringProfileInstanceValue(forwardingName);

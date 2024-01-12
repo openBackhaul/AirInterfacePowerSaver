@@ -4,6 +4,7 @@ const createHttpError = require("http-errors");
 const PssAttributes = require('../powerSavingAttributes');
 const IndividualServiceUtility = require('../IndividualServiceUtility');
 const linkRelatedSwitchingOperationUtility = require("./linkRelatedSwitchingOperationUtility")
+const prepareForwardingAutomation = require("../PrepareForwardingAutomation");
 const eventDispatcher = require('../EventDispatcherWithResponse');
 const EventDispatcherWithResponse = require('../EventDispatcherWithResponse');
 
@@ -54,7 +55,7 @@ exports.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction = async 
                      * If module-to-restore-original-state-list contain "AllTransmittersOn", then DetermineLinkEndpoints
                      *****************************************************************************************************/
                     let forwardingNameForDetermineLinkEndpoints = "RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.DetermineLinkEndpoints";
-                    let linkEndPointsData = await linkRelatedSwitchingOperationUtility.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, linkId, requestHeaders, traceIndicatorIncrementer++);
+                    let linkEndPointsData = await prepareForwardingAutomation.DetermineLinkEndpoints(forwardingNameForDetermineLinkEndpoints, linkId, requestHeaders, traceIndicatorIncrementer++);
                     let mountName;
                     let uuid;
                     let localId;
