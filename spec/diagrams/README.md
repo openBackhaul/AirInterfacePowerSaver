@@ -73,3 +73,4 @@ Subscribing for alarm notifications is supported, too.
 Please find descriptions of modules of the afore mentioned categories and their scheduling into releases of the AirInterfacePowerSaver:  
 - [AIPS v0.0.5](./Overview_0.0.5.md)  
 - [AIPS v0.0.9](./Overview_0.0.9.md)  
+- [AIPS v0.0.10](./Overview_0.0.10.md)  
