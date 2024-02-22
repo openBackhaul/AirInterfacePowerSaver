@@ -2767,6 +2767,7 @@ paths:
                   required:
                     - link-id
                     - add-module-to-restore-original-state
+                  additionalProperties: false
                   properties:
                     link-id:
                       type: string
