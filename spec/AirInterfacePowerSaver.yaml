@@ -773,6 +773,7 @@ paths:
                   description: 'Operation at the requestor for receiving the response'
               example:
                 link-id: '305551234'
+                automation-name: 'TimeBasedPowerSaving'
                 requestor-protocol: 'HTTP'
                 requestor-address:
                   ip-address:
@@ -1576,6 +1577,7 @@ paths:
                   description: 'Operation at the requestor for receiving the response'
             example:
               link-id: '305551234'
+              automation-name: 'TimeBasedPowerSaving'
               requestor-protocol: 'HTTP'
               requestor-address:
                 ip-address:
