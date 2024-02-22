@@ -243,7 +243,7 @@ forwardings:
       - client-name: RO://v1/relay-server-replacement
         uuid: aips-0-0-10-op-c-bm-ro-2-1-0-001
 
-  - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOR
+  - forwarding-name: PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
     uuid: aips-0-0-10-op-fc-bm-106
     forwarding-type: InvariantProcessSnippet
     management-requests:
