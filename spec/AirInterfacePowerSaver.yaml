@@ -1284,7 +1284,7 @@ paths:
           SwitchBothTransmittersOn: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-c-is-mwdg-1-0-0-500/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'To be executed on all link end points,
-              if at least one of {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOff.response.body#response-code} != 200'
+              if at least one of {$RequestForSwitchingRedundantTransmitterPairOffInitiatesTransaction.SwitchBothTransmittersOff.response.body#response-code} != 204'
             put:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -2062,7 +2062,7 @@ paths:
           SwitchBothTransmittersOff: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-mwdg-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-c-is-mwdg-1-0-0-510/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'To be executed on all link end points,
-              if at least one of {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn.response.body#response-code} != 200'
+              if at least one of {$RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction.SwitchTransmittersOn.response.body#response-code} != 204'
             put:
               parameters:
                 - $ref: '#/components/parameters/user'
