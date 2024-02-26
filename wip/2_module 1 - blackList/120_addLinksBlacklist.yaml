@@ -1,0 +1,8 @@
+  #/v1/add-links-to-black-list:
+    #callbacks:
+      #RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation:
+        #GetCurrentAssignments:
+        #GetCurrentBlackList:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:
+        

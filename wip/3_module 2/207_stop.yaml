@@ -1,0 +1,6 @@
+  #/v1/stop-time-based-power-saving:
+    #callbacks:
+      #RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving:
+        #GetLinkList:
+        #RemoveFromActivationQueue:
+        #AddToDeactivationQueue:

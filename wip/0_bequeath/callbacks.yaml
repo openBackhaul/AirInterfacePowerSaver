@@ -1,0 +1,6 @@
+  #bequeath-your-data-and-die:
+    #callbacks:
+        #RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue:
+          #BlackListCheck:
+          #SwitchRedundantTransmitterOff:
+          #RemoveRecordFromActivationQueue:
