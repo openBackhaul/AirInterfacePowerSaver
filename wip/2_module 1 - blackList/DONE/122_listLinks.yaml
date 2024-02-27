@@ -22,15 +22,15 @@
               schema:
                 type: object
                 required:
-                  - list-of-links-in-black-list
+                  - link-id-list
                 properties:
-                  list-of-links-in-black-list:
+                  link-id-list:
                     type: array
                     items:
                       type: string
                       description: 'The ID of the link in the blackList'
               example:
-                  list-of-links-in-black-list:
+                  link-id-list:
                     - '305251234'
                     - '105258888'
           headers:

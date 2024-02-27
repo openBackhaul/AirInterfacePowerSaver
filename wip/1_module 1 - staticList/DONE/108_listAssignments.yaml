@@ -34,15 +34,15 @@
               schema:
                 type: object
                 required:
-                  - list-of-assigned-automation-names
+                  - assigned-automation-names-list
                 properties:
-                  list-of-assigned-automation-names:
+                  assigned-automation-names-list:
                     type: array
                     items:
                       type: string
                       description: 'Assigned automation name for the linkId'
               example:
-                list-of-assigned-automation-names:
+                assigned-automation-names-list:
                   - 'TimeBasedPowerSaving'
                   - 'DroppedFramesInitiatedRestoration'
           headers:

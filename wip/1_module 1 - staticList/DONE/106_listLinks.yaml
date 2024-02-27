@@ -27,7 +27,7 @@
                   items:
                     type: string
                     description: 'The link that should be listed if found in staticList'
-                description: 'If the link-id-list is provided, the retrieved staticList data is filtered for the given linkIds.'
+                description: 'If the link-id-list is provided, the retrieved staticList data is filtered for the given linkIds, otherwise complete staticList is returned.'
             example:
               link-id-list:
                 - '101550001'
@@ -40,9 +40,9 @@
               schema:
                 type: object
                 required:
-                  - list-of-links-in-static-list
+                  - static-list
                 properties:
-                  list-of-links-in-static-list:
+                  static-list:
                     type: array
                     items:
                       type: object
@@ -56,7 +56,7 @@
                             type: string
                           description: 'AutomationNames assigned to the linkId'
               example:
-                  list-of-links-in-static-list:
+                  static-list:
                     - link-id: '305251234'
                       assigned-automation-names:
                         - 'TimeBasedPowerSaving'

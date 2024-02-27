@@ -23,15 +23,15 @@
               schema:
                 type: object
                 required:
-                  - list-of-unique-automation-names-static-list
+                  - automation-names-list
                 properties:
-                  list-of-unique-automation-names-static-list:
+                  automation-names-list:
                     type: array
                     items:
                       type: string
                       description: 'Assigned AutomationName found in the staticList'
               example:
-                list-of-unique-automation-names-static-list:
+                automation-names-list:
                   - 'TimeBasedPowerSaving'
                   - 'DroppedFramesInitiatedRestoration'
           headers:
