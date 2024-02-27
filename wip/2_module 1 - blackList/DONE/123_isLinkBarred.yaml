@@ -1,6 +1,6 @@
-  #/v1/list-links-with-specific-number-of-assignments:
+  #/v1/is-link-barred:
 
-  /v1/list-links-with-specific-number-of-assignments:
+  /v1/is-link-barred:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -8,8 +8,8 @@
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'  
     post:
-      operationId: listLinksWithSpecificNumberOfAssignments
-      summary: 'Lists linkIds with specific number of assigned automations'
+      operationId: isLinkBarred
+      summary: 'Informes it a link is barred (i.e. in blackList)'
       tags:
         - IndividualServices
       security:
@@ -21,31 +21,26 @@
             schema:
               type: object
               properties:
-                number-of-assignments:
-                  type: integer
-                  description: 'The number of assignments that should be filtered for'
+                link-id:
+                  type: string
+                  description: 'The id of the link'
             example:
-              number-of-assignments: 5
+              link-id: '101550001'
       responses:
         '200':
-          description: 'List of linkIds from staticList filtered for specified number of assignments'
+          description: 'Returns if linkId is found in blackList'
           content:
             application/json:
               schema:
                 type: object
                 required:
-                  - link-id-list
+                  - link-is-barred
                 properties:
-                  link-id-list:
-                    type: array
-                    items:
-                      type: string
-                      description: 'LinkId with specified number of assignments'
+                  link-is-barred:
+                    type: boolean
+                    description: 'denotes if link is found in blackList (true) or not (false)'
               example:
-                  link-id-list:
-                    - '101558888'
-                    - '203550001'
-                    - '505551234'
+                link-is-barred: true
           headers:
             x-correlator:
               schema:
@@ -75,7 +70,7 @@
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-109/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-123/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':

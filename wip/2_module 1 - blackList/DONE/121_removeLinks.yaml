@@ -1,6 +1,7 @@
-  #/v1/list-links-with-specific-number-of-assignments:
+  #/v1/remove-links-from-black-list:
 
-  /v1/list-links-with-specific-number-of-assignments:
+
+  /v1/remove-links-from-black-list:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -8,8 +9,8 @@
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'  
     post:
-      operationId: listLinksWithSpecificNumberOfAssignments
-      summary: 'Lists linkIds with specific number of assigned automations'
+      operationId: removeLinksFromBlackList
+      summary: 'Removes links from the blackList'
       tags:
         - IndividualServices
       security:
@@ -20,32 +21,21 @@
           application/json:
             schema:
               type: object
+              required:
+                - link-id-list
               properties:
-                number-of-assignments:
-                  type: integer
-                  description: 'The number of assignments that should be filtered for'
+                link-id-list:
+                  type: array
+                  items:
+                    type: string
+                    description: 'The linkIds to be removed from blackList.'
             example:
-              number-of-assignments: 5
+              link-id-list:
+                - '101550001'
+                - '203550045'
       responses:
-        '200':
-          description: 'List of linkIds from staticList filtered for specified number of assignments'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - link-id-list
-                properties:
-                  link-id-list:
-                    type: array
-                    items:
-                      type: string
-                      description: 'LinkId with specified number of assignments'
-              example:
-                  link-id-list:
-                    - '101558888'
-                    - '203550001'
-                    - '505551234'
+        '204':
+          description: 'LinkIds removed from blackList.'
           headers:
             x-correlator:
               schema:
@@ -75,7 +65,7 @@
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-109/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-121/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':

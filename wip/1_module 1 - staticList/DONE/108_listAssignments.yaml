@@ -42,9 +42,9 @@
                       type: string
                       description: 'Assigned automation name for the linkId'
               example:
-                  list-of-assigned-automation-names:
-                    - 'TimeBasedPowerSaving'
-                    - 'DroppedFramesInitiatedRestoration'
+                list-of-assigned-automation-names:
+                  - 'TimeBasedPowerSaving'
+                  - 'DroppedFramesInitiatedRestoration'
           headers:
             x-correlator:
               schema:

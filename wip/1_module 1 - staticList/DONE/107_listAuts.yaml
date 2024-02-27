@@ -31,9 +31,9 @@
                       type: string
                       description: 'Assigned AutomationName found in the staticList'
               example:
-                  list-of-unique-automation-names-static-list:
-                    - 'TimeBasedPowerSaving'
-                    - 'DroppedFramesInitiatedRestoration'
+                list-of-unique-automation-names-static-list:
+                  - 'TimeBasedPowerSaving'
+                  - 'DroppedFramesInitiatedRestoration'
           headers:
             x-correlator:
               schema:
