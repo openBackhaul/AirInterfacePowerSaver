@@ -1,8 +1,0 @@
-  #/v1/start-time-based-power-saving:
-    #callbacks:
-      #RequestForStartingTimeBasedPowerSavingCausesCyclicOperation:
-        #GetTriggers:
-        #GetLinkIdList:
-        #InitiatePowerSaving:
-        #RemoveFromActivationQueue:
-        #AddToDeactivationQueue:
