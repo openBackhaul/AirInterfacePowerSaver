@@ -1,0 +1,53 @@
+          ## StaticListAutomationManagement
+          - operation-name: /v1/list-links
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-100
+          - operation-name: /v1/list-automation-names
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-101
+          - operation-name: /v1/list-links-with-specific-automation-assigned
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-102
+          - operation-name: /v1/remove-links-from-power-saving-activation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-103
+          - operation-name: /v1/add-links-to-power-saving-deactivation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-104
+
+          ## BlackListManagemnet
+          - operation-name: /v1/list-links
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-120
+          - operation-name: /v1/list-links-in-black-list
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-121
+          - operation-name: /v1/remove-links-from-power-saving-activation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-122
+          - operation-name: /v1/add-links-to-power-saving-deactivation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-123
+
+          ## TimeBasedPowerSaving
+          - operation-name: /v1/list-links-with-specific-automation-assigned
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-200
+          - operation-name: /v1/list-all-triggers
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-201
+          - operation-name: /v1/add-links-to-power-saving-activation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-202
+          - operation-name: /v1/remove-links-from-power-saving-activation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-203
+          - operation-name: /v1/add-links-to-power-saving-deactivation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-204
+
+          ## SimpleActivation
+          - operation-name: /v1/is-link-barred
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-400
+          - operation-name: /v1/remove-links-from-power-saving-activation-queue
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-401
+          - operation-name: /v1/switch-redundant-transmitter-pair-off
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-402
+            
+          ## RedundantTransmittersOff
+          - operation-name: /v1/provide-transmitter-status-of-parallel-links
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-500
+          - operation-name: /v1/record-power-saving-status
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-501
+
+          ## AllTransmittersOn
+          - operation-name: /v1/provide-power-saving-status-of-link
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-510
+          - operation-name: /v1/record-power-saving-status
+            uuid: aips-0-0-10-op-c-is-aips-0-0-10-511

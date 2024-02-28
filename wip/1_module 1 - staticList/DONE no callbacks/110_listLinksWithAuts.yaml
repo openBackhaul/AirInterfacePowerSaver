@@ -1,13 +1,6 @@
-  #/v1/unassign-all-automations-from-links:
-    #callbacks:
-      #RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation:
-        #GetCurrentAssignments:
-        #GetAutomationNames:
-        #RemoveFromActivationQueue:
-        #AddToDeactivationQueue:
+  #/v1/list-links-with-specific-automation-assigned:
 
-
-  /v1/unassign-all-automations-from-links:
+  /v1/list-links-with-specific-automation-assigned:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15,8 +8,8 @@
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'  
     post:
-      operationId: unassignAllAutomationsFromLinks
-      summary: 'Unassigns all automations from links in the given link list'
+      operationId: listLinksWithSpecificAssignments
+      summary: 'Lists linkIds with specific assigned automations'
       tags:
         - IndividualServices
       security:
@@ -27,21 +20,31 @@
           application/json:
             schema:
               type: object
-              required:
-                - link-id-list
               properties:
-                link-id-list:
-                  type: array
-                  items:
-                    type: string
-                    description: 'The linkId for which the automations shall be unassigned'
+                automation-name:
+                  type: string
+                  description: 'The assigned automation name to be filtered for'
             example:
-              link-id-list:
-                - '101550001'
-                - '203550045'
+              automation-name: 'TimeBasedPowerSaving'
       responses:
-        '204':
-          description: 'All automations unassigned from given links'
+        '200':
+          description: 'List linkIds with assignment of given automationName'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link-id-list
+                properties:
+                  link-id-list:
+                    type: array
+                    items:
+                      type: string
+                      description: 'LinkId with assignment of given automationName'
+              example:
+                  link-id-list:
+                    - '101558888'
+                    - '203550001'
           headers:
             x-correlator:
               schema:
@@ -71,16 +74,10 @@
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-104/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-110/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      #callbacks:
-        #RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation:
-          #GetCurrentAssignments:
-          #GetAutomationNames:
-          #RemoveFromActivationQueue:
-          #AddToDeactivationQueue:
