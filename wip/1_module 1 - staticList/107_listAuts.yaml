@@ -1,6 +1,3 @@
-  #/v1/list-automation-names:
-
-
   /v1/list-automation-names:
     parameters:
       - $ref: '#/components/parameters/user'

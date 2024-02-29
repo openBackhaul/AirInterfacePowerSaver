@@ -1,6 +1,3 @@
-  #/v1/list-links:
-  # input parameter linkIdList is optional
-
   /v1/list-links:
     parameters:
       - $ref: '#/components/parameters/user'

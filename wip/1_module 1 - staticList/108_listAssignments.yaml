@@ -1,5 +1,3 @@
-  #/v1/list-assignments-for-specific-link:
-
   /v1/list-assignments-for-specific-link:
     parameters:
       - $ref: '#/components/parameters/user'

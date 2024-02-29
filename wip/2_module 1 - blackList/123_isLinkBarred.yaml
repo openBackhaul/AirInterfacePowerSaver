@@ -1,5 +1,3 @@
-  #/v1/is-link-barred:
-
   /v1/is-link-barred:
     parameters:
       - $ref: '#/components/parameters/user'

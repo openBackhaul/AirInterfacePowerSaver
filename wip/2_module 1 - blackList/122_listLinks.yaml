@@ -1,5 +1,3 @@
-  #/v1/list-links-in-black-list:
-
   /v1/list-links-in-black-list:
     parameters:
       - $ref: '#/components/parameters/user'

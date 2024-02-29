@@ -1,5 +1,3 @@
-  #/v1/remove-start-trigger:
-
   /v1/remove-start-trigger:
     parameters:
       - $ref: '#/components/parameters/user'

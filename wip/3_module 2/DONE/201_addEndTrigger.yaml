@@ -1,5 +1,3 @@
-  #/v1/add-end-trigger:
-
   /v1/add-end-trigger:
     parameters:
       - $ref: '#/components/parameters/user'

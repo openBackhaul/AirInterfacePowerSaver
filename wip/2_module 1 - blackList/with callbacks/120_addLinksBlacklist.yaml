@@ -1,11 +1,3 @@
-  #/v1/add-links-to-black-list:
-    #callbacks:
-      #RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation:
-        #GetCurrentAssignments:
-        #GetCurrentBlackList:
-        #RemoveFromActivationQueue:
-        #AddToDeactivationQueue:
-
   /v1/add-links-to-black-list:
     parameters:
       - $ref: '#/components/parameters/user'

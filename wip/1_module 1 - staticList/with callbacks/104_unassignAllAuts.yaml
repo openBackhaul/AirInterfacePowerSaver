@@ -1,12 +1,3 @@
-  #/v1/unassign-all-automations-from-links:
-    #callbacks:
-      #RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation:
-        #GetCurrentAssignments:
-        #GetAutomationNames:
-        #RemoveFromActivationQueue:
-        #AddToDeactivationQueue:
-
-
   /v1/unassign-all-automations-from-links:
     parameters:
       - $ref: '#/components/parameters/user'

@@ -1,6 +1,3 @@
-  #/v1/remove-links-from-black-list:
-
-
   /v1/remove-links-from-black-list:
     parameters:
       - $ref: '#/components/parameters/user'
