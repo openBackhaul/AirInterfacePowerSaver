@@ -1,13 +1,12 @@
-  #/v1/unassign-all-automations-from-links:
+  #/v1/unassign-automation-from-all-links:
     #callbacks:
-      #RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation:
+      #RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation:
         #GetCurrentAssignments:
-        #GetAutomationNames:
         #RemoveFromActivationQueue:
         #AddToDeactivationQueue:
 
 
-  /v1/unassign-all-automations-from-links:
+  /v1/unassign-automation-from-all-links:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -15,8 +14,8 @@
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'  
     post:
-      operationId: unassignAllAutomationsFromLinks
-      summary: 'Unassigns all automations from links in the given link list'
+      operationId: unassignAutomationFromAllLinks
+      summary: 'Unassigns an automationName from all links in the staticList'
       tags:
         - IndividualServices
       security:
@@ -28,20 +27,16 @@
             schema:
               type: object
               required:
-                - link-id-list
+                - automation-name
               properties:
-                link-id-list:
-                  type: array
-                  items:
-                    type: string
-                    description: 'The linkId for which the automations shall be unassigned'
+                automation-name:
+                  type: string
+                  description: 'The automationName to be unassigned for all links'
             example:
-              link-id-list:
-                - '101550001'
-                - '203550045'
+              automation-name: 'TimeBasedPowerSaving'
       responses:
         '204':
-          description: 'All automations unassigned from given links'
+          description: 'AutomationName unassigned from all links in staticList.'
           headers:
             x-correlator:
               schema:
@@ -71,7 +66,7 @@
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-104/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-s-is-103/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '4XX':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
@@ -79,9 +74,9 @@
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation:
-          GetCurrentAssignments: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-c-is-aips-0-0-10-100/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            # calls /v1/list-links
+        RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation:
+          GetCurrentAssignments: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-c-is-aips-0-0-10-102/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            # calls /v1/list-links-with-specific-automation-assigned
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -95,103 +90,27 @@
                     schema:
                       type: object
                       properties:
-                        link-id-list:
-                          type: array
-                          items:
-                            type: string
+                        automation-name:
+                          type: string
                           description: >
-                            'List of identifiers of microwave links which shall be removed from the staticList
-                            from {request.body#link-id-list}'
+                            'The automation-name
+                            from {request.body#automation-name}'
                     example:
-                      link-id-list:
-                        - '101550001'
-                        - '305251234'
+                      automation-name: 'TimeBasedPowerSaving'
               responses:
                 '200':
-                  description: 'List of staticList link information filtered for given link-id-list'
+                  description: 'List linkIds with assignment of given automationName'
                   content:
                     application/json:
                       schema:
                         type: object
                         properties:
-                          static-list:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                link-id:
-                                  type: string
-                                assigned-automation-names:
-                                  type: array
-                                  items:
-                                    type: string
+                          link-id-list:
+                            type: string
                       example:
-                        static-list:
-                          - link-id: '101550001'
-                            assigned-automation-names:
-                              - 'TimeBasedPowerSaving'
-                          - link-id: '305251234'
-                            assigned-automation-names:
-                              - 'TimeBasedPowerSaving'
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '4XX':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          GetAutomationNames: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-c-is-aips-0-0-10-101/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            # calls /v1/list-automation-names
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              responses:
-                '200':
-                  description: 'List unique automationNames in the staticList'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          automation-names-list:
-                            type: array
-                            items:
-                              type: string
-                      example:
-                        automation-names-list:
-                          - 'TimeBasedPowerSaving'
-                          - 'DroppedFramesInitiatedRestoration'
+                        link-id-list:
+                          - '101550001'
+                          - '305251234'
                   headers:
                     x-correlator:
                       schema:
@@ -227,7 +146,7 @@
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           RemoveFromActivationQueue: #[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-tcp-c-aips-0-0-10-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=aips-0-0-10-op-c-is-aips-0-0-10-103/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            # calls /v1/remove-links-from-power-saving-activation-queue, repeated for each unique automationName from the GetAutomationNames
+            # calls /v1/remove-links-from-power-saving-activation-queue, repeated for each unique automationName and related affectedLinkIdList
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -246,15 +165,13 @@
                           items:
                             type: string
                           description: > 
-                            'The list of linkIds (= automationName.affectedLinkIdList) to be added to the queue
-                            from all linkIds in {request.body#link-id-list}
-                            where {RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments.response.body#static-list/assigned-automation-names}
-                            contains the currently processed automationName from {RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.response.body#automation-names-list}'
+                            'The list of linkIds
+                            from {RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments.response.body#link-id-list}'
                         automation-name:
                           type: string
                           description: > 
-                            'The currently processed automationName
-                            from {RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetAutomationNames.response.body#static-list/assigned-automation-names}'
+                            'The automationName
+                            from {request.body#automation-name}'
                     example:
                       link-id-list:
                         - '101550001'
@@ -317,13 +234,13 @@
                           items:
                             type: string
                           description: > 
-                            'The respective list of linkIds (= automationName.affectedLinkIdList)
-                            from {RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue.request.body#link-id-list}'
+                            'The linkId list
+                            from {RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue.request.body#link-id-list}'
                         automation-name:
                           type: string
                           description: > 
-                            'The respective unique automationName
-                            from {RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue.request.body#automation-name}'
+                            'The automationName
+                            from {RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue.request.body#automation-name}'
                         switching-operation-name:
                           type: string
                           description: >
@@ -370,4 +287,4 @@
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'              
+                  $ref: '#/components/responses/responseForErroredServiceRequests'

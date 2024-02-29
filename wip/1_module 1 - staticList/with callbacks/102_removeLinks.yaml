@@ -100,7 +100,7 @@
                             items:
                               type: string
                             description: >
-                              'List of identifiers of microwave links which shall be removed from the staticList
+                              'List of identifiers of microwave links for which to get the current assignments
                               from {request.body#link-id-list}'
                       example:
                         link-id-list:
