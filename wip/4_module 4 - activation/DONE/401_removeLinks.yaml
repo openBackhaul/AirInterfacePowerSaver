@@ -1,7 +1,3 @@
-  #/v1/remove-links-from-power-saving-activation-queue:
-
-
-
   /v1/remove-links-from-power-saving-activation-queue:
     parameters:
       - $ref: '#/components/parameters/user'
