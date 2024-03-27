@@ -4512,6 +4512,706 @@
             ]
           },
           {
+            "uuid": "aips-0-0-10-op-fc-is-100",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-102"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-100"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-101",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-102"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-103"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-102",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForRemovingLinksFromStaticListCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-102"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-104"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-103",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-103"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-100"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-104",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-103"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-103"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-105",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-103"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-104"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-106",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-104"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-100"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-107",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.GetAutomationNames"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-104"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-107"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-108",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-104"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-103"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-109",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAllAutomationsFromLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-104"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-104"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-110",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-105"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-110"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-111",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-105"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-103"
+              }
+            ]
+          },
+                    {
+            "uuid": "aips-0-0-10-op-fc-is-112",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-105"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-105"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-120",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentAssignments"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-120"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-120"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-121",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.GetCurrentBlackList"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-120"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-121"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-122",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.RemoveFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-120"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-122"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-123",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForUnassigningAutomationFromAllLinksCausesListUpdateAndPersistentDeactivation.AddToDeactivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-120"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-123"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-200",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.GetTriggers"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-210"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-201"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-201",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.GetLinkIdList"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-210"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-200"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-202",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.InitiatePowerSaving"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-210"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-203"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-203",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.RemoveFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-210"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-203"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-204",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStartingTimeBasedPowerSavingCausesCyclicOperation.AddToDeactivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-210"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-204"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-205",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.GetLinkList"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-211"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-200"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-206",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.RemoveFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-211"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-203"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-207",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStoppingTimeBasedPowerSavingCausesTurningOffTimeBasedPowerSaving.AddToDeactivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-1-0-0-op-s-is-211"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-204"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-400",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.BlackListCheck"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-0-0-10-op-s-bm-001"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-400"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-401",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.SwitchRedundantTransmitterOff"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-0-0-10-op-s-bm-001"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-402"
+              }
+            ]
+          },
+          {
+            "uuid": "aips-0-0-10-op-fc-is-402",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForEmbeddingCausesCyclicOperationOnPowerSavingActivationQueue.RemoveRecordFromActivationQueue"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "100",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "aips-0-0-10-op-s-bm-001"
+              },
+              {
+                "local-id": "200",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "aips-0-0-10-op-c-is-aips-0-0-10-401"
+              }
+            ]
+          },
+          {
             "uuid": "aips-0-0-10-op-fc-is-500",
             "name": [
               {
