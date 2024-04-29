@@ -2,7 +2,13 @@
 const createHttpError = require('http-errors');
 const PowerSavingStatus = require("./individualServices/powerSavingStatus");
 const PssAttributes = require('./individualServices/powerSavingAttributes');
-var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+const IndividualServiceUtility = require('./individualServices/IndividualServiceUtility');
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+const ReactivateTransmittersOfLink = require('./individualServices/LinkRelatedSwitchingOperation/ReactivateTransmittersOfLink');
+const prepareSwitchRedundantTransmitterPairOffForwarding = require('./individualServices/LinkRelatedSwitchingOperation/PrepareSwitchRedundantTransmitterPairOffForwarding');
+const prepareProvideTransmitterStatusOfParallelLinksForwarding = require('./individualServices/LinkAnalysis/PrepareProvideTransmitterStatusOfParallelLinksForwarding');
 
 
 /**
@@ -16,10 +22,17 @@ var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
-  });
+exports.bequeathYourDataAndDie = async function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
+
+  let newApplicationDetails = body;
+  let currentReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+  let newReleaseNumber = body["new-application-release"];
+
+  if (newReleaseNumber !== currentReleaseNumber) {
+
+    softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, newApplicationDetails)
+      .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
+  }
 }
 
 
@@ -38,8 +51,8 @@ exports.deleteLinkFromPowerSavingTable = function (body) {
     try {
       let linkId = body[PssAttributes.LINK.LINK_ID];
       /****************************************************************************************
-      * get power saving status entry for given link-id
-      ****************************************************************************************/
+       * get power saving status entry for given link-id
+       ****************************************************************************************/
       let powerSavingStatusEntryResponse = await PowerSavingStatus.getPowerSavingStatusOfLink(linkId);
       let took = powerSavingStatusEntryResponse.took;
       let powerSavingStatusOfLink = powerSavingStatusEntryResponse.powerSavingStatusEntry;
@@ -49,8 +62,8 @@ exports.deleteLinkFromPowerSavingTable = function (body) {
 
         if (moduleToRestoreOriginalStateList.length != 0) {
           /****************************************************************************************
-          * do not delete if module-to-restore-original-state-list is not empty : returns 200
-          ****************************************************************************************/
+           * do not delete if module-to-restore-original-state-list is not empty : returns 200
+           ****************************************************************************************/
           response.responseCode = responseCodeEnum.code.OK;
           let responseBody = {};
           responseBody[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.LIST] = moduleToRestoreOriginalStateList;
@@ -58,8 +71,8 @@ exports.deleteLinkFromPowerSavingTable = function (body) {
           response.took = took;
         } else {
           /****************************************************************************************
-          * exclusively delete if deviation-from-original-state-list is empty: returns 204
-          ****************************************************************************************/
+           * exclusively delete if deviation-from-original-state-list is empty: returns 204
+           ****************************************************************************************/
           if (deviationFromOriginalStateList.length == 0) {
             let deleteResponse = await PowerSavingStatus.deletePowerSavingStatusOfLinkAsync(linkId);
             if (deleteResponse.took) {
@@ -72,8 +85,8 @@ exports.deleteLinkFromPowerSavingTable = function (body) {
         }
       } else {
         /****************************************************************************************
-        * if link does not exist, return 204 as per idempotence
-        ****************************************************************************************/
+         * if link does not exist, return 204 as per idempotence
+         ****************************************************************************************/
         response.responseCode = responseCodeEnum.code.NO_CONTENT;
         response.took = took;
       }
@@ -190,10 +203,11 @@ exports.providePowerSavingStatusOfLink = function (body) {
        ****************************************************************************************/
       if (powerSavingStatusEntryResponse.powerSavingStatusEntry == undefined || Object.keys(powerSavingStatusEntryResponse.powerSavingStatusEntry).length == 0) {
         let powerSavingStatusEntry = {};
-        powerSavingStatusEntry[PssAttributes.LINK.LINK_ID] = linkId;
         powerSavingStatusEntry[PssAttributes.DEVIATION_FROM_ORIGINAL_STATE.LIST] = [];
         powerSavingStatusEntry[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.LIST] = [];
         powerSavingStatusEntryResponse.powerSavingStatusEntry = powerSavingStatusEntry;
+      } else {
+        delete powerSavingStatusEntryResponse.powerSavingStatusEntry[PssAttributes.LINK.LINK_ID];
       }
       responseBody.response = powerSavingStatusEntryResponse.powerSavingStatusEntry;
       responseBody.took = powerSavingStatusEntryResponse.took;
@@ -217,18 +231,16 @@ exports.providePowerSavingStatusOfLink = function (body) {
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_2
  **/
-exports.provideTransmitterStatusOfParallelLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "request-id": "305251234-101120-1400"
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.provideTransmitterStatusOfParallelLinks = async function (requestBody, requestHeaders) {
+  let linkId = requestBody["link-id"];
+  let requestId = await IndividualServiceUtility.generateRequestId(linkId);
+  prepareProvideTransmitterStatusOfParallelLinksForwarding.provideTransmitterStatusOfParallelLinks(
+    requestBody,
+    requestId,
+    requestHeaders);
+  return {
+    "request-id": requestId
+  }
 }
 
 
@@ -241,18 +253,36 @@ exports.provideTransmitterStatusOfParallelLinks = function (body, user, originat
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * returns inline_response_200_1
+ * returns requestId Identifier of the request for all transmitters reactivation
  **/
 exports.reactivateTransmittersOfLink = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "request-id": "305251234-101120-1400"
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+      let requestHeaders = {
+        user: user,
+        originator: originator,
+        xCorrelator: xCorrelator,
+        traceIndicator: traceIndicator,
+        customerJourney: customerJourney
+      };
+      /****************************************************************************************
+       * forms and responds with generated request-id for user reference
+       ****************************************************************************************/
+      let linkId = body[PssAttributes.LINK.LINK_ID];
+      let requestId = await IndividualServiceUtility.generateRequestId(linkId);
+      let response = {
+        'request-id': requestId
+      };
+      /****************************************************************************************
+       * triggers further callbacks to happen in background 
+       *      RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction
+       ****************************************************************************************/
+      ReactivateTransmittersOfLink.RequestForReactivatingAllTransmittersOfLinkInitiatesTransaction(body, requestId, requestHeaders);
+      resolve(response);
+
+    } catch (error) {
+      console.log(error);
+      reject(error);
     }
   });
 }
@@ -317,8 +347,11 @@ exports.receivePowerSavingDeactivationStatus = function (body, user, originator,
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.receiveTransmitterStatusOfParallelLinks = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
+exports.receiveTransmitterStatusOfParallelLinks = function (body, requestHeaders) {
+  return new Promise(async function (resolve, reject) {
+    let requestId = body["request-id"]
+    let parallelLinkList = body["parallel-link-list"];
+    await prepareSwitchRedundantTransmitterPairOffForwarding.receiveTransmitterStatusOfParallelLinks(requestId, parallelLinkList, requestHeaders);
     resolve();
   });
 }
@@ -357,8 +390,8 @@ exports.recordPowerSavingStatus = function (body) {
       switch (schemaMatched) {
         case "AddDeviationToPowerSavingStatus":
           /****************************************************************************************
-          * add deviation to a power saving status entry
-          ****************************************************************************************/
+           * add deviation to a power saving status entry
+           ****************************************************************************************/
           linkId = body[PssAttributes.LINK.LINK_ID];
           addDeviationFromOriginalState = body[PssAttributes.DEVIATION_FROM_ORIGINAL_STATE.ADD];
           addModuleToRestoreOriginalState = body[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.ADD];
@@ -366,8 +399,8 @@ exports.recordPowerSavingStatus = function (body) {
           break;
         case "RemoveDeviationFromPowerSavingStatus":
           /****************************************************************************************
-          * remove deviation from a power saving status entry
-          ****************************************************************************************/
+           * remove deviation from a power saving status entry
+           ****************************************************************************************/
           linkId = body[PssAttributes.LINK.LINK_ID];
           removeDeviationFromOriginalState = body[PssAttributes.DEVIATION_FROM_ORIGINAL_STATE.REMOVE];
           removeModuleToRestoreOriginalState = body[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.REMOVE];
@@ -375,8 +408,8 @@ exports.recordPowerSavingStatus = function (body) {
           break;
         case "DocumentMeasureForUndefinedState":
           /****************************************************************************************
-          * document measure for resolving a potentially undefined state
-          ****************************************************************************************/
+           * document measure for resolving a potentially undefined state
+           ****************************************************************************************/
           linkId = body[PssAttributes.LINK.LINK_ID];
           addModuleToRestoreOriginalState = body[PssAttributes.MODULE_TO_RESTORE_ORIGINAL_STATE.ADD];
           took = await PowerSavingStatus.documentMeasureForUndefinedState(linkId, addModuleToRestoreOriginalState);
@@ -408,17 +441,11 @@ exports.recordPowerSavingStatus = function (body) {
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200
  **/
-exports.switchRedundantTransmitterPairOff = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "request-id": "305251234-101120-1400"
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.switchRedundantTransmitterPairOff = async function (requestBody, requestHeaders) {
+  let linkId = requestBody["link-id"];
+  let requestId = await IndividualServiceUtility.generateRequestId(linkId);
+  prepareSwitchRedundantTransmitterPairOffForwarding.switchRedundantTransmitterPairOff(requestBody, requestId, requestHeaders);
+  return {
+    "request-id": requestId
+  }
 }
-

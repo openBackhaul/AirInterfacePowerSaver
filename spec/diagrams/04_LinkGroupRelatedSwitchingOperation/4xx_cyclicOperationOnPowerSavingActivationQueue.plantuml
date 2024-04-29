@@ -41,8 +41,8 @@ group FOR each record in activationQueue
     IF (<i>record.linkId.isBarred</i>==false)
       <u>SwitchRedundantTransmitterOff</u>
   end note
-  embedYourself -> redundantTransmittersOff: {linkId, automationName}
-
+  embedYourself -> redundantTransmittersOff: {linkId, automationName, own_IpAddress, own_TcpPort, /v1/receive-power-saving-activation-status}
+  redundantTransmittersOff --> embedYourself: {requestId}
 
   'remove from the activationQueue anyway (i.e. if link is in blackList or not)
   note over embedYourself

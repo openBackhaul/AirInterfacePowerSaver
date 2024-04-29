@@ -1,5 +1,8 @@
 'use strict';
 
+var fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
+const { elasticsearchService, getApiKeyAsync, getIndexAliasAsync } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
+const ElasticsearchPreparation = require('./individualServices/ElasticsearchPreparation');
 
 /**
  * Returns API key
@@ -7,16 +10,21 @@
  * uuid String 
  * returns inline_response_200_56
  **/
-exports.getElasticsearchClientApiKey = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "elasticsearch-client-interface-1-0:api-key" : "YWRtaW46MTIzNDU2"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getElasticsearchClientApiKey = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "elasticsearch-client-interface-1-0:api-key": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -28,16 +36,21 @@ exports.getElasticsearchClientApiKey = function(uuid) {
  * uuid String 
  * returns inline_response_200_57
  **/
-exports.getElasticsearchClientIndexAlias = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "elasticsearch-client-interface-1-0:index-alias" : "eatl_service_records"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getElasticsearchClientIndexAlias = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "elasticsearch-client-interface-1-0:index-alias": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -49,16 +62,21 @@ exports.getElasticsearchClientIndexAlias = function(uuid) {
  * uuid String 
  * returns inline_response_200_60
  **/
-exports.getElasticsearchClientLifeCycleState = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "elasticsearch-client-interface-1-0:life-cycle-state" : "elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getElasticsearchClientLifeCycleState = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "elasticsearch-client-interface-1-0:life-cycle-state": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -70,16 +88,21 @@ exports.getElasticsearchClientLifeCycleState = function(uuid) {
  * uuid String 
  * returns inline_response_200_59
  **/
-exports.getElasticsearchClientOperationalState = function(uuid) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "elasticsearch-client-interface-1-0:operational-state" : "elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+exports.getElasticsearchClientOperationalState = function(url) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "elasticsearch-client-interface-1-0:operational-state": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject();
     }
   });
 }
@@ -129,10 +152,14 @@ exports.getElasticsearchClientServiceRecordsPolicy = function(uuid) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putElasticsearchClientApiKey = function(body,uuid) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.putElasticsearchClientApiKey = async function(url, body, uuid) {
+  let oldValue = await getApiKeyAsync(uuid);
+  if (oldValue !== body['elasticsearch-client-interface-1-0:api-key']) {
+    await fileOperation.writeToDatabaseAsync(url, body, false);
+    // recreate the client with new connection data
+    await elasticsearchService.getClient(true, uuid);
+    await ElasticsearchPreparation();
+  }
 }
 
 
@@ -143,10 +170,12 @@ exports.putElasticsearchClientApiKey = function(body,uuid) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putElasticsearchClientIndexAlias = function(body,uuid) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.putElasticsearchClientIndexAlias = async function(url, body, uuid) {
+  let oldValue = await getIndexAliasAsync(uuid);
+  if (oldValue !== body['elasticsearch-client-interface-1-0:index-alias']) {
+    await fileOperation.writeToDatabaseAsync(url, body, false);
+    await ElasticsearchPreparation();
+  }
 }
 
 

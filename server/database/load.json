@@ -2330,7 +2330,7 @@
             ]
           },
           {
-            "uuid": "ps-0-0-5-tcp-c-aips-0-0-5-000",
+            "uuid": "aips-0-0-5-tcp-c-aips-0-0-5-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
               "aips-0-0-5-http-c-aips-0-0-5-000"

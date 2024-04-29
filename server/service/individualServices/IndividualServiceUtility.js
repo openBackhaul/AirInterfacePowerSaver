@@ -5,7 +5,7 @@ const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/con
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
-
+const createHttpError = require('http-errors');
 
 /**
  * This function fetches the string value from the string profile based on the expected string name.
@@ -35,7 +35,7 @@ exports.getStringProfileInstanceValue = async function (expectedStringName) {
 
   } catch (error) {
     console.log(`getStringProfileInstanceValue is not success with ${error}`);
-    return new createHttpError.InternalServerError();  
+    return new createHttpError.InternalServerError();
   }
 }
 
@@ -69,7 +69,8 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
 
   } catch (error) {
     console.log(`getQueryAndPathParameter is not success with ${error}`);
-    return new createHttpError.InternalServerError();    }
+    return new createHttpError.InternalServerError();
+  }
 }
 
 
@@ -78,14 +79,14 @@ exports.getQueryAndPathParameter = async function (operationName, pathParamList,
  * @param {String} forwardingConstructName name of the forwarding construct to fetch consequent op-c uuid.
  * @return {Object} consequentOperationClient that contains op-c uuid , operation-name.
  */
-exports.getConsequentOperationClient = async function(forwardingConstructName) {
-  let consequentOperationClient= {};
+exports.getConsequentOperationClient = async function (forwardingConstructName) {
+  let consequentOperationClient = {};
   try {
     let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingConstructName);
     let outputFcPortForFc = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstructInstance[onfAttributes.GLOBAL_CLASS.UUID]);
-    consequentOperationClient.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]; 
+    consequentOperationClient.operationClientUuid = outputFcPortForFc[0][onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
     consequentOperationClient.operationName = await OperationClientInterface.getOperationNameAsync(consequentOperationClient.operationClientUuid);
-  } catch(error) {
+  } catch (error) {
     console.log(`consequentOperationClient is not success with ${error}`);
     return new createHttpError.InternalServerError();
   }
@@ -97,20 +98,38 @@ exports.getConsequentOperationClient = async function(forwardingConstructName) {
  * @param {String} linkId Identifier of the microwave link for which user requested data.
  * @return {requestId} requestId that is generated in the format "linkId-CurrentDate-CurrentTime".
  */
-exports.generateRequestID = async function(linkId) {
-    let requestId = '';
-    try {
-      let currentDate = new Date();
-      let formattedDate = currentDate.getDate().toString() + 
-             (currentDate.getMonth() + 1).toString() + 
-                     currentDate.getFullYear().toString() + '-' 
-                     + currentDate.getHours().toString() + 
-                     currentDate.getMinutes().toString() + 
-                     currentDate.getSeconds().toString();
-      requestId = linkId + '-' + formattedDate;
-      return requestId;
-    } catch (error) {
-      console.log(error);
-      return (new createHttpError.InternalServerError(`${err}`));
-    }
+exports.generateRequestId = async function (linkId) {
+  let requestId = '';
+  try {
+    let currentDate = new Date();
+    let formattedDate = currentDate.getDate().toString() +
+      (currentDate.getMonth() + 1).toString() +
+      currentDate.getFullYear().toString() + '-' +
+      currentDate.getHours().toString() +
+      currentDate.getMinutes().toString() +
+      currentDate.getSeconds().toString();
+    requestId = linkId + '-' + formattedDate;
+    return requestId;
+  } catch (error) {
+    console.log(error);
+    return (new createHttpError.InternalServerError(`${error}`));
   }
+}
+
+/**
+ * This function gets the configured remote address from the given object.
+ * @param {Object} remoteAddress remote address object that contains actual ip-address/domain-name
+ * @return {String} filtered remote-address
+ */
+exports.getConfiguredRemoteAddress = async function (remoteAddress) {
+  let domainName = onfAttributes.TCP_CLIENT.DOMAIN_NAME;
+  if (domainName in remoteAddress) {
+    remoteAddress = remoteAddress["domain-name"];
+  } else {
+    remoteAddress = remoteAddress[
+      onfAttributes.TCP_CLIENT.IP_ADDRESS][
+      onfAttributes.TCP_CLIENT.IPV_4_ADDRESS
+    ];
+  }
+  return remoteAddress;
+}
