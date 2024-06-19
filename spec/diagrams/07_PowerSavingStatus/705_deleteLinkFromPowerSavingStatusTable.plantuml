@@ -20,7 +20,7 @@ delete -> es: {linkId}
 es --> delete: {list-of(deviationsFromOriginalState)} 
 
 note over delete
-    IF (deviationsFromOriginalState != emptyList)
+    IF (modulesToRestoreOriginalState != emptyList)
     THEN send response
 end note
 'we cannot use responseCode 204 to indicate that the list is not empty, 
